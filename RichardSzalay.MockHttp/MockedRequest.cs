@@ -17,10 +17,17 @@ namespace RichardSzalay.MockHttp
         private List<IMockedRequestMatcher> matchers = new List<IMockedRequestMatcher>();
         private Func<HttpRequestMessage, Task<HttpResponseMessage>> response;
 
+        /// <summary>
+        /// Creates a new MockedRequest with no initial matchers
+        /// </summary>
         public MockedRequest()
         {
         }
 
+        /// <summary>
+        /// Creates a new MockedRequest with an initial URL (and optionally query string) matcher
+        /// </summary>
+        /// <param name="url">An absolute or relative URL that may contain a query string</param>
         public MockedRequest(string url)
         {
             string[] urlParts = StringUtil.Split(url, '?', 2);
@@ -37,7 +44,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Determines if a request can be handled by this instance
         /// </summary>
-        /// <param name="request">The <see cref="T:HttpRequestMessage"/> being sent</param>
+        /// <param name="message">The <see cref="T:HttpRequestMessage"/> being sent</param>
         /// <returns>true if this instance can handle the request; false otherwise</returns>
         public bool Matches(HttpRequestMessage message)
         {
@@ -63,11 +70,21 @@ namespace RichardSzalay.MockHttp
             this.Respond(_ => handler());
         }
 
+        /// <summary>
+        /// Supplies a response to the submitted request
+        /// </summary>
+        /// <param name="handler">The callback that will be used to supply the response</param>
         public void Respond(Func<HttpRequestMessage, Task<HttpResponseMessage>> handler)
         {
             this.response = handler;
         }
 
+        /// <summary>
+        /// Provides the configured response in relation to the request supplied
+        /// </summary>
+        /// <param name="message">The request being sent</param>
+        /// <param name="cancellationToken">The token used to cancel the request</param>
+        /// <returns>A Task containing the future response message</returns>
         public Task<HttpResponseMessage> SendAsync(HttpRequestMessage message, CancellationToken cancellationToken)
         {
             return response(message);

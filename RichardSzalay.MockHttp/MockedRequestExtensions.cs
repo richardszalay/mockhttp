@@ -10,11 +10,15 @@ using RichardSzalay.MockHttp.Matchers;
 
 namespace RichardSzalay.MockHttp
 {
+    /// <summary>
+    /// Provides extension methods for <see cref="T:MockedRequest"/>
+    /// </summary>
     public static class MockedRequestExtensions
     {
         /// <summary>
         /// Constraints the request using custom logic
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="matcher">The delegate that will be used to constrain the request</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest With(this MockedRequest source, Func<HttpRequestMessage, bool> matcher)
@@ -25,6 +29,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests contain a particular query string value
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="name">The query string key to match</param>
         /// <param name="value">The query string value to match (including null)</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
@@ -39,6 +44,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests contain a set of query string values
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="values">The query string key/value pairs to match</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest WithQueryString(this MockedRequest source, IEnumerable<KeyValuePair<string, string>> values)
@@ -51,6 +57,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests contain a set of query string values
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="values">A formatted query string containing key/value pairs to match</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest WithQueryString(this MockedRequest source, string values)
@@ -63,6 +70,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests contain a particular form data value
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="name">The form data key to match</param>
         /// <param name="value">The form data value to match (including null)</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
@@ -77,6 +85,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests contain a set of query string values
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="values">The query string key/value pairs to match</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest WithFormData(this MockedRequest source, IEnumerable<KeyValuePair<string, string>> values)
@@ -89,6 +98,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests contain a set of query string values
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="values">A formatted query string containing key/value pairs to match</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest WithFormData(this MockedRequest source, string values)
@@ -101,6 +111,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests with particular content
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="content">The content to match against the request</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest WithContent(this MockedRequest source, string content)
@@ -113,7 +124,8 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests with content that contains a particular value
         /// </summary>
-        /// <param name="content">The content to match against the request</param>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="partialContent">The content to match against the request</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest WithPartialContent(this MockedRequest source, string partialContent)
         {
@@ -126,6 +138,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests contain a particular header
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="name">The HTTP header name</param>
         /// <param name="value">The value of the HTTP header to match</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
@@ -140,6 +153,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests contain a set of headers
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="headers">A list of HTTP header name/value pairs</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest WithHeaders(this MockedRequest source, IEnumerable<KeyValuePair<string, string>> headers)
@@ -152,6 +166,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Includes requests contain a set of headers
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="headers">A string containing headers as they would appear in the HTTP request</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest WithHeaders(this MockedRequest source, string headers)
@@ -164,6 +179,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="message">The complete <see cref="T:HttpResponseMessage"/> to return</param>
         public static void Respond(this MockedRequest source, HttpResponseMessage message)
         {
@@ -173,6 +189,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
         public static void Respond(this MockedRequest source, HttpStatusCode statusCode)
         {
@@ -182,6 +199,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
         /// <param name="content">The content of the response</param>
         public static void Respond(this MockedRequest source, HttpStatusCode statusCode, HttpContent content)
@@ -195,6 +213,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>, with an OK (200) status code
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="content">The content of the response</param>
         public static void Respond(this MockedRequest source, HttpContent content)
         {
@@ -204,6 +223,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
         /// <param name="content">The content of the response</param>
         /// <param name="mediaType">The media type of the response</param>
@@ -215,6 +235,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>, with an OK (200) status code
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="content">The content of the response</param>
         /// <param name="mediaType">The media type of the response</param>
         public static void Respond(this MockedRequest source, string mediaType, string content)
@@ -225,6 +246,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
         /// <param name="content">The content of the response</param>
         /// <param name="mediaType">The media type of the response</param>
@@ -239,6 +261,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>, with an OK (200) status code
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="content">The content of the response</param>
         /// <param name="mediaType">The media type of the response</param>
         public static void Respond(this MockedRequest source, string mediaType, Stream content)
@@ -249,6 +272,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>
         /// </summary>
+        /// <param name="source">The source mocked request</param>
         /// <param name="handler">The delegate that will return a <see cref="T:HttpResponseMessage"/> determined at runtime</param>
         public static void Respond(this MockedRequest source, Func<HttpRequestMessage, HttpResponseMessage> handler)
         {

@@ -18,6 +18,9 @@ namespace RichardSzalay.MockHttp
 
         private int outstandingRequests = 0;
 
+        /// <summary>
+        /// Creates a new instance of MockHttpMessageHandler
+        /// </summary>
         public MockHttpMessageHandler()
         {
             AutoFlush = true;
@@ -73,6 +76,12 @@ namespace RichardSzalay.MockHttp
                 pendingFlushers.Dequeue().SetResult(null);
         }
 
+        /// <summary>
+        /// Maps the request to the most appropriate configured response
+        /// </summary>
+        /// <param name="request">The request being sent</param>
+        /// <param name="cancellationToken">The token used to cancel the request</param>
+        /// <returns>A Task containing the future response message</returns>
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             if (requestExpectations.Count > 0)
@@ -178,6 +187,10 @@ namespace RichardSzalay.MockHttp
             backendDefinitions.Add(handler);
         }
 
+        /// <summary>
+        /// Disposes the current instance
+        /// </summary>
+        /// <param name="disposing">true if called from Dispose(); false if called from dtor()</param>
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

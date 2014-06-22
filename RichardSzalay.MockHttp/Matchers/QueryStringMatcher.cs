@@ -5,21 +5,37 @@ using System.Text;
 
 namespace RichardSzalay.MockHttp.Matchers
 {
+    /// <summary>
+    /// Matches requests on querystring values
+    /// </summary>
     public class QueryStringMatcher : IMockedRequestMatcher
     {
         readonly IEnumerable<KeyValuePair<string, string>> values;
 
+        /// <summary>
+        /// Constructs a new instance of QueryStringMatcher using a formatted query string
+        /// </summary>
+        /// <param name="queryString">A formatted query string (key=value&amp;key2=value2)</param>
         public QueryStringMatcher(string queryString)
             : this(ParseQueryString(queryString))
         {
 
         }
 
+        /// <summary>
+        /// Constructs a new instance of QueryStringMatcher using a list of key value pairs to match
+        /// </summary>
+        /// <param name="values">A list of key value pairs to match</param>
         public QueryStringMatcher(IEnumerable<KeyValuePair<string, string>> values)
         {
             this.values = values;
         }
 
+        /// <summary>
+        /// Determines whether the implementation matches a given request
+        /// </summary>
+        /// <param name="message">The request message being evaluated</param>
+        /// <returns>true if the request was matched; false otherwise</returns>
         public bool Matches(System.Net.Http.HttpRequestMessage message)
         {
             var queryString = ParseQueryString(message.RequestUri.Query.TrimStart('?'));
