@@ -93,6 +93,8 @@ MockHttp is compiled as a Portable Class Library (Profile 136), supporting:
 * Silverlight 5
 * Winodws 8
 * Windows Phone Silverlight 8
+* Xamarin iOS
+* Xamarin Android
 
 ## License
 
