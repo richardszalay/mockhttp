@@ -49,10 +49,10 @@ Passing an HTTP method and URL to `When` or `Expect` is equivalent to applying a
 | Method | Description |
 | ------ | ----------- |
 | <pre>WithQueryString("key", "value")<br /><br />WithQueryString("key=value&other=value")<br /><br />WithQueryString(new Dictionary&lt;string,string><br />{<br />  { "key", "value" },<br />  { "other", "value" }<br />}<br /></pre> | Matches on one or more querystring values |
-| <pre>WithFormData("key", "value")<br /><br />WithFormData("key=value&other=value")<br /><br />WithFormData(new Dictionary&lt;string,string><br />{<br />  { "key", "value" },<br />  { "other", "value" }<br />}<br /></pre> | Matches on one or more form data values |
+| <pre>WithFormData("key", "value")<br /><br />WithFormData("key=value&other=value")<br /><br />WithFormData(new Dictionary&lt;string,string><br />{<br />  { "key", "value" },<br />  { "other", "value" }<br />})<br /></pre> | Matches on one or more form data values |
 | <pre>WithContent("{'name':'McGee'}")</pre> | Matches on the (post) content of the request |
 | <pre>WithPartialContent("McGee")</pre> | Matches on the partial (post) content of the request |
-| <pre>WithHeaders("Authorization", "Basic abcdef")<br /><br />WithHeaders(@"Authorization: Basic abcdef<br />Accept: application/json")<br /><br />WithHeaders(new Dictionary&lt;string,string><br />{<br />  { "Authorization", "Basic abcdef" },<br />  { "Accept", "application/json" }<br />}<br /></pre> | Matches on one or more HTTP header values |
+| <pre>WithHeaders("Authorization", "Basic abcdef")<br /><br />WithHeaders(@"Authorization: Basic abcdef<br />Accept: application/json")<br /><br />WithHeaders(new Dictionary&lt;string,string><br />{<br />  { "Authorization", "Basic abcdef" },<br />  { "Accept", "application/json" }<br />})<br /></pre> | Matches on one or more HTTP header values |
 | <pre>With(request => request.Content.Length > 50)</pre> | Applies custom matcher logic against an HttpRequestMessage |
 
 These methods are chainable, making complex requirements easy to descirbe.
