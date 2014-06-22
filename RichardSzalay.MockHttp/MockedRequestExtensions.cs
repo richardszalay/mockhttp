@@ -30,7 +30,7 @@ namespace RichardSzalay.MockHttp
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest WithQueryString(this MockedRequest source, string name, string value)
         {
-            return WithHeaders(source, new Dictionary<string, string>
+            return WithQueryString(source, new Dictionary<string, string>
             {
                 { name, value }
             });
@@ -43,7 +43,7 @@ namespace RichardSzalay.MockHttp
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest WithQueryString(this MockedRequest source, IEnumerable<KeyValuePair<string, string>> values)
         {
-            source.With(new HeadersMatcher(values));
+            source.With(new QueryStringMatcher(values));
 
             return source;
         }
@@ -53,9 +53,9 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="values">A formatted query string containing key/value pairs to match</param>
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
-        public static MockedRequest WithQueryString(this MockedRequest source, string headers)
+        public static MockedRequest WithQueryString(this MockedRequest source, string values)
         {
-            source.With(new HeadersMatcher(headers));
+            source.With(new QueryStringMatcher(values));
 
             return source;
         }
