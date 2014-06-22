@@ -34,7 +34,7 @@ namespace RichardSzalay.MockHttp.Matchers
                 .Select(pair => StringUtil.Split(pair, '=', 2))
                 .Select(pair => new KeyValuePair<string, string>(
                     Uri.UnescapeDataString(pair[0]),
-                    pair.Length == 2 ? Uri.UnescapeDataString(pair[1]) : null
+                    pair.Length == 2 ? Uri.UnescapeDataString(pair[1]) : ""
                     ))
                 .ToList();
         }
