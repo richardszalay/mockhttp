@@ -36,6 +36,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="RichardSzalay.MockHttp.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMockedRequestMatcher.cs" />

@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("RichardSzalay.MockHttp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Testing layer for Microsoft's HttpClient library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Richard Szalay")]
 [assembly: AssemblyProduct("RichardSzalay.MockHttp")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]

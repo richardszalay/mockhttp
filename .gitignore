@@ -15,6 +15,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+*.nupkg
 
 # MSTest test Results
 [Tt]est[Rr]esult*/

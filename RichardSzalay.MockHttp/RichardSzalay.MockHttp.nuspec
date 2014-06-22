@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>RichardSzalay.MockHttp</id>
+    <version>1.0.0-beta</version>
+    <title>MockHttp for HttpClient</title>
+    <authors>Richard Szalay</authors>
+    <owners>Richard Szalay</owners>
+    <licenseUrl>https://github.com/richardszalay/mockhttp/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/richardszalay/mockhttp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Testing layer for Microsoft's HttpClient library</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>httpclient testing mock fake</tags>
+  </metadata>
+</package>

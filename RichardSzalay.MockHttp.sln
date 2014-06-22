@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Tests", "RichardSzalay.MockHttp.Tests\RichardSzalay.MockHttp.Tests.csproj", "{1E613FE0-AA8E-40D5-B310-BCD2A798CB1D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0A5627BF-2EF3-4826-8BE3-4619A5DF1045}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
