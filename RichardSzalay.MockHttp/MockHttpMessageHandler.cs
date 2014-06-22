@@ -204,11 +204,28 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
-        /// Clears any pending requests configured with Expects
+        /// Clears any pending requests configured with Expect
         /// </summary>
         public void ResetExpectations()
         {
             this.requestExpectations.Clear();
+        }
+
+        /// <summary>
+        /// Clears any mocked requests configured with When
+        /// </summary>
+        public void ResetBackendDefinitions()
+        {
+            this.backendDefinitions.Clear();
+        }
+
+        /// <summary>
+        /// Clears all mocked requests configured with either Expect or When
+        /// </summary>
+        public void Clear()
+        {
+            this.ResetExpectations();
+            this.ResetBackendDefinitions();
         }
     }
 }
