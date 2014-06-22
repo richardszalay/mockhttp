@@ -23,7 +23,7 @@ namespace RichardSzalay.MockHttp
 
         public MockedRequest(string url)
         {
-            string[] urlParts = url.Split(new[] { '?' }, 2);
+            string[] urlParts = StringUtil.Split(url, '?', 2);
 
             if (urlParts.Length == 2)
                 url = urlParts[0];

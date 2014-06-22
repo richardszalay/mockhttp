@@ -50,7 +50,7 @@ namespace RichardSzalay.MockHttp.Matchers
                     if (line.Trim().Length == 0)
                         break;
 
-                    string[] parts = line.Split(new[] { ':' }, 2);
+                    string[] parts = StringUtil.Split(line, ':', 2);
 
                     if (parts.Length != 2)
                         throw new ArgumentException("Invalid header: " + line);

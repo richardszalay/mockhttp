@@ -31,7 +31,7 @@ namespace RichardSzalay.MockHttp.Matchers
         internal static IEnumerable<KeyValuePair<string, string>> ParseQueryString(string input)
         {
             return input.TrimStart('?').Split('&')
-                .Select(pair => pair.Split(new [] { '=' }, 2))
+                .Select(pair => StringUtil.Split(pair, '=', 2))
                 .Select(pair => new KeyValuePair<string, string>(
                     Uri.UnescapeDataString(pair[0]),
                     pair.Length == 2 ? Uri.UnescapeDataString(pair[1]) : null
