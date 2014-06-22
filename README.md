@@ -84,6 +84,12 @@ This example uses Expect to test an OAuth ticket recycle process:
     
     Assert.Equals("Test McGee", user.Name);
     mockHttp.VerifyNoOutstandingExpectation();
+    
+## Troubleshooting
+
+> The type 'System.Net.HttpStatusCode' is defined in an assembly that is not referenced. You must add a reference to assembly 'System.Net, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e, Retargetable=Yes'.
+
+I'm looking to fix this at the package level, but for now you can add a reference to `System.Net, Version=4.0.0.0` and the error should go away.
 	
 ## Platform Support
 
