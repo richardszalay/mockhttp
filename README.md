@@ -5,7 +5,7 @@ MockHttp is a testing layer for Microsoft's HttpClient library. It allows "canne
 
 ## NuGet
 
-    PM> Install-Package RichardSzalay.MockHttp
+    PM> Install-Package RichardSzalay.MockHttp -IncludePrerelease
 
 ## How?
 
