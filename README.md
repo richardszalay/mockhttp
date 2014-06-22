@@ -13,22 +13,24 @@ MockHttp defines a replacement `HttpMessageHandler`, the engine that drives Http
 
 ## Usage
 
-    var mockHttp = new MockHttpMessageHandler();
-	
-    // Setup a respond for the user api (including a wildcard in the URL)
-  	mockHttp.When("http://localost/api/user/*")
-  			.Respond("application/json", "{'name' : 'Test McGee'}"); // Respond with JSON
-  	
-  	// Inject the handler or client into your application code
-  	var client = new HttpClient(mockHttp);
-  	
-  	var response = async client.GetAsync("http://localost/api/user/1234");
-  	// or without async: var response = client.GetAsync("http://localost/api/user/1234").Result;
-  	
-  	var json = await response.Content.ReadAsStringAsync();
-  	
-  	// No network connection required
-  	Console.Write(json); // {'name' : 'Test McGee'}
+```csharp
+var mockHttp = new MockHttpMessageHandler();
+
+// Setup a respond for the user api (including a wildcard in the URL)
+mockHttp.When("http://localost/api/user/*")
+        .Respond("application/json", "{'name' : 'Test McGee'}"); // Respond with JSON
+
+// Inject the handler or client into your application code
+var client = new HttpClient(mockHttp);
+
+var response = async client.GetAsync("http://localost/api/user/1234");
+// or without async: var response = client.GetAsync("http://localost/api/user/1234").Result;
+
+var json = await response.Content.ReadAsStringAsync();
+
+// No network connection required
+Console.Write(json); // {'name' : 'Test McGee'}
+```
 
 ### When (Backend Definitions) vs Expect (Request Expectations)
 
@@ -61,29 +63,31 @@ These methods are chainable, making complex requirements easy to descirbe.
 
 This example uses Expect to test an OAuth ticket recycle process:
 
-    // Simulate an expired token
-    mockHttp.Expect("/users/me")
-            .WithQueryString("access_token", "old_token")
-            .Respond(HttpStatusCode.Unauthorized);
-            
-    // Expect the request to refresh the token and supply a new one
-    mockHttp.Expect(/tokens/refresh")
-            .WithFormData("refresh_token", "refresh_token")
-            .Respond("application/json", "{'access_token' : 'new_token', 'refresh_token' : 'new_refresh'}");
-            
-    // Expect the original call to be retried with the new token
-    mockHttp.Expect("/users/me")
-            .WithQueryString("access_token", "new_token")
-            .Respond("application/json", "{'name' : 'Test McGee'}");
-            
-    var httpClient = new HttpClient(mockHttp);
+```csharp
+// Simulate an expired token
+mockHttp.Expect("/users/me")
+        .WithQueryString("access_token", "old_token")
+        .Respond(HttpStatusCode.Unauthorized);
     
-    var userService = new UserService(httpClient);
+// Expect the request to refresh the token and supply a new one
+mockHttp.Expect(/tokens/refresh")
+        .WithFormData("refresh_token", "refresh_token")
+        .Respond("application/json", "{'access_token' : 'new_token', 'refresh_token' : 'new_refresh'}");
     
-    var user = await userService.GetUserDetails();
+// Expect the original call to be retried with the new token
+mockHttp.Expect("/users/me")
+        .WithQueryString("access_token", "new_token")
+        .Respond("application/json", "{'name' : 'Test McGee'}");
     
-    Assert.Equals("Test McGee", user.Name);
-    mockHttp.VerifyNoOutstandingExpectation();
+var httpClient = new HttpClient(mockHttp);
+
+var userService = new UserService(httpClient);
+
+var user = await userService.GetUserDetails();
+
+Assert.Equals("Test McGee", user.Name);
+mockHttp.VerifyNoOutstandingExpectation();
+```
     
 ## Troubleshooting
 
