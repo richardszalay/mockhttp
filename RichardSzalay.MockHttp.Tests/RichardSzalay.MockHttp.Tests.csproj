@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\HttpHelpers.cs" />
+    <Compile Include="Matchers\PartialContentMatcherTests.cs" />
+    <Compile Include="Matchers\ContentMatcherTests.cs" />
     <Compile Include="Matchers\CustomMatcherTests.cs" />
     <Compile Include="Matchers\FormDataMatcherTests.cs" />
     <Compile Include="Matchers\MethodMatcherTests.cs" />

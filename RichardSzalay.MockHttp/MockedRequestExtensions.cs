@@ -99,6 +99,31 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
+        /// Includes requests with particular content
+        /// </summary>
+        /// <param name="content">The content to match against the request</param>
+        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+        public static MockedRequest WithContent(this MockedRequest source, string content)
+        {
+            source.With(new ContentMatcher(content));
+
+            return source;
+        }
+
+        /// <summary>
+        /// Includes requests with content that contains a particular value
+        /// </summary>
+        /// <param name="content">The content to match against the request</param>
+        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+        public static MockedRequest WithPartialContent(this MockedRequest source, string partialContent)
+        {
+            source.With(new PartialContentMatcher(partialContent));
+
+            return source;
+        }
+
+
+        /// <summary>
         /// Includes requests contain a particular header
         /// </summary>
         /// <param name="name">The HTTP header name</param>
