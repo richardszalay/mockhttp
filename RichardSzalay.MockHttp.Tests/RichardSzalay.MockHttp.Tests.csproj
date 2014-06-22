@@ -54,7 +54,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\HttpHelpers.cs" />
     <Compile Include="Matchers\CustomMatcherTests.cs" />
+    <Compile Include="Matchers\FormDataMatcherTests.cs" />
     <Compile Include="Matchers\MethodMatcherTests.cs" />
     <Compile Include="Matchers\HeadersMatcherTests.cs" />
     <Compile Include="Matchers\QueryStringMatcherTests.cs" />

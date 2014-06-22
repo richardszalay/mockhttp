@@ -61,6 +61,44 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
+        /// Includes requests contain a particular form data value
+        /// </summary>
+        /// <param name="name">The form data key to match</param>
+        /// <param name="value">The form data value to match (including null)</param>
+        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+        public static MockedRequest WithFormData(this MockedRequest source, string name, string value)
+        {
+            return WithFormData(source, new Dictionary<string, string>
+            {
+                { name, value }
+            });
+        }
+
+        /// <summary>
+        /// Includes requests contain a set of query string values
+        /// </summary>
+        /// <param name="values">The query string key/value pairs to match</param>
+        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+        public static MockedRequest WithFormData(this MockedRequest source, IEnumerable<KeyValuePair<string, string>> values)
+        {
+            source.With(new FormDataMatcher(values));
+
+            return source;
+        }
+
+        /// <summary>
+        /// Includes requests contain a set of query string values
+        /// </summary>
+        /// <param name="values">A formatted query string containing key/value pairs to match</param>
+        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+        public static MockedRequest WithFormData(this MockedRequest source, string values)
+        {
+            source.With(new FormDataMatcher(values));
+
+            return source;
+        }
+
+        /// <summary>
         /// Includes requests contain a particular header
         /// </summary>
         /// <param name="name">The HTTP header name</param>

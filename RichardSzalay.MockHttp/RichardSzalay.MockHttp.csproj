@@ -41,6 +41,7 @@
     <Compile Include="IMockedRequestMatcher.cs" />
     <Compile Include="IMockedRequest.cs" />
     <Compile Include="Matchers\CustomMatcher.cs" />
+    <Compile Include="Matchers\FormDataMatcher.cs" />
     <Compile Include="Matchers\HeadersMatcher.cs" />
     <Compile Include="Matchers\MethodMatcher.cs" />
     <Compile Include="Matchers\QueryStringMatcher.cs" />
