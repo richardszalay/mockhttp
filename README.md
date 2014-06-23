@@ -7,7 +7,7 @@ MockHttp is a testing layer for Microsoft's HttpClient library. It allows "canne
 
 ## NuGet
 
-    PM> Install-Package RichardSzalay.MockHttp -IncludePrerelease
+    PM> Install-Package RichardSzalay.MockHttp -Pre
 
 ## How?
 
@@ -36,11 +36,11 @@ Console.Write(json); // {'name' : 'Test McGee'}
 
 ### When (Backend Definitions) vs Expect (Request Expectations)
 
-Both `When` and `Expect` can be used to define responses. They both expose the same fluent API, but each works in a slightly different way.
+`MockHttpMessageHandler` defines both Both `When` and `Expect`, which can be used to define responses. They both expose the same fluent API, but each works in a slightly different way.
 
 Using `When` specifies a "Backend Definition". Backend Definitions can be matched against multiple times and in any order, but they won't match if there are any outstanding Request Expectations present.
 
-Using `Expect` specifies a "Request Expectations'. Request Expectations match only once and in the order they were added in. Only once all expectations have been satisfied will Backend Definitions be evaluated. Calling `mockHttp.VerifyNoOutstandingExpectation()` will assert that there are no expectations that have yet to be called. Calling `ResetExpectations` clears the the queue of expectations.
+Using `Expect` specifies a "Request Expectation". Request Expectations match only once and in the order they were added in. Only once all expectations have been satisfied will Backend Definitions be evaluated. Calling `mockHttp.VerifyNoOutstandingExpectation()` will assert that there are no expectations that have yet to be called. Calling `ResetExpectations` clears the the queue of expectations.
 
 This pattern is heavily inspired by [AngularJS's $httpBackend](https://docs.angularjs.org/api/ngMock/service/$httpBackend)
 
