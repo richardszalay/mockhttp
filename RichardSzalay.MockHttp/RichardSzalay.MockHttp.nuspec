@@ -12,6 +12,6 @@
     <description>Testing layer for Microsoft's HttpClient library</description>
     <releaseNotes>Initial release</releaseNotes>
     <copyright>Copyright 2014</copyright>
-    <tags>httpclient testing mock fake</tags>
+    <tags>httpclient test mock fake</tags>
   </metadata>
 </package>
