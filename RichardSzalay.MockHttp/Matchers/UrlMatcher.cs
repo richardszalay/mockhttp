@@ -73,7 +73,7 @@ namespace RichardSzalay.MockHttp.Matchers
             bool matchingFullUrl = Uri.IsWellFormedUriString(this.url.Replace('*', '-'), UriKind.Absolute);
 
             string source = matchingFullUrl
-                ? url.AbsoluteUri
+                ? new UriBuilder(url) {  Query = "" }.Uri.AbsoluteUri
                 : url.LocalPath;
 
             return source;

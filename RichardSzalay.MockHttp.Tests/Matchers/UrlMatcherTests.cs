@@ -56,6 +56,17 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
         }
 
         [Fact]
+        public void Should_ignore_query_strings_from_actual()
+        {
+            var result = Test(
+                expected: "http://tempuri.org/test",
+                actual: "http://tempuri.org/test?query=value"
+                );
+
+            Assert.True(result);
+        }
+
+        [Fact]
         public void Should_fail_on_mismatched_urls()
         {
             var result = Test(
