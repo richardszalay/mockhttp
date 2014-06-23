@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/3in8hmcyg11wpcjw)](https://ci.appveyor.com/project/richardszalay/mockhttp)
+
 MockHttp for HttpClient
 =====================
 
