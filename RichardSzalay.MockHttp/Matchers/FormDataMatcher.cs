@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 
 namespace RichardSzalay.MockHttp.Matchers
@@ -37,21 +38,40 @@ namespace RichardSzalay.MockHttp.Matchers
         /// <returns>true if the request was matched; false otherwise</returns>
         public bool Matches(System.Net.Http.HttpRequestMessage message)
         {
-            if (message.Content == null ||
-                message.Content.Headers.ContentType == null ||
-                message.Content.Headers.ContentType.MediaType != "application/x-www-form-urlencoded")
-            {
+            if (!CanProcessContent(message.Content))
                 return false;
-            }
 
-            // TODO: Add support for MultipartFormDataContent
-
-            string rawFormData = message.Content.ReadAsStringAsync().Result;
-
-            var formData = QueryStringMatcher.ParseQueryString(rawFormData);
+            var formData = GetFormData(message.Content);
 
             return values.All(matchPair =>
                 formData.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
+        }
+
+        private IEnumerable<KeyValuePair<string, string>> GetFormData(HttpContent content)
+        {
+            if (content is MultipartFormDataContent)
+            {
+                return ((MultipartFormDataContent)content)
+                    .Where(CanProcessContent)
+                    .SelectMany(GetFormData);
+            }
+
+            string rawFormData = content.ReadAsStringAsync().Result;
+
+            return QueryStringMatcher.ParseQueryString(rawFormData);
+        }
+
+        private bool CanProcessContent(HttpContent httpContent)
+        {
+            return httpContent != null &&
+                httpContent.Headers.ContentType != null &&
+                (IsFormData(httpContent.Headers.ContentType.MediaType) ||
+                httpContent is MultipartFormDataContent);
+        }
+
+        private bool IsFormData(string mediaType)
+        {
+            return mediaType == "application/x-www-form-urlencoded";
         }
     }
 }
