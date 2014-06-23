@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="IMockedRequestMatcher.cs" />
     <Compile Include="IMockedRequest.cs" />
+    <Compile Include="Matchers\AnyMatcher.cs" />
     <Compile Include="Matchers\PartialContentMatcher.cs" />
     <Compile Include="Matchers\ContentMatcher.cs" />
     <Compile Include="Matchers\CustomMatcher.cs" />

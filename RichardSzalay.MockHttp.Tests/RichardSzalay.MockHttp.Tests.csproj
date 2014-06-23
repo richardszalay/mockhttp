@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\HttpHelpers.cs" />
+    <Compile Include="Matchers\AnyMatcherTests.cs" />
     <Compile Include="Matchers\PartialContentMatcherTests.cs" />
     <Compile Include="Matchers\ContentMatcherTests.cs" />
     <Compile Include="Matchers\CustomMatcherTests.cs" />

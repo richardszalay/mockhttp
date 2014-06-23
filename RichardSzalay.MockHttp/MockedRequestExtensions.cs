@@ -177,6 +177,17 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
+        /// Requires that the request match any of the specified set of matchers
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="matchers">A list of matchers to evaluate</param>
+        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+        public static MockedRequest WithAny(this MockedRequest source, IEnumerable<IMockedRequestMatcher> matchers)
+        {
+            return source.With(new AnyMatcher(matchers));
+        }
+
+        /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>
         /// </summary>
         /// <param name="source">The source mocked request</param>
