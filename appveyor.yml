@@ -1,2 +1,6 @@
 before_build:
   - nuget restore
+  
+before_build:
+  - nuget pack RichardSzalay.MockHttp.nuspec -version %APPVEYOR_BUILD_VERSION%
+  - appveyor PushArtifact RichardSzalay.MockHttp.%APPVEYOR_BUILD_VERSION%.nupkg
