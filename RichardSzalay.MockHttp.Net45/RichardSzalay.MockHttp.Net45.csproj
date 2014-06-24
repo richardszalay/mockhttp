@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1E613FE0-AA8E-40D5-B310-BCD2A798CB1D}</ProjectGuid>
+    <ProjectGuid>{F9679562-4076-4CA2-9D3C-34A04A47EE1B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RichardSzalay.MockHttp.Tests</RootNamespace>
-    <AssemblyName>RichardSzalay.MockHttp.Tests</AssemblyName>
+    <RootNamespace>RichardSzalay.MockHttp.Net45</RootNamespace>
+    <AssemblyName>RichardSzalay.MockHttp.Net45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,11 +30,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions, Version=2.1.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -49,38 +50,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="xunit, Version=1.9.2.1705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\HttpHelpers.cs" />
-    <Compile Include="Matchers\AnyMatcherTests.cs" />
-    <Compile Include="Matchers\PartialContentMatcherTests.cs" />
-    <Compile Include="Matchers\ContentMatcherTests.cs" />
-    <Compile Include="Matchers\CustomMatcherTests.cs" />
-    <Compile Include="Matchers\FormDataMatcherTests.cs" />
-    <Compile Include="Matchers\MethodMatcherTests.cs" />
-    <Compile Include="Matchers\HeadersMatcherTests.cs" />
-    <Compile Include="Matchers\QueryStringMatcherTests.cs" />
-    <Compile Include="Matchers\UrlMatcherTests.cs" />
-    <Compile Include="MockHttpMessageHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RichardSzalay.MockHttp.Portable\RichardSzalay.MockHttp.Portable.csproj">
-      <Project>{e388befc-f356-49d3-a29c-296a59fd27dd}</Project>
-      <Name>RichardSzalay.MockHttp.Portable</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems" Label="Shared" Condition="Exists('..\RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

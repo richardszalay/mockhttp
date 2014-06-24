@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>RichardSzalay.MockHttp</id>
+    <version>1.0.0-beta</version>
+    <title>MockHttp for HttpClient</title>
+    <authors>Richard Szalay</authors>
+    <owners>Richard Szalay</owners>
+    <licenseUrl>https://github.com/richardszalay/mockhttp/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/richardszalay/mockhttp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Testing layer for Microsoft's HttpClient library</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>httpclient test mock fake</tags>
+  </metadata>
+  <dependencies>
+    <dependency id="Microsoft.Net.Http" version="2.1.10" />
+  </dependencies>
+  <frameworkAssemblies>
+    <frameworkAssembly assemblyName="System.Net" targetFramework="MonoAndroid10" />
+    <frameworkAssembly assemblyName="System.Net" targetFramework="MonoTouch10" />
+  </frameworkAssemblies>
+  <files>
+    <file src="RichardSzalay.MockHttp.Portable\bin\Release\RichardSzalay.MockHttp.dll" target="lib\portable-net40+sl50+win+wp80+MonoAndroid10+MonoTouch10" />
+    <file src="RichardSzalay.MockHttp.Net40\bin\Release\RichardSzalay.MockHttp.dll" target="lib\net40" />
+    <file src="RichardSzalay.MockHttp.Net45\bin\Release\RichardSzalay.MockHttp.dll" target="lib\net45" />
+  </files>
+</package>
