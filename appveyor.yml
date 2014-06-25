@@ -2,7 +2,7 @@ platform: AnyCPU
 configuration: Release
 
 build:
-	publish_nuget: true
+  publish_nuget: true
 
 before_build:
   - nuget restore
