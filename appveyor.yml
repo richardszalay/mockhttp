@@ -1,9 +1,8 @@
 platform: AnyCPU
 configuration: Release
 
+build:
+	publish_nuget: true
+
 before_build:
   - nuget restore
-  
-after_build:
-  - nuget pack RichardSzalay.MockHttp.nuspec -version %APPVEYOR_BUILD_VERSION%
-  - appveyor PushArtifact RichardSzalay.MockHttp.%APPVEYOR_BUILD_VERSION%.nupkg
