@@ -7,10 +7,3 @@ before_build:
 after_build:
   - nuget pack RichardSzalay.MockHttp.nuspec -version %APPVEYOR_BUILD_VERSION%
   - appveyor PushArtifact RichardSzalay.MockHttp.%APPVEYOR_BUILD_VERSION%.nupkg
-  
-deploy:
-  provider: NuGet
-  server: https://ci.appveyor.com/nuget/richardszalay-hf3flrk42bhr
-  api_key:
-    secure: y1MB45CG3IFnhI99eUT6ql/W0wspwcgmGOoIi1jZSz4=
-  artifact: /.*\.nupkg/
