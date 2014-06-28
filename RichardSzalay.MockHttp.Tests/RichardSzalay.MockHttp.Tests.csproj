@@ -65,6 +65,7 @@
     <Compile Include="Matchers\HeadersMatcherTests.cs" />
     <Compile Include="Matchers\QueryStringMatcherTests.cs" />
     <Compile Include="Matchers\UrlMatcherTests.cs" />
+    <Compile Include="MockedRequestExtentionsRespondTests.cs" />
     <Compile Include="MockedRequestExtentionsWithTests.cs" />
     <Compile Include="MockHttpMessageHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

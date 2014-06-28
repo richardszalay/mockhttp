@@ -298,7 +298,7 @@ namespace RichardSzalay.MockHttp
         /// <param name="handler">The delegate that will return a <see cref="T:HttpResponseMessage"/> determined at runtime</param>
         public static void Respond(this MockedRequest source, Func<HttpRequestMessage, HttpResponseMessage> handler)
         {
-            source.Respond(req => handler(req));
+            source.Respond(req => TaskEx.FromResult(handler(req)));
         }
     }
 }
