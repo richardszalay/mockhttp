@@ -72,7 +72,7 @@ mockHttp.Expect("/users/me")
         .Respond(HttpStatusCode.Unauthorized);
     
 // Expect the request to refresh the token and supply a new one
-mockHttp.Expect(/tokens/refresh")
+mockHttp.Expect("/tokens/refresh")
         .WithFormData("refresh_token", "refresh_token")
         .Respond("application/json", "{'access_token' : 'new_token', 'refresh_token' : 'new_refresh'}");
     
