@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using RichardSzalay.MockHttp;
@@ -242,6 +243,45 @@ namespace RichardSzalay.MockHttp.Tests
             var result = client.GetAsync("http://invalid/test").Result;
 
             Assert.Equal("{'status' : 'OK'}", result.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
+        public void FallbackResponseHandler_should_be_null_by_default()
+        {
+            var mockHandler = new MockHttpMessageHandler();
+
+            var actualFallbackResponseHandler = mockHandler.FallbackResponseHandler;
+
+            Assert.Null(actualFallbackResponseHandler);
+        }
+
+        [Fact]
+        public void Should_return_FallbackResponseHandler_for_unmatched_requests()
+        {
+            var mockHandler = new MockHttpMessageHandler();
+            var client = new HttpClient(mockHandler);
+
+            mockHandler
+                .When("/test")
+                .Respond(HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
+
+            mockHandler.FallbackResponseHandler = (HttpRequestMessage request) =>
+                {
+                    string message = String.Format(
+                        "Handler for request {0} {1} was not matched by any mock handler.",
+                        request.Method,
+                        request.RequestUri);
+
+                    var response = new HttpResponseMessage(HttpStatusCode.NotFound);
+                    response.Content = new StringContent(message, Encoding.UTF8, "text/plain");
+                    return response;
+                };
+
+            var result = client.GetAsync("http://invalid/test2").Result;
+            var actualResponseContent = result.Content.ReadAsStringAsync().Result;
+
+            Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+            Assert.Equal("Handler for request GET http://invalid/test2 was not matched by any mock handler.", actualResponseContent);
         }
     }
 }
