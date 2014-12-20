@@ -106,6 +106,11 @@ namespace RichardSzalay.MockHttp
                 }
             }
 
+            if (FallbackResponseHandler != null)
+            {
+                return TaskEx.FromResult(FallbackResponseHandler(request));
+            }
+
             return TaskEx.FromResult(FallbackResponse);
         }
 
@@ -126,6 +131,8 @@ namespace RichardSzalay.MockHttp
                     return handler.SendAsync(request, cancellationToken);
                 }).Unwrap();
         }
+
+        public Func<HttpRequestMessage, HttpResponseMessage> FallbackResponseHandler { get; set; }
 
         private HttpResponseMessage fallbackResponse = null;
 
