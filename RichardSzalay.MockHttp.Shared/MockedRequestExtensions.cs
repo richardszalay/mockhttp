@@ -300,5 +300,25 @@ namespace RichardSzalay.MockHttp
         {
             source.Respond(req => TaskEx.FromResult(handler(req)));
         }
+
+        /// <summary>
+        /// Sets the response of the current <see cref="T:MockedRequest"/> to defer to another <see cref="T:HttpClient"/>
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="httpClient">The <see cref="T:HttpClient"/> that will handle requests</param>
+        public static void Respond(this MockedRequest source, HttpClient httpClient)
+        {
+            source.Respond(req => httpClient.SendAsync(req));
+        }
+
+        /// <summary>
+        /// Sets the response of the current <see cref="T:MockedRequest"/> to defer to another <see cref="T:HttpMessageListener"/>
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="handler">The <see cref="T:HttpMessageHandlert"/> that will handle requests</param>
+        public static void Respond(this MockedRequest source, HttpMessageHandler handler)
+        {
+            source.Respond(new HttpClient(handler));
+        }
     }
 }

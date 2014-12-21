@@ -118,6 +118,34 @@ namespace RichardSzalay.MockHttp.Tests
             Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
         }
 
+        [Fact]
+        public void Respond_HttpMessageHandler()
+        {
+            var passthroughHandler = new MockHttpMessageHandler();
+            passthroughHandler.Fallback.Respond(new StringContent("test", Encoding.UTF8, "text/plain"));
+
+            var response = Test(r => r.Respond(passthroughHandler));
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
+            Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
+        public void Respond_HttpClient()
+        {
+            var passthroughHandler = new MockHttpMessageHandler();
+            passthroughHandler.Fallback.Respond(new StringContent("test", Encoding.UTF8, "text/plain"));
+
+            var passthroughClient = new HttpClient(passthroughHandler);
+
+            var response = Test(r => r.Respond(passthroughClient));
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
+            Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+        }
+
         private HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://www.tempuri.org/path?apple=red&pear=green")
         {
             Content = new FormUrlEncodedContent(new Dictionary<string, string>
