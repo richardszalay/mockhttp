@@ -56,6 +56,15 @@ namespace RichardSzalay.MockHttp.Tests
         }
 
         [Fact]
+        public void Respond_FuncRequestAsyncResponse()
+        {
+            var expected = new HttpResponseMessage();
+            var response = Test(r => r.Respond(req => Task.FromResult(expected)));
+
+            Assert.Same(expected, response);
+        }
+
+        [Fact]
         public void Respond_HttpStatus_HttpContent()
         {
             var response = Test(r => r.Respond(HttpStatusCode.Found, new StringContent("test", Encoding.UTF8, "text/plain")));
