@@ -16,6 +16,8 @@ namespace RichardSzalay.MockHttp
         private Queue<IMockedRequest> requestExpectations = new Queue<IMockedRequest>();
         private List<IMockedRequest> backendDefinitions = new List<IMockedRequest>();
 
+
+
         private int outstandingRequests = 0;
 
         /// <summary>
@@ -24,6 +26,8 @@ namespace RichardSzalay.MockHttp
         public MockHttpMessageHandler()
         {
             AutoFlush = true;
+            fallback = new MockedRequest();
+            fallback.Respond(CreateDefaultFallbackMessage());
         }
 
         private bool autoFlush;
@@ -59,7 +63,7 @@ namespace RichardSzalay.MockHttp
         private TaskCompletionSource<object> flusher;
 
         /// <summary>
-        /// Completes all pendings requests that were received while <see cref="M:AutoComplete"/> was true
+        /// Completes all pendings requests that were received while <see cref="M:AutoFlush"/> was false
         /// </summary>
         public void Flush()
         {
@@ -68,7 +72,7 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
-        /// Completes <param name="count" /> pendings requests that were received while <see cref="M:AutoComplete"/> was true
+        /// Completes <param name="count" /> pendings requests that were received while <see cref="M:AutoFlush"/> was false
         /// </summary>
         public void Flush(int count)
         {
@@ -106,7 +110,7 @@ namespace RichardSzalay.MockHttp
                 }
             }
 
-            return TaskEx.FromResult(FallbackResponse);
+            return SendAsync(Fallback, request, cancellationToken);
         }
 
         private Task<HttpResponseMessage> SendAsync(IMockedRequest handler, HttpRequestMessage request, CancellationToken cancellationToken)
@@ -128,19 +132,33 @@ namespace RichardSzalay.MockHttp
         }
 
         private HttpResponseMessage fallbackResponse = null;
+        private MockedRequest fallback;
+
+        /// <summary>
+        /// Gets the <see cref="T:MockedRequest"/> that will handle requests that were otherwise unmatched
+        /// </summary>
+        public MockedRequest Fallback
+        {
+            get
+            {
+                return fallback;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the response that will be returned for requests that were not matched
         /// </summary>
+        [Obsolete("Please use Fallback. FallbackResponse will be removed in a future release")]
         public HttpResponseMessage FallbackResponse
         {
             get
             {
-                return fallbackResponse ?? CreateDefaultFallbackMessage();
+                return fallbackResponse ?? (fallbackResponse = CreateDefaultFallbackMessage());
             }
             set
             {
                 fallbackResponse = value;
+                fallback.Respond(value);
             }
         }
 
