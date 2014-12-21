@@ -27,7 +27,7 @@ namespace RichardSzalay.MockHttp
         {
             AutoFlush = true;
             fallback = new MockedRequest();
-            fallback.Respond(CreateDefaultFallbackMessage());
+            fallback.Respond(fallbackResponse = CreateDefaultFallbackMessage());
         }
 
         private bool autoFlush;
@@ -153,10 +153,13 @@ namespace RichardSzalay.MockHttp
         {
             get
             {
-                return fallbackResponse ?? (fallbackResponse = CreateDefaultFallbackMessage());
+                return fallbackResponse;
             }
             set
             {
+                if (value == null)
+                    throw new ArgumentNullException();
+
                 fallbackResponse = value;
                 fallback.Respond(value);
             }
