@@ -102,6 +102,18 @@ MockHttp is compiled for .NET 4 and .NET 4.5, as well a Portable Class Library (
 * Xamarin iOS
 * Xamarin Android
 
+## Build / Release
+
+Clone the repository and build `RichardSzalay.MockHttp.sln` using MSBuild. NuGet package restore must be enabled.
+
+To release, build:
+
+```
+msbuild Release.proj /p:PackageVersion=1.2.3
+```
+
+If you fork the project, simply rename the `nuspec` file accordingly and it will be picked up by the release script.
+
 ## License
 
 The MIT License (MIT)

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Push" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Target Name="WriteAssemblyVersionInfo">
+		<Error Condition="'$(PackageVersion)' == ''"
+				Text="PackageVersion must be specified" />
+	
+		<ItemGroup>
+			<AssemblyVersionLines 
+				Include="[assembly: System.Reflection.AssemblyVersion(&quot;$(PackageVersion)&quot;)]" />
+			<AssemblyVersionLines 
+				Include="[assembly: System.Reflection.AssemblyFileVersion(&quot;$(PackageVersion)&quot;)]" />
+		</ItemGroup>
+		<WriteLinesToFile File="AssemblyVersionInfo.cs" Lines="@(AssemblyVersionLines)" Overwrite="true" />
+	</Target>
+	
+	<Target Name="FindNuGetCli">
+		<XmlPeek XmlInputPath=".nuget\packages.config"
+				 Query="/packages/package[@id='NuGet.CommandLine']/@version">
+			<Output TaskParameter="Result" ItemName="NuGetCliVersion" />
+		</XmlPeek>
+		 
+		<PropertyGroup>
+			<NuGetCli>packages\NuGet.CommandLine.@(NuGetCliVersion)\tools\NuGet.exe</NuGetCli>
+		</PropertyGroup>
+	</Target>
+
+	<Target Name="Build" DependsOnTargets="WriteAssemblyVersionInfo">
+		<MSBuild Projects="RichardSzalay.MockHttp.sln" Properties="Configuration=Release" />
+	</Target>
+
+	<Target Name="Package" DependsOnTargets="Build;FindNuGetCli">
+		<Exec Command="$(NuGetCli) pack -Version $(PackageVersion)" />
+	</Target>
+	
+	<Target Name="Push" DependsOnTargets="Package;FindNuGetCli">
+		<ItemGroup>
+			<NuSpecFiles Include="*.nuspec" />
+		</ItemGroup>
+		
+		<Exec Command="$(NuGetCli) push @(NuSpecFiles->'%(Filename)').$(PackageVersion).nupkg -NonInteractive" />
+	
+	</Target>
+
+</Project>
