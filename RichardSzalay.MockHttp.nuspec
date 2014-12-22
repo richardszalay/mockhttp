@@ -10,9 +10,10 @@
     <projectUrl>https://github.com/richardszalay/mockhttp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Testing layer for Microsoft's HttpClient library</description>
-    <releaseNotes>Initial release</releaseNotes>
-    <copyright>Copyright 2014</copyright>
-    <tags>httpclient test mock fake</tags>
+    <releaseNotes>1.2.0 - Changed PCL profile to support WP8.1
+1.1.0 - Added MockHttpMessageHandler.Fallback and HttpClient passthrough support</releaseNotes>
+    <copyright>Copyright 2014 Richard Szalay</copyright>
+    <tags>httpclient test mock fake stub</tags>
 	<dependencies>
 		<dependency id="Microsoft.Net.Http" version="2.1.10" />
 	</dependencies>
