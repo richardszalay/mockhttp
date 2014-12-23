@@ -1,6 +1,10 @@
 platform: Any CPU
 configuration: Release
 
+build:
+	parallel: true
+	project: RichardSzalay.MockHttp.sln
+
 before_build:
   - nuget restore
   
