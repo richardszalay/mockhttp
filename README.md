@@ -3,7 +3,7 @@
 MockHttp for HttpClient
 =====================
 
-MockHttp is a testing layer for Microsoft's HttpClient library. It allows "canned" responses to be configured for particular HTTP requests and can be used to test your application's service layer.
+MockHttp is a testing layer for Microsoft's HttpClient library. It allows stubbed responses to be configured for matched HTTP requests and can be used to test your application's service layer.
 
 ## NuGet
 
@@ -93,12 +93,13 @@ mockHttp.VerifyNoOutstandingExpectation();
 	
 ## Platform Support
 
-MockHttp is compiled for .NET 4 and .NET 4.5, as well a Portable Class Library (Profile 136) supporting:
+MockHttp is compiled for .NET 4 and .NET 4.5, as well a Portable Class Library (Profile 328) supporting:
 
 * .NET 4
 * Silverlight 5
 * Winodws 8
 * Windows Phone Silverlight 8
+* Windows Phone 8.1
 * Xamarin iOS
 * Xamarin Android
 
