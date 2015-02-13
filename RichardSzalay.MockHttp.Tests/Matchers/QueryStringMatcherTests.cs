@@ -88,6 +88,21 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             Assert.True(result);
         }
 
+        [Fact]
+        public void Should_support_matching_dictionary_data_with_url_encoded_values()
+        {
+            var data = new Dictionary<string, string>();
+            data.Add("key", "Value with spaces");
+
+            var qs = "key=Value+with%20spaces";
+
+            var sut = new QueryStringMatcher(data);
+
+            var actualMatch = sut.Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home?" + qs));
+
+            Assert.True(actualMatch, "QueryStringMatcher.Matches() should match dictionary data with URL encoded query string values.");
+        }
+
         private bool Test(string expected, string actual)
         {
             var sut = new QueryStringMatcher(expected);

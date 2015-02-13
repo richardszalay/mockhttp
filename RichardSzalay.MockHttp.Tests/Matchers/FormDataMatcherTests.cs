@@ -103,6 +103,36 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
         }
 
         [Fact]
+        public void Should_support_matching_dictionary_data_with_url_encoded_values1()
+        {
+            var data = new Dictionary<string, string>();
+            data.Add("key", "Value with spaces");
+
+            var content = new FormUrlEncodedContent(data);
+
+            var sut = new FormDataMatcher(data);
+
+            var actualMatch = sut.Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home") { Content = content });
+
+            Assert.True(actualMatch, "FormDataMatcher.Matches() should match dictionary data with URL encoded query string values.");
+        }
+
+        [Fact]
+        public void Should_support_matching_dictionary_data_with_url_encoded_values2()
+        {
+            var data = new Dictionary<string, string>();
+            data.Add("key", "Value with spaces");
+
+            var content = new FormUrlEncodedContent(data);
+
+            var sut = new FormDataMatcher("key=Value+with%20spaces");
+
+            var actualMatch = sut.Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home") { Content = content });
+
+            Assert.True(actualMatch, "FormDataMatcher.Matches() should match dictionary data with URL encoded query string values.");
+        }
+
+        [Fact]
         public void Should_fail_for_non_form_data()
         {
             var content = new FormUrlEncodedContent(HttpHelpers.ParseQueryString("key=value"));

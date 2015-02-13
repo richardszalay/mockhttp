@@ -49,10 +49,16 @@ namespace RichardSzalay.MockHttp.Matchers
             return input.TrimStart('?').Split('&')
                 .Select(pair => StringUtil.Split(pair, '=', 2))
                 .Select(pair => new KeyValuePair<string, string>(
-                    Uri.UnescapeDataString(pair[0]),
-                    pair.Length == 2 ? Uri.UnescapeDataString(pair[1]) : ""
+                    UrlDecode(pair[0]),
+                    pair.Length == 2 ? UrlDecode(pair[1]) : ""
                     ))
                 .ToList();
+        }
+
+        internal static string UrlDecode(string urlEncodedValue)
+        {
+            string tmp = urlEncodedValue.Replace("+", "%20");
+            return Uri.UnescapeDataString(tmp);
         }
     }
 }
