@@ -127,7 +127,12 @@ namespace RichardSzalay.MockHttp
                 {
                     Interlocked.Decrement(ref outstandingRequests);
 
-                    return handler.SendAsync(request, cancellationToken);
+                    return handler.SendAsync(request, cancellationToken)
+                        .ContinueWith(resp =>
+                        {
+                            resp.Result.RequestMessage = request;
+                            return resp.Result;
+                        });
                 }).Unwrap();
         }
 

@@ -46,6 +46,27 @@ namespace RichardSzalay.MockHttp.Tests
         }
 
         [Fact]
+        public void Should_assign_request_to_response_object()
+        {
+            var mockHandler = new MockHttpMessageHandler();
+            var client = new HttpClient(mockHandler);
+
+            mockHandler
+                .When(HttpMethod.Get, "/test")
+                .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
+
+            mockHandler
+                .When(HttpMethod.Post, "/test")
+                .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'Boo'}");
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://invalid/test");
+
+            var result = client.SendAsync(request).Result;
+
+            Assert.Same(request, result.RequestMessage);
+        }
+
+        [Fact]
         public void Manual_flush_should_wait_for_flush()
         {
             var mockHandler = new MockHttpMessageHandler();
