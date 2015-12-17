@@ -19,6 +19,10 @@ namespace RichardSzalay.MockHttp.Matchers
         /// <param name="url">The url (relative or absolute) to match</param>
         public UrlMatcher(string url)
         {
+            Uri uri;
+            if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+                url = uri.AbsoluteUri;
+
             this.url = url;
         }
 
