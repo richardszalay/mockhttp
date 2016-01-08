@@ -1,0 +1,54 @@
+{
+  "authors": [ "Richard Szalay" ],
+  "owners": [ "richardszalay" ],
+  "projectUrl": "https://github.com/richardszalay/mockhttp",
+  "licenseUrl": "https://github.com/richardszalay/mockhttp/blob/master/LICENSE",
+  "summary": "Testing layer for Microsoft's HttpClient library",
+  "description": "Testing layer for Microsoft's HttpClient library. Create canned responses using a fluent API.",
+  "version": "1.2.2",
+  "title": "MockHttp for HttpClient",
+  "tags": [ "httpclient", "test", "mock", "fake", "stub" ],
+  "copyright": "Copyright 2014 Richard Szalay",
+  "dependencies": {
+    
+  },
+  "releaseNotes": "https://github.com/richardszalay/mockhttp/blob/master/RELEASE",
+  "compilationOptions": {
+    "warningsAsErrors": true
+  },
+  "frameworks": {
+    "net40": {
+      "frameworkAssemblies": {
+      },
+      "dependencies": {
+        "Microsoft.Net.Http": "2.2.22"
+      }
+    },
+    "net45": {
+      "compilationOptions": {
+        "define": [ "ASYNC" ]
+      },
+      "frameworkAssemblies": {
+      },
+      "dependencies": {
+        "Microsoft.Net.Http": "2.2.22"
+      }
+    },
+    "dnx451": {
+      "frameworkAssemblies": {
+      },
+      "dependencies": {
+        "Microsoft.Net.Http": "2.2.22"
+      }
+    },
+    
+    "dotnet5.4": {
+      "dependencies": {
+        "System.Net.Http": "4.0.0",
+        "System.Runtime": "4.0.20",
+        "System.Linq": "4.0.0",
+        "System.Threading": "4.0.0"
+      }
+    }
+  }
+}

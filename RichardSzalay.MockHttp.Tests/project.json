@@ -1,0 +1,52 @@
+{
+  "authors": [ "Richard Szalay" ],
+  "owners": [ "richardszalay" ],
+  "projectUrl": "https://github.com/richardszalay/mockhttp",
+  "licenseUrl": "https://github.com/richardszalay/mockhttp/blob/master/LICENSE",
+  "description": "MockHttp Test Suite",
+  "version": "1.0.0-*",
+  "title": "MockHttp.Tests",
+  "copyright": "Copyright 2014 Richard Szalay",
+  "dependencies": {
+    "RichardSzalay.MockHttp": {
+      "target": "project"
+    }
+  },
+  "commands": {
+    "test": "xunit.runner.dnx"
+  },
+  "compilationOptions": {
+    "warningsAsErrors": true
+  },
+  "frameworks": {
+    "net40": {
+      "frameworkAssemblies": {
+      },
+      "dependencies": {
+        "xunit": "1.9.2"
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Runtime": "4.0.0.0",
+        "System.Threading.Tasks": "4.0.0.0"
+      },
+      "dependencies": {
+        "xunit": "2.1.0"
+      }
+    },
+    "dnx451": {
+      "frameworkAssemblies": {
+      },
+      "dependencies": {
+        "xunit": "2.1.0",
+        "xunit.runner.dnx": "2.1.0-*"
+      }
+    },
+    "dotnet5.4": {
+      "dependencies": {
+        "xunit": "2.1.0"
+      }
+    }
+  }
+}

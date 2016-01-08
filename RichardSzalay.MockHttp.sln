@@ -1,20 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Portable", "RichardSzalay.MockHttp.Portable\RichardSzalay.MockHttp.Portable.csproj", "{E388BEFC-F356-49D3-A29C-296A59FD27DD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Tests", "RichardSzalay.MockHttp.Tests\RichardSzalay.MockHttp.Tests.csproj", "{1E613FE0-AA8E-40D5-B310-BCD2A798CB1D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0A5627BF-2EF3-4826-8BE3-4619A5DF1045}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RichardSzalay.MockHttp.Shared", "RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.shproj", "{21A34759-FAE1-48B5-8CFE-2EA1B9BEFCB8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Net40", "RichardSzalay.MockHttp.Net40\RichardSzalay.MockHttp.Net40.csproj", "{577EC1E5-E2B6-4170-AEAC-74BAC282CAC1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7DE23763-EAF5-4CDA-B937-1B8C6159104D}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,36 +16,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		RichardSzalay.MockHttp.nuspec = RichardSzalay.MockHttp.nuspec
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Net45", "RichardSzalay.MockHttp.Net45\RichardSzalay.MockHttp.Net45.csproj", "{F9679562-4076-4CA2-9D3C-34A04A47EE1B}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RichardSzalay.MockHttp", "RichardSzalay.MockHttp\RichardSzalay.MockHttp.xproj", "{BFD4AC0A-A66D-4B94-925A-8E97F2651635}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RichardSzalay.MockHttp.Tests", "RichardSzalay.MockHttp.Tests\RichardSzalay.MockHttp.Tests.xproj", "{7F5A4D82-4861-4B13-A43D-D875944D4E4B}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{f9679562-4076-4ca2-9d3c-34a04a47ee1b}*SharedItemsImports = 4
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{577ec1e5-e2b6-4170-aeac-74bac282cac1}*SharedItemsImports = 4
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{21a34759-fae1-48b5-8cfe-2ea1b9befcb8}*SharedItemsImports = 13
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{e388befc-f356-49d3-a29c-296a59fd27dd}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E388BEFC-F356-49D3-A29C-296A59FD27DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E388BEFC-F356-49D3-A29C-296A59FD27DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E388BEFC-F356-49D3-A29C-296A59FD27DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E388BEFC-F356-49D3-A29C-296A59FD27DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E613FE0-AA8E-40D5-B310-BCD2A798CB1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E613FE0-AA8E-40D5-B310-BCD2A798CB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E613FE0-AA8E-40D5-B310-BCD2A798CB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E613FE0-AA8E-40D5-B310-BCD2A798CB1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{577EC1E5-E2B6-4170-AEAC-74BAC282CAC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{577EC1E5-E2B6-4170-AEAC-74BAC282CAC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{577EC1E5-E2B6-4170-AEAC-74BAC282CAC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{577EC1E5-E2B6-4170-AEAC-74BAC282CAC1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9679562-4076-4CA2-9D3C-34A04A47EE1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9679562-4076-4CA2-9D3C-34A04A47EE1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9679562-4076-4CA2-9D3C-34A04A47EE1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9679562-4076-4CA2-9D3C-34A04A47EE1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFD4AC0A-A66D-4B94-925A-8E97F2651635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFD4AC0A-A66D-4B94-925A-8E97F2651635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFD4AC0A-A66D-4B94-925A-8E97F2651635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFD4AC0A-A66D-4B94-925A-8E97F2651635}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5A4D82-4861-4B13-A43D-D875944D4E4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5A4D82-4861-4B13-A43D-D875944D4E4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5A4D82-4861-4B13-A43D-D875944D4E4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5A4D82-4861-4B13-A43D-D875944D4E4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

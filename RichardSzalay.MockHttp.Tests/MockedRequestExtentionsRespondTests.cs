@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using RichardSzalay.MockHttp;
-using System.Net.Http.Headers;
-using RichardSzalay.MockHttp.Matchers;
 using System.Threading;
 using System.Net;
 using System.IO;
+using RichardSzalay.MockHttp.Tests.Infrastructure;
 
 namespace RichardSzalay.MockHttp.Tests
 {
@@ -59,7 +56,7 @@ namespace RichardSzalay.MockHttp.Tests
         public void Respond_FuncRequestAsyncResponse()
         {
             var expected = new HttpResponseMessage();
-            var response = Test(r => r.Respond(req => Task.FromResult(expected)));
+            var response = Test(r => r.Respond(req => TaskEx.FromResult(expected)));
 
             Assert.Same(expected, response);
         }

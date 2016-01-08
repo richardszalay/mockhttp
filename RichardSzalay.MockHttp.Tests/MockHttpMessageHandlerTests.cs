@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Net.Http;
-using System.Text;
-using RichardSzalay.MockHttp;
 using Xunit;
 
 namespace RichardSzalay.MockHttp.Tests
@@ -132,7 +129,7 @@ namespace RichardSzalay.MockHttp.Tests
 
             task.Wait();
 
-            Assert.DoesNotThrow(() => mockHandler.VerifyNoOutstandingRequest());
+            mockHandler.VerifyNoOutstandingRequest();
         }
 
         [Fact]
@@ -165,10 +162,10 @@ namespace RichardSzalay.MockHttp.Tests
                 .When("/test")
                 .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
 
-            mockHandler.FallbackResponse = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+            mockHandler.Fallback.Respond(new HttpResponseMessage(System.Net.HttpStatusCode.OK)
             {
                 ReasonPhrase = "Awesome"
-            };
+            });
 
             var result = client.GetAsync("http://invalid/test2").Result;
 
@@ -233,7 +230,7 @@ namespace RichardSzalay.MockHttp.Tests
 
             var result = client.GetAsync("http://invalid/test2").Result;
 
-            Assert.Equal(mockHandler.FallbackResponse.StatusCode, result.StatusCode);
+            Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]
@@ -261,7 +258,7 @@ namespace RichardSzalay.MockHttp.Tests
 
             var result = client.GetAsync("http://invalid/test").Result;
 
-            Assert.DoesNotThrow(mockHandler.VerifyNoOutstandingExpectation);
+            mockHandler.VerifyNoOutstandingExpectation();
         }
 
         [Fact]
