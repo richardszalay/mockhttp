@@ -10,7 +10,8 @@
     <projectUrl>https://github.com/richardszalay/mockhttp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Testing layer for Microsoft's HttpClient library</description>
-    <releaseNotes>1.2.1 - HttpResponseMessage.RequestMessage is now assigned correctly
+    <releaseNotes>1.2.2 - Root absolute URLs defined with no trailing flash now match those with a slash (and vice versa)
+1.2.1 - HttpResponseMessage.RequestMessage is now assigned correctly
 	  - Form/Query data matching now works with both + and %20 space encodings (thanks Jozef Izso!)
 1.2.0 - Changed PCL profile to support WP8.1
 1.1.0 - Added MockHttpMessageHandler.Fallback and HttpClient passthrough support</releaseNotes>
