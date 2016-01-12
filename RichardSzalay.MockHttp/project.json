@@ -5,7 +5,7 @@
   "licenseUrl": "https://github.com/richardszalay/mockhttp/blob/master/LICENSE",
   "summary": "Testing layer for Microsoft's HttpClient library",
   "description": "Testing layer for Microsoft's HttpClient library. Create canned responses using a fluent API.",
-  "version": "1.2.2",
+  "version": "1.3.0-beta-*",
   "title": "MockHttp for HttpClient",
   "tags": [ "httpclient", "test", "mock", "fake", "stub" ],
   "copyright": "Copyright 2014 Richard Szalay",
