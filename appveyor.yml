@@ -4,9 +4,6 @@ configuration: Release
 install:
   - cmd: dnvm install 1.0.0-rc1-update1
 
-environment:
-  DNX_BUILD_VERSION: %APPVEYOR_BUILD_NUMBER%
-
 build:
   parallel: true
   project: RichardSzalay.MockHttp.sln
@@ -14,6 +11,8 @@ build:
 before_build:
   - nuget restore
   - cmd: dnu restore
+  - cmd: set DNX_BUILD_VERSION=000%APPVEYOR_BUILD_NUMBER%
+  - cmd: set DNX_BUILD_VERSION=%APPVEYOR_REPO_BRANCH%-beta-%DNX_BUILD_VERSION:~-4%
   
 after_build:
   - appveyor PushArtifact artifacts\bin\RichardSzalay.MockHttp\Release\RichardSzalay.MockHttp.*.nupkg
