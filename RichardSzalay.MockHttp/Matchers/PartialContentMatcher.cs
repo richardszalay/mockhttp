@@ -1,11 +1,13 @@
-﻿namespace RichardSzalay.MockHttp.Matchers
+﻿using System;
+
+namespace RichardSzalay.MockHttp.Matchers
 {
     /// <summary>
     /// Matches requests on partial request content
     /// </summary>
     public class PartialContentMatcher : IMockedRequestMatcher
     {
-        private string content;
+        readonly string content;
 
         /// <summary>
         /// Constructs a new instance of PartialContentMatcher
@@ -28,7 +30,7 @@
 
             string actualContent = message.Content.ReadAsStringAsync().Result;
 
-            return actualContent.IndexOf(content) != -1;
+            return actualContent.IndexOf(content, StringComparison.Ordinal) != -1;
         }
     }
 }

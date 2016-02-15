@@ -154,7 +154,7 @@ Accept-Language: fr"));
             }));
         }
 
-        private HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://www.tempuri.org/path?apple=red&pear=green")
+        readonly HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://www.tempuri.org/path?apple=red&pear=green")
         {
             Content = new FormUrlEncodedContent(new Dictionary<string, string>
             {

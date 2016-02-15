@@ -74,7 +74,7 @@ namespace RichardSzalay.MockHttp.Tests
         [Fact]
         public void Respond_mediaTypeString_contentStream()
         {
-            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes("test"));
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes("test"));
 
             var response = Test(r => r.Respond("text/plain", ms));
 
@@ -96,7 +96,7 @@ namespace RichardSzalay.MockHttp.Tests
         [Fact]
         public void Respond_HttpStatusCode_mediaTypeString_contentStream()
         {
-            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes("test"));
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes("test"));
 
             var response = Test(r => r.Respond(HttpStatusCode.PartialContent, "text/plain", ms));
 
@@ -143,7 +143,7 @@ namespace RichardSzalay.MockHttp.Tests
             Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
         }
 
-        private HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://www.tempuri.org/path?apple=red&pear=green")
+        readonly HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://www.tempuri.org/path?apple=red&pear=green")
         {
             Content = new FormUrlEncodedContent(new Dictionary<string, string>
             {

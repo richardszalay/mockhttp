@@ -91,7 +91,7 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
         {
             var sut = new FormDataMatcher(expected);
 
-            FormUrlEncodedContent content = new FormUrlEncodedContent(
+            var content = new FormUrlEncodedContent(
                 HttpHelpers.ParseQueryString(actual)
                 );
 

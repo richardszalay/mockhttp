@@ -5,7 +5,7 @@
     /// </summary>
     public class ContentMatcher : IMockedRequestMatcher
     {
-        private string content;
+        readonly string content;
 
         /// <summary>
         /// Constructs a new instance of ContentMatcher

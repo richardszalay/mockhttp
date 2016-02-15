@@ -40,10 +40,11 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
 
         private class FakeMatcher : IMockedRequestMatcher
         {
-            private bool _result;
+            readonly bool _result;
+
             public FakeMatcher(bool result)
             {
-                this._result = result;
+                _result = result;
             }
 
             public bool Matches(System.Net.Http.HttpRequestMessage message)

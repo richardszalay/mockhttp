@@ -170,7 +170,7 @@ namespace RichardSzalay.MockHttp
 
         HttpResponseMessage CreateDefaultFallbackMessage()
         {
-            HttpResponseMessage message = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
+            var message = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
             message.ReasonPhrase = "No matching mock handler";
             return message;
         }

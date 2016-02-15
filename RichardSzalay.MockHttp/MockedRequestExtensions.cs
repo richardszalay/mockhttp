@@ -224,7 +224,7 @@ namespace RichardSzalay.MockHttp
         /// <param name="content">The content of the response</param>
         public static void Respond(this MockedRequest source, HttpStatusCode statusCode, HttpContent content)
         {
-            HttpResponseMessage message = new HttpResponseMessage(statusCode);
+            var message = new HttpResponseMessage(statusCode);
             message.Content = content;
 
             source.Respond(message);

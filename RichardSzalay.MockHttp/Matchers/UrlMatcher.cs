@@ -35,8 +35,8 @@ namespace RichardSzalay.MockHttp.Matchers
 
             string matchUrl = GetUrlToMatch(message.RequestUri);
 
-            bool startsWithWildcard = url.StartsWith("*");
-            bool endsWithWildcard = url.EndsWith("*");
+            bool startsWithWildcard = url.StartsWith("*", StringComparison.Ordinal);
+            bool endsWithWildcard = url.EndsWith("*", StringComparison.Ordinal);
 
             string[] matchParts = url.Split(new [] { '*' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -45,7 +45,7 @@ namespace RichardSzalay.MockHttp.Matchers
 
             if (!startsWithWildcard)
             {
-                if (!matchUrl.StartsWith(matchParts[0]))
+                if (!matchUrl.StartsWith(matchParts[0], StringComparison.Ordinal))
                     return false;
             }
 
@@ -53,7 +53,7 @@ namespace RichardSzalay.MockHttp.Matchers
 
             foreach(var matchPart in matchParts)
             {
-                position = matchUrl.IndexOf(matchPart, position);
+                position = matchUrl.IndexOf(matchPart, position, StringComparison.Ordinal);
 
                 if (position == -1)
                     return false;

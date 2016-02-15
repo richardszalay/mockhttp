@@ -54,7 +54,7 @@ namespace RichardSzalay.MockHttp.Matchers
 
         internal static IEnumerable<KeyValuePair<string, string>> ParseHeaders(string headers)
         {
-            List<KeyValuePair<string, string>> headerPairs = new List<KeyValuePair<string, string>>();
+            var headerPairs = new List<KeyValuePair<string, string>>();
 
             using (StringReader reader = new StringReader(headers))
             {

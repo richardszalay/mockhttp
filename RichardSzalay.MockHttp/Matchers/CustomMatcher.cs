@@ -17,7 +17,7 @@ namespace RichardSzalay.MockHttp.Matchers
         public CustomMatcher(Func<HttpRequestMessage, bool> matcher)
         {
             if (matcher == null)
-                throw new ArgumentNullException("matcher");
+                throw new ArgumentNullException(nameof(matcher));
 
             this.matcher = matcher;
         }
