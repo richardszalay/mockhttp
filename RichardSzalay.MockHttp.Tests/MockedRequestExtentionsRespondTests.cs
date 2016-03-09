@@ -146,6 +146,14 @@ namespace RichardSzalay.MockHttp.Tests
             Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
         }
 
+        [Fact]
+        public void Respond_Throwing_Exception()
+        {
+            var exceptionToThrow = new HttpRequestException("Mocking an HTTP Request Exception.");
+
+            Assert.Throws<HttpRequestException>(() => Test(r => r.Throw(exceptionToThrow)));
+        }
+
         private HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://www.tempuri.org/path?apple=red&pear=green")
         {
             Content = new FormUrlEncodedContent(new Dictionary<string, string>
