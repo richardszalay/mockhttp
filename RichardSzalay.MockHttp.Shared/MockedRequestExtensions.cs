@@ -326,7 +326,7 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="exception">The exception to throw</param>
-        public static void ThrowsException(this MockedRequest source, Exception exception)
+        public static void Throw(this MockedRequest source, Exception exception)
         {
             source.Respond(req =>
             {

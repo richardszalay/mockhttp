@@ -223,7 +223,7 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
-        /// Throws an <see cref="T:InvalidOperationException"/> if there are requests that were received 
+        /// Throw an <see cref="T:InvalidOperationException"/> if there are requests that were received 
         /// while <see cref="M:AutoFlush"/> was true, but have not been completed using <see cref="M:Flush"/>
         /// </summary>
         public void VerifyNoOutstandingRequest()
@@ -233,7 +233,7 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
-        /// Throws an <see cref="T:InvalidOperationException"/> if there are any requests configured with Expects 
+        /// Throw an <see cref="T:InvalidOperationException"/> if there are any requests configured with Expects 
         /// that have yet to be received
         /// </summary>
         public void VerifyNoOutstandingExpectation()

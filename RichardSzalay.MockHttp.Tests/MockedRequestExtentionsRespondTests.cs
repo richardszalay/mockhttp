@@ -11,7 +11,6 @@ using RichardSzalay.MockHttp.Matchers;
 using System.Threading;
 using System.Net;
 using System.IO;
-using FluentAssertions;
 
 namespace RichardSzalay.MockHttp.Tests
 {
@@ -152,9 +151,7 @@ namespace RichardSzalay.MockHttp.Tests
         {
             var exceptionToThrow = new HttpRequestException("Mocking an HTTP Request Exception.");
 
-            Func<Task<HttpResponseMessage>> responseFunc = () => Task.FromResult(Test(r => r.ThrowsException(exceptionToThrow)));
-
-            responseFunc.ShouldThrowExactly<HttpRequestException>();
+            Assert.Throws<HttpRequestException>(() => Test(r => r.Throw(exceptionToThrow)));
         }
 
         private HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://www.tempuri.org/path?apple=red&pear=green")
