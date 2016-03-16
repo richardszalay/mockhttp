@@ -320,5 +320,18 @@ namespace RichardSzalay.MockHttp
         {
             source.Respond(new HttpClient(handler));
         }
+
+        /// <summary>
+        /// Sets the response of the current <see cref="T:MockedRequest"/> to a lambda which throws the specified exception.
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="exception">The exception to throw</param>
+        public static void Throw(this MockedRequest source, Exception exception)
+        {
+            source.Respond(req =>
+            {
+                throw exception;
+            });
+        }
     }
 }
