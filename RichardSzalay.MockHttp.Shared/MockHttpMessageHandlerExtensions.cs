@@ -21,7 +21,7 @@ namespace RichardSzalay.MockHttp
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest When(this MockHttpMessageHandler handler, HttpMethod method, string url)
         {
-            var message = new MockedRequest(url);
+            var message = new MockedRequest(url, handler);
             message.With(new MethodMatcher(method));
 
             handler.AddBackendDefinition(message);
@@ -37,7 +37,7 @@ namespace RichardSzalay.MockHttp
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest When(this MockHttpMessageHandler handler, string url)
         {
-            var message = new MockedRequest(url);
+            var message = new MockedRequest(url, handler);
 
             handler.AddBackendDefinition(message);
 
@@ -53,7 +53,7 @@ namespace RichardSzalay.MockHttp
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest Expect(this MockHttpMessageHandler handler, HttpMethod method, string url)
         {
-            var message = new MockedRequest(url);
+            var message = new MockedRequest(url, handler);
             message.With(new MethodMatcher(method));
 
             handler.AddRequestExpectation(message);
@@ -69,11 +69,21 @@ namespace RichardSzalay.MockHttp
         /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
         public static MockedRequest Expect(this MockHttpMessageHandler handler, string url)
         {
-            var message = new MockedRequest(url);
+            var message = new MockedRequest(url, handler);
 
             handler.AddRequestExpectation(message);
 
             return message;
+        }
+
+        /// <summary>
+        /// Creates an HttpClient instance from the current MockHttpMessageHandler
+        /// </summary>
+        /// <param name="handler">The source handler</param>
+        /// <returns>An HttpClient that can be used to make requests using the mock configuration</returns>
+        public static HttpClient AsHttpClient(this MockHttpMessageHandler handler)
+        {
+            return new HttpClient(handler);
         }
     }
 }

@@ -16,20 +16,26 @@ namespace RichardSzalay.MockHttp
     {
         private List<IMockedRequestMatcher> matchers = new List<IMockedRequestMatcher>();
         private Func<HttpRequestMessage, Task<HttpResponseMessage>> response;
+        readonly MockHttpMessageHandler handler;
 
         /// <summary>
         /// Creates a new MockedRequest with no initial matchers
         /// </summary>
-        public MockedRequest()
+        /// <param name="handler">The MockHttpMessageHandler that created this request</param>
+        public MockedRequest(MockHttpMessageHandler handler)
         {
+            this.handler = handler;
         }
 
         /// <summary>
         /// Creates a new MockedRequest with an initial URL (and optionally query string) matcher
         /// </summary>
         /// <param name="url">An absolute or relative URL that may contain a query string</param>
-        public MockedRequest(string url)
+        /// <param name="handler">The MockHttpMessageHandler that created this request</param>
+        public MockedRequest(string url, MockHttpMessageHandler handler)
         {
+            this.handler = handler;
+
             string[] urlParts = StringUtil.Split(url, '?', 2);
 
             if (urlParts.Length == 2)
@@ -65,18 +71,20 @@ namespace RichardSzalay.MockHttp
         /// Sets the response of ther 
         /// </summary>
         /// <param name="handler"></param>
-        public void Respond(Func<Task<HttpResponseMessage>> handler)
+        public MockHttpMessageHandler Respond(Func<Task<HttpResponseMessage>> handler)
         {
-            this.Respond(_ => handler());
+            return this.Respond(_ => handler());
         }
 
         /// <summary>
         /// Supplies a response to the submitted request
         /// </summary>
         /// <param name="handler">The callback that will be used to supply the response</param>
-        public void Respond(Func<HttpRequestMessage, Task<HttpResponseMessage>> handler)
+        public MockHttpMessageHandler Respond(Func<HttpRequestMessage, Task<HttpResponseMessage>> handler)
         {
             this.response = handler;
+
+            return this.handler;
         }
 
         /// <summary>

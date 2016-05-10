@@ -33,7 +33,7 @@ namespace RichardSzalay.MockHttp.Matchers
 
             string actualContent = message.Content.ReadAsStringAsync().Result;
 
-            return actualContent.IndexOf(content) != -1;
+            return actualContent.IndexOf(content, StringComparison.Ordinal) != -1;
         }
     }
 }

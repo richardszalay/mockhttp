@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FluentApiTests.cs" />
     <Compile Include="Infrastructure\HttpHelpers.cs" />
     <Compile Include="Matchers\AnyMatcherTests.cs" />
     <Compile Include="Matchers\PartialContentMatcherTests.cs" />

@@ -203,9 +203,9 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="message">The complete <see cref="T:HttpResponseMessage"/> to return</param>
-        public static void Respond(this MockedRequest source, HttpResponseMessage message)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, HttpResponseMessage message)
         {
-            source.Respond(_ => TaskEx.FromResult(message));
+            return source.Respond(_ => TaskEx.FromResult(message));
         }
 
         /// <summary>
@@ -213,9 +213,9 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
-        public static void Respond(this MockedRequest source, HttpStatusCode statusCode)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, HttpStatusCode statusCode)
         {
-            source.Respond(new HttpResponseMessage(statusCode));
+            return source.Respond(new HttpResponseMessage(statusCode));
         }
 
         /// <summary>
@@ -224,12 +224,12 @@ namespace RichardSzalay.MockHttp
         /// <param name="source">The source mocked request</param>
         /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
         /// <param name="content">The content of the response</param>
-        public static void Respond(this MockedRequest source, HttpStatusCode statusCode, HttpContent content)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, HttpStatusCode statusCode, HttpContent content)
         {
             HttpResponseMessage message = new HttpResponseMessage(statusCode);
             message.Content = content;
 
-            source.Respond(message);
+            return source.Respond(message);
         }
 
         /// <summary>
@@ -237,9 +237,9 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="content">The content of the response</param>
-        public static void Respond(this MockedRequest source, HttpContent content)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, HttpContent content)
         {
-            source.Respond(HttpStatusCode.OK, content);
+            return source.Respond(HttpStatusCode.OK, content);
         }
 
         /// <summary>
@@ -249,9 +249,9 @@ namespace RichardSzalay.MockHttp
         /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
         /// <param name="content">The content of the response</param>
         /// <param name="mediaType">The media type of the response</param>
-        public static void Respond(this MockedRequest source, HttpStatusCode statusCode, string mediaType, string content)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, HttpStatusCode statusCode, string mediaType, string content)
         {
-            source.Respond(statusCode, new StringContent(content, Encoding.UTF8, mediaType));
+            return source.Respond(statusCode, new StringContent(content, Encoding.UTF8, mediaType));
         }
 
         /// <summary>
@@ -260,9 +260,9 @@ namespace RichardSzalay.MockHttp
         /// <param name="source">The source mocked request</param>
         /// <param name="content">The content of the response</param>
         /// <param name="mediaType">The media type of the response</param>
-        public static void Respond(this MockedRequest source, string mediaType, string content)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, string mediaType, string content)
         {
-            source.Respond(HttpStatusCode.OK, mediaType, content);
+            return source.Respond(HttpStatusCode.OK, mediaType, content);
         }
 
         /// <summary>
@@ -272,12 +272,12 @@ namespace RichardSzalay.MockHttp
         /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
         /// <param name="content">The content of the response</param>
         /// <param name="mediaType">The media type of the response</param>
-        public static void Respond(this MockedRequest source, HttpStatusCode statusCode, string mediaType, Stream content)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, HttpStatusCode statusCode, string mediaType, Stream content)
         {
             var streamContent = new StreamContent(content);
             streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mediaType);
-            
-            source.Respond(statusCode, streamContent);
+
+            return source.Respond(statusCode, streamContent);
         }
 
         /// <summary>
@@ -286,9 +286,9 @@ namespace RichardSzalay.MockHttp
         /// <param name="source">The source mocked request</param>
         /// <param name="content">The content of the response</param>
         /// <param name="mediaType">The media type of the response</param>
-        public static void Respond(this MockedRequest source, string mediaType, Stream content)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, string mediaType, Stream content)
         {
-            source.Respond(HttpStatusCode.OK, mediaType, content);
+            return source.Respond(HttpStatusCode.OK, mediaType, content);
         }
 
         /// <summary>
@@ -296,9 +296,9 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="handler">The delegate that will return a <see cref="T:HttpResponseMessage"/> determined at runtime</param>
-        public static void Respond(this MockedRequest source, Func<HttpRequestMessage, HttpResponseMessage> handler)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, Func<HttpRequestMessage, HttpResponseMessage> handler)
         {
-            source.Respond(req => TaskEx.FromResult(handler(req)));
+            return source.Respond(req => TaskEx.FromResult(handler(req)));
         }
 
         /// <summary>
@@ -306,9 +306,9 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="httpClient">The <see cref="T:HttpClient"/> that will handle requests</param>
-        public static void Respond(this MockedRequest source, HttpClient httpClient)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, HttpClient httpClient)
         {
-            source.Respond(req => httpClient.SendAsync(req));
+            return source.Respond(req => httpClient.SendAsync(req));
         }
 
         /// <summary>
@@ -316,9 +316,9 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="handler">The <see cref="T:HttpMessageHandlert"/> that will handle requests</param>
-        public static void Respond(this MockedRequest source, HttpMessageHandler handler)
+        public static MockHttpMessageHandler Respond(this MockedRequest source, HttpMessageHandler handler)
         {
-            source.Respond(new HttpClient(handler));
+            return source.Respond(new HttpClient(handler));
         }
 
         /// <summary>
@@ -326,9 +326,9 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="exception">The exception to throw</param>
-        public static void Throw(this MockedRequest source, Exception exception)
+        public static MockHttpMessageHandler Throw(this MockedRequest source, Exception exception)
         {
-            source.Respond(req =>
+            return source.Respond(req =>
             {
                 throw exception;
             });
