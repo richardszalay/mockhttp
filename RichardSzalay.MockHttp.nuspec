@@ -30,6 +30,7 @@
     <file src="RichardSzalay.MockHttp.Portable\bin\Release\RichardSzalay.MockHttp.dll" target="lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1" />
     <file src="RichardSzalay.MockHttp.Net40\bin\Release\RichardSzalay.MockHttp.dll" target="lib\net40" />
     <file src="RichardSzalay.MockHttp.Net45\bin\Release\RichardSzalay.MockHttp.dll" target="lib\net45" />
+    <file src="RichardSzalay.MockHttp.NetStandard\bin\Release\netstandard1.1\RichardSzalay.MockHttp.dll" target="lib\netstandard1.1" />
   </files>
 
 </package>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Portable", "RichardSzalay.MockHttp.Portable\RichardSzalay.MockHttp.Portable.csproj", "{E388BEFC-F356-49D3-A29C-296A59FD27DD}"
 EndProject
@@ -19,12 +19,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7DE23763-EAF5-4CDA-B937-1B8C6159104D}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
+		DownloadNetCoreSdk.ps1 = DownloadNetCoreSdk.ps1
 		LICENSE = LICENSE
 		README.md = README.md
+		Release.proj = Release.proj
 		RichardSzalay.MockHttp.nuspec = RichardSzalay.MockHttp.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Net45", "RichardSzalay.MockHttp.Net45\RichardSzalay.MockHttp.Net45.csproj", "{F9679562-4076-4CA2-9D3C-34A04A47EE1B}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RichardSzalay.MockHttp.NetStandard", "RichardSzalay.MockHttp.NetStandard\RichardSzalay.MockHttp.NetStandard.xproj", "{1B510EB2-8216-4298-82B4-C1C14A220524}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -54,6 +58,9 @@ Global
 		{F9679562-4076-4CA2-9D3C-34A04A47EE1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9679562-4076-4CA2-9D3C-34A04A47EE1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9679562-4076-4CA2-9D3C-34A04A47EE1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B510EB2-8216-4298-82B4-C1C14A220524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B510EB2-8216-4298-82B4-C1C14A220524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B510EB2-8216-4298-82B4-C1C14A220524}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

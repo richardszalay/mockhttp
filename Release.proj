@@ -25,9 +25,22 @@
 		</PropertyGroup>
 	</Target>
 
-	<Target Name="Build" DependsOnTargets="WriteAssemblyVersionInfo">
-		<MSBuild Projects="RichardSzalay.MockHttp.sln" Properties="Configuration=Release" />
-	</Target>
+  <Target Name="BuildCommon" DependsOnTargets="WriteAssemblyVersionInfo">
+    <MSBuild Projects="RichardSzalay.MockHttp.sln" Properties="Configuration=Release" />
+  </Target>
+
+  <Target Name="BuildNetCore" DependsOnTargets="WriteAssemblyVersionInfo">
+    <Exec Command="powershell &quot;.\DownloadNetCoreSdk.ps1&quot; -ToolsPath .dotnetcli"
+          Condition="!Exists('.dotnetcli')"/>
+
+    <Exec Command="..\.dotnetcli\dotnet.exe build -c Release"
+          WorkingDirectory=".\RichardSzalay.MockHttp.NetStandard\" />
+
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="WriteAssemblyVersionInfo;BuildCommon;BuildNetCore">
+
+  </Target>
 
 	<Target Name="Package" DependsOnTargets="Build;FindNuGetCli">
 		<Exec Command="$(NuGetCli) pack -Version $(PackageVersion)" />
