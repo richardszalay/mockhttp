@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 
 namespace RichardSzalay.MockHttp.Matchers
 {
@@ -20,7 +17,7 @@ namespace RichardSzalay.MockHttp.Matchers
         public UrlMatcher(string url)
         {
             Uri uri;
-            if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+            if (UriUtil.TryParse(url, UriKind.Absolute, out uri))
                 url = uri.AbsoluteUri;
 
             this.url = url;
@@ -38,8 +35,8 @@ namespace RichardSzalay.MockHttp.Matchers
 
             string matchUrl = GetUrlToMatch(message.RequestUri);
 
-            bool startsWithWildcard = url.StartsWith("*");
-            bool endsWithWildcard = url.EndsWith("*");
+            bool startsWithWildcard = url.StartsWith("*", StringComparison.Ordinal);
+            bool endsWithWildcard = url.EndsWith("*", StringComparison.Ordinal);
 
             string[] matchParts = url.Split(new [] { '*' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -48,7 +45,7 @@ namespace RichardSzalay.MockHttp.Matchers
 
             if (!startsWithWildcard)
             {
-                if (!matchUrl.StartsWith(matchParts[0]))
+                if (!matchUrl.StartsWith(matchParts[0], StringComparison.Ordinal))
                     return false;
             }
 
@@ -56,7 +53,7 @@ namespace RichardSzalay.MockHttp.Matchers
 
             foreach(var matchPart in matchParts)
             {
-                position = matchUrl.IndexOf(matchPart, position);
+                position = matchUrl.IndexOf(matchPart, position, StringComparison.Ordinal);
 
                 if (position == -1)
                     return false;
@@ -72,15 +69,17 @@ namespace RichardSzalay.MockHttp.Matchers
             return true;
         }
 
-        private string GetUrlToMatch(Uri url)
+        private string GetUrlToMatch(Uri input)
         {
-            bool matchingFullUrl = Uri.IsWellFormedUriString(this.url.Replace('*', '-'), UriKind.Absolute);
+            bool matchingFullUrl = UriUtil.IsWellFormedUriString(this.url.Replace('*', '-'), UriKind.Absolute);
 
             string source = matchingFullUrl
-                ? new UriBuilder(url) {  Query = "" }.Uri.AbsoluteUri
-                : url.LocalPath;
+                ? new UriBuilder(input) {  Query = "" }.Uri.AbsoluteUri
+                : input.LocalPath;
 
             return source;
         }
+
+        
     }
 }

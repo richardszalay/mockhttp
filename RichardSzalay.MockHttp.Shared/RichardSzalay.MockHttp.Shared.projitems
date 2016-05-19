@@ -26,5 +26,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MockHttpMessageHandlerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TaskEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UriUtil.cs" />
   </ItemGroup>
 </Project>
