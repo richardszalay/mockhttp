@@ -85,9 +85,9 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RichardSzalay.MockHttp.Portable\RichardSzalay.MockHttp.Portable.csproj">
+    <ProjectReference Include="..\RichardSzalay.MockHttp.Portable328\RichardSzalay.MockHttp.Portable328.csproj">
       <Project>{e388befc-f356-49d3-a29c-296a59fd27dd}</Project>
-      <Name>RichardSzalay.MockHttp.Portable</Name>
+      <Name>RichardSzalay.MockHttp.Portable328</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
