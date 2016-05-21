@@ -10,4 +10,4 @@ before_build:
   
 after_build:
   - nuget pack RichardSzalay.MockHttp.nuspec -version %APPVEYOR_BUILD_VERSION%
-  - appveyor PushArtifact RichardSzalay.MockHttp.%APPVEYOR_BUILD_VERSION%.nupkg
+  - appveyor PushArtifact RichardSzalay.MockHttp.%APPVEYOR_BUILD_VERSION%-pre.nupkg
