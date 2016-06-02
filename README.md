@@ -1,4 +1,10 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/3in8hmcyg11wpcjw)](https://ci.appveyor.com/project/richardszalay/mockhttp)
+| Branch   | Build Status  |
+|----------|:-------------:|
+| master |  [![Build status](https://ci.appveyor.com/api/projects/status/3in8hmcyg11wpcjw/branch/master?svg=true)](https://ci.appveyor.com/project/richardszalay/mockhttp) |
+| netstandard |    [![Build status](https://ci.appveyor.com/api/projects/status/3in8hmcyg11wpcjw/branch/netstandard?svg=true)](https://ci.appveyor.com/project/richardszalay/mockhttp)   |
+
+
+
 
 MockHttp for HttpClient
 =====================

@@ -110,6 +110,39 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             Assert.False(result);
         }
 
+        [Fact]
+        public void Pathless_absolute_url_matches_pathless_absolute_uri()
+        {
+            var result = Test(
+                expected: "http://tempuri.org",
+                actual: "http://tempuri.org"
+                );
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void Pathless_absolute_url_matches_root_absolute_uri()
+        {
+            var result = Test(
+                expected: "http://tempuri.org",
+                actual: "http://tempuri.org/"
+                );
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void Root_absolute_url_matches_pathless_absolute_uri()
+        {
+            var result = Test(
+                expected: "http://tempuri.org/",
+                actual: "http://tempuri.org"
+                );
+
+            Assert.True(result);
+        }
+
         private bool Test(string expected, string actual)
         {
             return new UrlMatcher(expected)
