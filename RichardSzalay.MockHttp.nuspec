@@ -1,19 +1,15 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>RichardSzalay.MockHttp</id>
-    <version>1.0.0-beta</version>
-    <title>MockHttp for HttpClient</title>
+    <id>MockHttpSigned</id>
+    <version>1.2.1</version>
+    <title>Strongly Named MockHttp for HttpClient</title>
     <authors>Richard Szalay</authors>
-    <owners>Richard Szalay</owners>
-    <licenseUrl>https://github.com/richardszalay/mockhttp/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/richardszalay/mockhttp</projectUrl>
+    <owners>Gregory Oschwald </owners>
+    <licenseUrl>https://github.com/oschwald/mockhttp/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/oschwald/mockhttp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Testing layer for Microsoft's HttpClient library</description>
-    <releaseNotes>1.2.1 - HttpResponseMessage.RequestMessage is now assigned correctly
-	  - Form/Query data matching now works with both + and %20 space encodings (thanks Jozef Izso!)
-1.2.0 - Changed PCL profile to support WP8.1
-1.1.0 - Added MockHttpMessageHandler.Fallback and HttpClient passthrough support</releaseNotes>
+    <description>Testing layer for Microsoft's HttpClient library. Use RichardSzalay.MockHttp unless you need a signed assembly.</description>
     <copyright>Copyright 2014 Richard Szalay</copyright>
     <tags>httpclient test mock fake stub</tags>
 	<dependencies>
@@ -23,7 +19,7 @@
 		<frameworkAssembly assemblyName="System.Net" targetFramework="MonoAndroid10" />
 		<frameworkAssembly assemblyName="System.Net" targetFramework="MonoTouch10" />
 	</frameworkAssemblies>
-	
+
   </metadata>
   <files>
     <file src="RichardSzalay.MockHttp.Portable\bin\Release\RichardSzalay.MockHttp.dll" target="lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1" />
