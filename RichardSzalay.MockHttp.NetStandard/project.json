@@ -2,7 +2,11 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "NETStandard.Library": "1.5.0-rc2-24027"
+    "System.Net.Http": "4.1.0",
+	"System.Runtime.Extensions": "4.1.0",
+	"System.Collections": "4.0.11",
+	"System.Linq": "4.1.0",
+	"System.Threading": "4.0.11"
   },
 
   "buildOptions": {
@@ -15,7 +19,6 @@
 
   "frameworks": {
     "netstandard1.1": {
-      "imports": "dnxcore50"
     }
   }
 }

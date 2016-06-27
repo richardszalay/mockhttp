@@ -35,7 +35,7 @@
   </Target>
 
   <Target Name="BuildNetCore" DependsOnTargets="WriteAssemblyVersionInfo">
-    <Exec Command="powershell &quot;.\DownloadNetCoreSdk.ps1&quot; -ToolsPath .dotnetcli"
+    <Exec Command="powershell -ExecutionPolicy RemoteSigned &quot;.\DownloadNetCoreSdk.ps1&quot; -ToolsPath .dotnetcli"
           Condition="!Exists('.dotnetcli')"/>
 
     <Exec Command="..\.dotnetcli\dotnet.exe build -c Release"
