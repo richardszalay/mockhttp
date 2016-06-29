@@ -1,10 +1,6 @@
 [![NuGet](http://img.shields.io/nuget/v/RichardSzalay.MockHttp.svg?style=flat-square)](https://www.nuget.org/packages/RichardSzalay.MockHttp/)
-[![NuGet (pre-release)](http://img.shields.io/nuget/vpre/RichardSzalay.MockHttp.svg?style=flat-square)](https://www.nuget.org/packages/RichardSzalay.MockHttp/)
 
-| Branch   | Build Status  |
-|----------|:-------------:|
-| master |  [![Build status](https://ci.appveyor.com/api/projects/status/3in8hmcyg11wpcjw/branch/master?svg=true)](https://ci.appveyor.com/project/richardszalay/mockhttp) |
-| netstandard |    [![Build status](https://ci.appveyor.com/api/projects/status/3in8hmcyg11wpcjw/branch/netstandard?svg=true)](https://ci.appveyor.com/project/richardszalay/mockhttp)   |
+[![Build status](https://ci.appveyor.com/api/projects/status/3in8hmcyg11wpcjw/branch/master?svg=true)](https://ci.appveyor.com/project/richardszalay/mockhttp)
 
 MockHttp for HttpClient
 =====================
@@ -25,14 +21,14 @@ MockHttp defines a replacement `HttpMessageHandler`, the engine that drives Http
 var mockHttp = new MockHttpMessageHandler();
 
 // Setup a respond for the user api (including a wildcard in the URL)
-mockHttp.When("http://localost/api/user/*")
+mockHttp.When("http://localhost/api/user/*")
         .Respond("application/json", "{'name' : 'Test McGee'}"); // Respond with JSON
 
 // Inject the handler or client into your application code
 var client = new HttpClient(mockHttp);
 
-var response = async client.GetAsync("http://localost/api/user/1234");
-// or without async: var response = client.GetAsync("http://localost/api/user/1234").Result;
+var response = async client.GetAsync("http://localhost/api/user/1234");
+// or without async: var response = client.GetAsync("http://localhost/api/user/1234").Result;
 
 var json = await response.Content.ReadAsStringAsync();
 
