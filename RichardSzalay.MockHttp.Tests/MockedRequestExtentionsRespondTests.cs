@@ -30,6 +30,62 @@ namespace RichardSzalay.MockHttp.Tests
         }
 
         [Fact]
+        public void Respond_HttpContent_Unique()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            var mockedRequest = mockHttp.When("/path");
+            mockedRequest.Respond(req => new StringContent("test", Encoding.UTF8, "text/plain"));
+
+            var contentA = mockedRequest.SendAsync(request, CancellationToken.None).Result.Content;
+            var contentB = mockedRequest.SendAsync(request, CancellationToken.None).Result.Content;
+
+            Assert.NotSame(contentA, contentB);
+        }
+
+        [Fact]
+        public void Respond_String_Unique()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            var mockedRequest = mockHttp.When("/path");
+            mockedRequest.Respond("application/json", "{\"test\":\"value\"}");
+
+            var contentA = mockedRequest.SendAsync(request, CancellationToken.None).Result.Content;
+            var contentB = mockedRequest.SendAsync(request, CancellationToken.None).Result.Content;
+
+            Assert.NotSame(contentA, contentB);
+        }
+
+        [Fact]
+        public void Respond_Stream_Reread_If_Possible()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            var mockedRequest = mockHttp.When("/path");
+            mockedRequest.Respond("text/plain", new MemoryStream(Encoding.UTF8.GetBytes("test")));
+
+            var contentA = mockedRequest.SendAsync(request, CancellationToken.None).Result.Content.ReadAsStringAsync().Result;
+            var contentB = mockedRequest.SendAsync(request, CancellationToken.None).Result.Content.ReadAsStringAsync().Result;
+
+            Assert.NotSame(contentA, contentB);
+        }
+
+        [Fact]
+        public void Respond_Stream_Handler()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            var mockedRequest = mockHttp.When("/path");
+            mockedRequest.Respond("text/plain", req => new MemoryStream(Encoding.UTF8.GetBytes("test")));
+
+            var contentA = mockedRequest.SendAsync(request, CancellationToken.None).Result.Content.ReadAsStringAsync().Result;
+            var contentB = mockedRequest.SendAsync(request, CancellationToken.None).Result.Content.ReadAsStringAsync().Result;
+
+            Assert.NotSame(contentA, contentB);
+        }
+
+        [Fact]
         public void Respond_HttpMessage()
         {
             var expected = new HttpResponseMessage();

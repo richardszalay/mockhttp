@@ -251,7 +251,7 @@ namespace RichardSzalay.MockHttp
         /// <param name="mediaType">The media type of the response</param>
         public static void Respond(this MockedRequest source, HttpStatusCode statusCode, string mediaType, string content)
         {
-            source.Respond(statusCode, new StringContent(content, Encoding.UTF8, mediaType));
+            source.Respond(statusCode, _ => new StringContent(content, Encoding.UTF8, mediaType));
         }
 
         /// <summary>
@@ -274,10 +274,53 @@ namespace RichardSzalay.MockHttp
         /// <param name="mediaType">The media type of the response</param>
         public static void Respond(this MockedRequest source, HttpStatusCode statusCode, string mediaType, Stream content)
         {
-            var streamContent = new StreamContent(content);
-            streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mediaType);
-            
-            source.Respond(statusCode, streamContent);
+            source.Respond(statusCode, _ =>
+            {
+                if (content.CanSeek)
+                {
+                    content.Seek(0L, SeekOrigin.Begin);
+                }
+
+                var ms = new MemoryStream();
+                content.CopyTo(ms);
+                ms.Seek(0L, SeekOrigin.Begin);
+
+                var streamContent = new StreamContent(ms);
+                streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mediaType);
+
+                return streamContent;
+            });
+        }
+
+        /// <summary>
+        /// Sets the response of the current <see cref="T:MockedRequest"/>
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="mediaType">The media type of the response</param>
+        /// <param name="handler">A delegate that will return a content stream at runtime</param>
+        public static void Respond(this MockedRequest source, string mediaType, Func<HttpRequestMessage, Stream> handler)
+        {
+            source.Respond(HttpStatusCode.OK, mediaType, handler);
+        }
+
+        /// <summary>
+        /// Sets the response of the current <see cref="T:MockedRequest"/>
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
+        /// <param name="mediaType">The media type of the response</param>
+        /// <param name="handler">A delegate that will return a content stream at runtime</param>
+        public static void Respond(this MockedRequest source, HttpStatusCode statusCode, string mediaType, Func<HttpRequestMessage, Stream> handler)
+        {
+            source.Respond(statusCode, request =>
+            {
+                var content = handler(request);
+
+                var streamContent = new StreamContent(content);
+                streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mediaType);
+
+                return streamContent;
+            });
         }
 
         /// <summary>
@@ -289,6 +332,30 @@ namespace RichardSzalay.MockHttp
         public static void Respond(this MockedRequest source, string mediaType, Stream content)
         {
             source.Respond(HttpStatusCode.OK, mediaType, content);
+        }
+
+        /// <summary>
+        /// Sets the response of the current <see cref="T:MockedRequest"/>
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="handler">The delegate that will return a <see cref="T:HttpContent"/> determined at runtime</param>
+        public static void Respond(this MockedRequest source, Func<HttpRequestMessage, HttpContent> handler)
+        {
+            source.Respond(HttpStatusCode.OK, handler);
+        }
+
+        /// <summary>
+        /// Sets the response of the current <see cref="T:MockedRequest"/>
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
+        /// <param name="handler">The delegate that will return a <see cref="T:HttpContent"/> determined at runtime</param>
+        public static void Respond(this MockedRequest source, HttpStatusCode statusCode, Func<HttpRequestMessage, HttpContent> handler)
+        {
+            source.Respond(req => new HttpResponseMessage(statusCode)
+            {
+                Content = handler(req)
+            });
         }
 
         /// <summary>
