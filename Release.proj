@@ -56,7 +56,7 @@
 			<NuSpecFiles Include="*.nuspec" />
 		</ItemGroup>
 		
-		<Exec Command="$(NuGetCli) push @(NuSpecFiles->'%(Filename)').$(FullPackageVersion).nupkg -NonInteractive" />
+		<Exec Command="$(NuGetCli) push @(NuSpecFiles->'%(Filename)').$(FullPackageVersion).nupkg -Source nuget.org -NonInteractive -ApiKey $(NuGetApiKey)" />
 	
 	</Target>
 
