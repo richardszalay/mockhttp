@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Portable328", "RichardSzalay.MockHttp.Portable328\RichardSzalay.MockHttp.Portable328.csproj", "{E388BEFC-F356-49D3-A29C-296A59FD27DD}"
 EndProject
@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		AssemblyVersionInfo.cs = AssemblyVersionInfo.cs
+		CHANGELOG = CHANGELOG
 		DownloadNetCoreSdk.ps1 = DownloadNetCoreSdk.ps1
 		LICENSE = LICENSE
 		README.md = README.md
@@ -35,11 +36,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Port
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{f9679562-4076-4ca2-9d3c-34a04a47ee1b}*SharedItemsImports = 4
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{577ec1e5-e2b6-4170-aeac-74bac282cac1}*SharedItemsImports = 4
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{38599c87-9e21-40ba-8417-7d263b6585a6}*SharedItemsImports = 4
 		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{21a34759-fae1-48b5-8cfe-2ea1b9befcb8}*SharedItemsImports = 13
+		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{38599c87-9e21-40ba-8417-7d263b6585a6}*SharedItemsImports = 4
+		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{577ec1e5-e2b6-4170-aeac-74bac282cac1}*SharedItemsImports = 4
 		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{e388befc-f356-49d3-a29c-296a59fd27dd}*SharedItemsImports = 4
+		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{f9679562-4076-4ca2-9d3c-34a04a47ee1b}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
