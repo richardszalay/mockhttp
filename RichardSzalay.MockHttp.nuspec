@@ -10,7 +10,10 @@
     <projectUrl>https://github.com/richardszalay/mockhttp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Testing layer for Microsoft's HttpClient library</description>
-    <releaseNotes>1.3.1 - Multiple requests to the same mocked handler now return unique response streams. Fixes #21
+    <releaseNotes>1.4.0 - Cancellations and HttpClient timeouts are now supported. Fixes #29
+      - Added a .ToHttpClient() convenience method to HttpClientHandler
+      
+1.3.1 - Multiple requests to the same mocked handler now return unique response streams. Fixes #21
       
 1.3.0 - Added support for .NET Core via the .NET Standard Library (1.1)
 	  - Relative URLs now match correctly on Xamarin Android
