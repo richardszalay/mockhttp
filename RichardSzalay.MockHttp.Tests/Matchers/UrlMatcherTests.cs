@@ -143,6 +143,17 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             Assert.True(result);
         }
 
+        [Fact]
+        public void Wildcard_matches_all_urls()
+        {
+            var result = Test(
+                expected: "*",
+                actual: "http://tempuri.org/something"
+                );
+
+            Assert.True(result);
+        }
+
         private bool Test(string expected, string actual)
         {
             return new UrlMatcher(expected)
