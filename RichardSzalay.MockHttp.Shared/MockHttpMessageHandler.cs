@@ -127,12 +127,32 @@ namespace RichardSzalay.MockHttp
                 {
                     Interlocked.Decrement(ref outstandingRequests);
 
-                    return handler.SendAsync(request, cancellationToken)
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    var completionSource = new TaskCompletionSource<HttpResponseMessage>();
+
+                    cancellationToken.Register(() => completionSource.TrySetCanceled());
+
+                    handler.SendAsync(request, cancellationToken)
                         .ContinueWith(resp =>
                         {
                             resp.Result.RequestMessage = request;
-                            return resp.Result;
+                            
+                            if (resp.IsFaulted)
+                            {
+                                completionSource.TrySetException(resp.Exception);
+                            }
+                            else if (resp.IsCanceled)
+                            {
+                                completionSource.TrySetCanceled();
+                            }
+                            else
+                            {
+                                completionSource.TrySetResult(resp.Result);
+                            }
                         });
+
+                    return completionSource.Task;
                 }).Unwrap();
         }
 
