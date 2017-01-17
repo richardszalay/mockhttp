@@ -81,6 +81,14 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
+        /// Creates an HttpClient instance that uses this MockHttpMessageHandler
+        /// </summary>
+        public HttpClient ToHttpClient()
+        {
+            return new HttpClient(this);
+        }
+
+        /// <summary>
         /// Maps the request to the most appropriate configured response
         /// </summary>
         /// <param name="request">The request being sent</param>
