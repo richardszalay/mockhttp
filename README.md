@@ -25,7 +25,7 @@ mockHttp.When("http://localhost/api/user/*")
         .Respond("application/json", "{'name' : 'Test McGee'}"); // Respond with JSON
 
 // Inject the handler or client into your application code
-var client = new HttpClient(mockHttp);
+var client = mockHttp.ToHttpClient();
 
 var response = await client.GetAsync("http://localhost/api/user/1234");
 // or without async: var response = client.GetAsync("http://localhost/api/user/1234").Result;
@@ -83,7 +83,7 @@ mockHttp.Expect("/users/me")
         .WithQueryString("access_token", "new_token")
         .Respond("application/json", "{'name' : 'Test McGee'}");
     
-var httpClient = new HttpClient(mockHttp);
+var httpClient = mockHttp.ToHttpClient();
 
 var userService = new UserService(httpClient);
 
