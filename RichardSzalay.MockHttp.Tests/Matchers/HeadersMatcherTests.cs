@@ -19,13 +19,15 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
                 expected: new HeadersMatcher(new Dictionary<string, string>
                     {
                         { "Authorization", "Basic abcdef" },
-                        { "Accept", "application/json" }
+                        { "Accept", "application/json" },
+                        { "Content-Type", "text/plain; charset=utf-8" }
                     }),
                 actual: req =>
                 {
                     req.Headers.Authorization = new AuthenticationHeaderValue("Basic", "abcdef");
                     req.Headers.Accept.Clear();
                     req.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    req.Content = new StringContent("test", Encoding.UTF8, "text/plain");
                 }
                 );
 
