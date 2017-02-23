@@ -40,11 +40,14 @@ namespace RichardSzalay.MockHttp.Matchers
         /// <returns>true if the request was matched; false otherwise</returns>
         public bool Matches(HttpRequestMessage message)
         {
-            return this.headers.All(h => MatchesHeader(h, message.Headers));
+            return this.headers.All(h => MatchesHeader(h, message.Headers) || MatchesHeader(h, message.Content?.Headers));
         }
 
-        private bool MatchesHeader(KeyValuePair<string, string> matchHeader, System.Net.Http.Headers.HttpRequestHeaders messageHeader)
+        private bool MatchesHeader(KeyValuePair<string, string> matchHeader, System.Net.Http.Headers.HttpHeaders messageHeader)
         {
+            if (messageHeader == null)
+                return false;
+
             IEnumerable<string> values;
 
             if (!messageHeader.TryGetValues(matchHeader.Key, out values))
