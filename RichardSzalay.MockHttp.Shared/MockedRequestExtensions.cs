@@ -375,7 +375,7 @@ namespace RichardSzalay.MockHttp
         /// <param name="httpClient">The <see cref="T:HttpClient"/> that will handle requests</param>
         public static void Respond(this MockedRequest source, HttpClient httpClient)
         {
-            source.Respond(req => httpClient.SendAsync(req));
+            source.Respond(req => httpClient.SendAsync(CloneRequest(req)));
         }
 
         /// <summary>
@@ -399,6 +399,20 @@ namespace RichardSzalay.MockHttp
             {
                 throw exception;
             });
+        }
+
+        private static HttpRequestMessage CloneRequest(HttpRequestMessage message)
+        {
+            var cloned = new HttpRequestMessage(message.Method, message.RequestUri);
+
+            cloned.Content = message.Content;
+
+            foreach(var header in message.Headers)
+            {
+                cloned.Headers.Add(header.Key, header.Value);
+            }
+
+            return cloned;
         }
     }
 }
