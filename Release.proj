@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+  <!-- Appveyor variables -->
+  <PropertyGroup>
+    <PackageVersion Condition="'$(APPVEYOR_BUILD_VERSION)' != '' And '$(PackageVersion)' == ''">$(APPVEYOR_BUILD_VERSION)</PackageVersion>
+    <PackageVersionSuffix Condition="'$(APPVEYOR)' == 'True'">pre</PackageVersionSuffix>
+  </PropertyGroup>
+  
 	<PropertyGroup>
 		<FullPackageVersion>$(PackageVersion)</FullPackageVersion>
 		<FullPackageVersion Condition="'$(PackageVersionSuffix)' != ''">$(FullPackageVersion)-$(PackageVersionSuffix)</FullPackageVersion>
@@ -8,7 +14,7 @@
 
 	<Target Name="WriteAssemblyVersionInfo">
 		<Error Condition="'$(PackageVersion)' == ''"
-				Text="PackageVersion must be specified" />
+				Text="PackageVersion must be specified $(APPVEYOR_BUILD_VERSION)" />
 	
 		<ItemGroup>
 			<AssemblyVersionLines 
@@ -32,7 +38,7 @@
   </Target>
 	
   <Target Name="Build" DependsOnTargets="PatchVersion">
-    <MSBuild Projects="RichardSzalay.MockHttp.sln" Properties="Configuration=Release" />
+    <MSBuild Projects="RichardSzalay.MockHttp.sln" Properties="Configuration=Release;Platform=Any CPU" />
   </Target>
 
 	<Target Name="Package" DependsOnTargets="Build">
