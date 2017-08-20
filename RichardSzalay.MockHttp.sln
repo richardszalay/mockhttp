@@ -1,20 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Portable328", "RichardSzalay.MockHttp.Portable328\RichardSzalay.MockHttp.Portable328.csproj", "{E388BEFC-F356-49D3-A29C-296A59FD27DD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Tests", "RichardSzalay.MockHttp.Tests\RichardSzalay.MockHttp.Tests.csproj", "{1E613FE0-AA8E-40D5-B310-BCD2A798CB1D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0A5627BF-2EF3-4826-8BE3-4619A5DF1045}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RichardSzalay.MockHttp.Shared", "RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.shproj", "{21A34759-FAE1-48B5-8CFE-2EA1B9BEFCB8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Net40", "RichardSzalay.MockHttp.Net40\RichardSzalay.MockHttp.Net40.csproj", "{577EC1E5-E2B6-4170-AEAC-74BAC282CAC1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7DE23763-EAF5-4CDA-B937-1B8C6159104D}"
 	ProjectSection(SolutionItems) = preProject
@@ -28,9 +20,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		RichardSzalay.MockHttp.nuspec = RichardSzalay.MockHttp.nuspec
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Portable328", "RichardSzalay.MockHttp.Portable328\RichardSzalay.MockHttp.Portable328.csproj", "{E388BEFC-F356-49D3-A29C-296A59FD27DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Tests", "RichardSzalay.MockHttp.Tests\RichardSzalay.MockHttp.Tests.csproj", "{1E613FE0-AA8E-40D5-B310-BCD2A798CB1D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RichardSzalay.MockHttp.Shared", "RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.shproj", "{21A34759-FAE1-48B5-8CFE-2EA1B9BEFCB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Net40", "RichardSzalay.MockHttp.Net40\RichardSzalay.MockHttp.Net40.csproj", "{577EC1E5-E2B6-4170-AEAC-74BAC282CAC1}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Net45", "RichardSzalay.MockHttp.Net45\RichardSzalay.MockHttp.Net45.csproj", "{F9679562-4076-4CA2-9D3C-34A04A47EE1B}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RichardSzalay.MockHttp.NetStandard", "RichardSzalay.MockHttp.NetStandard\RichardSzalay.MockHttp.NetStandard.xproj", "{1B510EB2-8216-4298-82B4-C1C14A220524}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichardSzalay.MockHttp.NetStandard", "RichardSzalay.MockHttp.NetStandard\RichardSzalay.MockHttp.NetStandard.csproj", "{1B510EB2-8216-4298-82B4-C1C14A220524}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Portable111", "RichardSzalay.MockHttp.Portable111\RichardSzalay.MockHttp.Portable111.csproj", "{38599C87-9E21-40BA-8417-7D263B6585A6}"
 EndProject
@@ -152,5 +152,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D349BD47-EE2A-4FDF-954F-C2F511313D79}
 	EndGlobalSection
 EndGlobal

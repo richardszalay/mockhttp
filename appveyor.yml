@@ -1,6 +1,8 @@
 platform: Any CPU
 configuration: Release
 
+image: Visual Studio 2017
+
 build:
   parallel: true
   project: RichardSzalay.MockHttp.sln

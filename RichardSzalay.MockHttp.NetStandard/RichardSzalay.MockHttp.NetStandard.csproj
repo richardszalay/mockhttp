@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.1</TargetFramework>
+    <AssemblyName>RichardSzalay.MockHttp</AssemblyName>
+    <PackageId>RichardSzalay.MockHttp.NetStandard</PackageId>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <NuspecFile>..\RichardSzalay.MockHttp.nuspec</NuspecFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\RichardSzalay.MockHttp.Shared\**\*.cs;..\AssemblyVersionInfo.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--<PackageReference Include="System.Net.Http" Version="4.1.1" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.1.0" />
+    <PackageReference Include="System.Collections" Version="4.0.11" />
+    <PackageReference Include="System.Linq" Version="4.1.0" />
+    <PackageReference Include="System.Threading" Version="4.0.11" />-->
+  </ItemGroup>
+
+</Project>
