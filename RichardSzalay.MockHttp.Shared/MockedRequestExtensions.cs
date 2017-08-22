@@ -203,6 +203,7 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="message">The complete <see cref="T:HttpResponseMessage"/> to return</param>
+        [Obsolete("Using this overload is not recommended. Instead, use Response(req => new HttpResponseMessage(...))")]
         public static void Respond(this MockedRequest source, HttpResponseMessage message)
         {
             source.Respond(_ => TaskEx.FromResult(message));
@@ -215,7 +216,7 @@ namespace RichardSzalay.MockHttp
         /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
         public static void Respond(this MockedRequest source, HttpStatusCode statusCode)
         {
-            source.Respond(new HttpResponseMessage(statusCode));
+            source.Respond(req => new HttpResponseMessage(statusCode));
         }
 
         /// <summary>
@@ -226,10 +227,10 @@ namespace RichardSzalay.MockHttp
         /// <param name="content">The content of the response</param>
         public static void Respond(this MockedRequest source, HttpStatusCode statusCode, HttpContent content)
         {
-            HttpResponseMessage message = new HttpResponseMessage(statusCode);
-            message.Content = content;
-
-            source.Respond(message);
+            source.Respond(req => new HttpResponseMessage(statusCode)
+            {
+                Content = content
+            });
         }
 
         /// <summary>
