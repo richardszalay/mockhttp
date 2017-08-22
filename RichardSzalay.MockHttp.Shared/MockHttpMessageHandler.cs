@@ -27,7 +27,7 @@ namespace RichardSzalay.MockHttp
         {
             AutoFlush = true;
             fallback = new MockedRequest();
-            fallback.Respond(fallbackResponse = CreateDefaultFallbackMessage());
+            fallback.Respond(req => (fallbackResponse = CreateDefaultFallbackMessage()));
         }
 
         private bool autoFlush;
