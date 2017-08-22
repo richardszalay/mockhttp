@@ -42,7 +42,7 @@
   </Target>
 
 	<Target Name="Package" DependsOnTargets="Build">
-		<Exec Command="dotnet pack RichardSzalay.MockHttp.NetStandard\RichardSzalay.MockHttp.NetStandard.csproj" />
+		<Exec Command="dotnet pack -o .. RichardSzalay.MockHttp.NetStandard\RichardSzalay.MockHttp.NetStandard.csproj" />
 	</Target>
 	
 	<Target Name="Push" DependsOnTargets="Package">
@@ -50,7 +50,7 @@
 			<NuSpecFiles Include="*.nuspec" />
 		</ItemGroup>
 		
-		<Exec Command="dotnet push @(NuSpecFiles->'%(Filename)').$(FullPackageVersion).nupkg -Source nuget.org -NonInteractive -ApiKey $(NuGetApiKey)" />
+		<Exec Command="dotnet nuget push @(NuSpecFiles->'%(Filename)').$(FullPackageVersion).nupkg --source nuget.org -k $(NuGetApiKey)" />
 	</Target>
 
 </Project>
