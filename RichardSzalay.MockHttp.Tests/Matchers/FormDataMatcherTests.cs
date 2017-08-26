@@ -80,19 +80,32 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
         }
 
         [Fact]
-        public void Should_not_fail_for_additional_keys()
+        public void Should_not_fail_for_additional_keys_when_exact_is_false()
         {
             bool result = Test(
                 expected: "key1=value1&key2=value2",
-                actual: "key1=value1&key2=value2&key3=value3"
+                actual: "key1=value1&key2=value2&key3=value3",
+                exact: false
                 );
 
             Assert.True(result);
         }
 
-        private bool Test(string expected, string actual)
+        [Fact]
+        public void Should_fail_for_additional_keys_when_exact_is_true()
         {
-            var sut = new FormDataMatcher(expected);
+            bool result = Test(
+                expected: "key1=value1&key2=value2",
+                actual: "key1=value1&key2=value2&key3=value3",
+                exact: true
+                );
+
+            Assert.False(result);
+        }
+
+        private bool Test(string expected, string actual, bool exact = false)
+        {
+            var sut = new FormDataMatcher(expected, exact);
 
             FormUrlEncodedContent content = new FormUrlEncodedContent(
                 HttpHelpers.ParseQueryString(actual)
