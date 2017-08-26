@@ -203,7 +203,7 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="message">The complete <see cref="T:HttpResponseMessage"/> to return</param>
-        [Obsolete("Using this overload is not recommended. Instead, use Response(req => new HttpResponseMessage(...))")]
+        [Obsolete("Using this overload is not recommended. Instead, use Respond(req => new HttpResponseMessage(...))")]
         public static void Respond(this MockedRequest source, HttpResponseMessage message)
         {
             source.Respond(_ => TaskEx.FromResult(message));
