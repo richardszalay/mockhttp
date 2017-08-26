@@ -78,7 +78,7 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
         }
 
         [Fact]
-        public void Should_not_fail_for_additional_keys()
+        public void Should_not_fail_for_additional_keys_when_exact_is_false()
         {
             bool result = Test(
                 expected: "key1=value1&key2=value2",
@@ -86,6 +86,18 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
                 );
 
             Assert.True(result);
+        }
+
+        [Fact]
+        public void Should_fail_for_additional_keys_when_exact_is_true()
+        {
+            bool result = Test(
+                expected: "key1=value1&key2=value2",
+                actual: "key1=value1&key2=value2&key3=value3",
+                exact: true
+                );
+
+            Assert.False(result);
         }
 
         [Fact]
@@ -103,9 +115,9 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             Assert.True(actualMatch, "QueryStringMatcher.Matches() should match dictionary data with URL encoded query string values.");
         }
 
-        private bool Test(string expected, string actual)
+        private bool Test(string expected, string actual, bool exact = false)
         {
-            var sut = new QueryStringMatcher(expected);
+            var sut = new QueryStringMatcher(expected, exact);
 
             return sut.Matches(new HttpRequestMessage(HttpMethod.Get, 
                 "http://tempuri.org/home?" + actual));
