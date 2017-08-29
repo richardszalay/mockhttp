@@ -15,8 +15,8 @@ namespace RichardSzalay.MockHttp
     {
         private Queue<IMockedRequest> requestExpectations = new Queue<IMockedRequest>();
         private List<IMockedRequest> backendDefinitions = new List<IMockedRequest>();
-
-
+        private Dictionary<IMockedRequest, int> matchCounts = new Dictionary<IMockedRequest, int>();
+        private object lockObject = new object();
 
         private int outstandingRequests = 0;
 
@@ -126,6 +126,8 @@ namespace RichardSzalay.MockHttp
         {
             Interlocked.Increment(ref outstandingRequests);
 
+            IncrementMatchCount(handler);
+
             if (!AutoFlush)
             {
                 flusher = new TaskCompletionSource<object>();
@@ -163,6 +165,15 @@ namespace RichardSzalay.MockHttp
 
                     return completionSource.Task;
                 }).Unwrap();
+        }
+
+        private void IncrementMatchCount(IMockedRequest handler)
+        {
+            lock(lockObject)
+            {
+                matchCounts.TryGetValue(handler, out int count);
+                matchCounts[handler] = count + 1;
+            }
         }
 
         private HttpResponseMessage fallbackResponse = null;
@@ -240,6 +251,20 @@ namespace RichardSzalay.MockHttp
         public void AddBackendDefinition(IMockedRequest handler)
         {
             backendDefinitions.Add(handler);
+        }
+
+        /// <summary>
+        /// Returns the number of times the specified request specification has been met
+        /// </summary>
+        /// <param name="request">The mocked request</param>
+        /// <returns>The number of times the request has matched</returns>
+        public int GetMatchCount(IMockedRequest request)
+        {
+            lock(lockObject)
+            {
+                matchCounts.TryGetValue(request, out int count);
+                return count;
+            }
         }
 
         /// <summary>

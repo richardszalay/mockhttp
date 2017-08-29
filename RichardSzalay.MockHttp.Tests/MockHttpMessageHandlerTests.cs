@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace RichardSzalay.MockHttp.Tests
 {
@@ -283,6 +284,41 @@ namespace RichardSzalay.MockHttp.Tests
             var result = client.GetAsync("http://invalid/test").Result;
 
             Assert.Equal("{'status' : 'OK'}", result.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
+        public void GetMatchCount_returns_zero_when_never_called()
+        {
+            var mockHandler = new MockHttpMessageHandler();
+            var client = new HttpClient(mockHandler);
+
+            var testRequest = mockHandler
+                .When("/test")
+                .Respond("application/json", "{'status' : 'OK'}");
+
+            Assert.Equal(0, mockHandler.GetMatchCount(testRequest));
+        }
+
+        [Fact]
+        public async Task GetMatchCount_returns_call_count()
+        {
+            var mockHandler = new MockHttpMessageHandler();
+            var client = new HttpClient(mockHandler);
+
+            var testARequest = mockHandler
+                .When("/testA")
+                .Respond("application/json", "{'status' : 'OK'}");
+
+            var testBRequest = mockHandler
+                .When("/testB")
+                .Respond("application/json", "{'status' : 'OK'}");
+
+            await client.GetAsync("http://invalid/testA");
+            await client.GetAsync("http://invalid/testA");
+            await client.GetAsync("http://invalid/testB");
+
+            Assert.Equal(2, mockHandler.GetMatchCount(testARequest));
+            Assert.Equal(1, mockHandler.GetMatchCount(testBRequest));
         }
     }
 }
