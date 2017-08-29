@@ -9,6 +9,7 @@
     <Import_RootNamespace>RichardSzalay.MockHttp.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BackendDefinitionBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IMockedRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IMockedRequestMatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Matchers\AnyMatcher.cs" />

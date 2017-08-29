@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace RichardSzalay.MockHttp.Tests
@@ -280,6 +281,44 @@ namespace RichardSzalay.MockHttp.Tests
                 .Respond("application/json", "{'status' : 'Test'}");
 
             mockHandler.ResetExpectations();
+
+            var result = client.GetAsync("http://invalid/test").Result;
+
+            Assert.Equal("{'status' : 'OK'}", result.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
+        public void Should_not_match_when_if_expectations_exist_and_behavhior_is_NoExpectations()
+        {
+            var mockHandler = new MockHttpMessageHandler();
+            var client = new HttpClient(mockHandler);
+
+            mockHandler
+                .When("/test")
+                .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
+
+            mockHandler
+                .Expect("/testA")
+                .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'Test'}");
+
+            var result = client.GetAsync("http://invalid/test").Result;
+
+            Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+        }
+
+        [Fact]
+        public void Should_match_when_if_expectations_exist_and_behavhior_is_Always()
+        {
+            var mockHandler = new MockHttpMessageHandler(BackendDefinitionBehavior.Always);
+            var client = new HttpClient(mockHandler);
+
+            mockHandler
+                .When("/test")
+                .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
+
+            mockHandler
+                .Expect("/testA")
+                .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'Test'}");
 
             var result = client.GetAsync("http://invalid/test").Result;
 

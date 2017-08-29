@@ -23,14 +23,17 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Creates a new instance of MockHttpMessageHandler
         /// </summary>
-        public MockHttpMessageHandler()
+        public MockHttpMessageHandler(BackendDefinitionBehavior backendDefinitionBehavior = BackendDefinitionBehavior.NoExpectations)
         {
+            this.backendDefinitionBehavior = backendDefinitionBehavior;
+
             AutoFlush = true;
             fallback = new MockedRequest();
             fallback.Respond(req => (fallbackResponse = CreateDefaultFallbackMessage()));
         }
 
         private bool autoFlush;
+        readonly BackendDefinitionBehavior backendDefinitionBehavior;
 
         /// <summary>
         /// Requests received while AutoFlush is true will complete instantly. 
@@ -108,7 +111,8 @@ namespace RichardSzalay.MockHttp
                     return SendAsync(handler, request, cancellationToken);
                 }
             }
-            else
+
+            if (backendDefinitionBehavior == BackendDefinitionBehavior.Always || requestExpectations.Count == 0)
             {
                 foreach (var handler in backendDefinitions)
                 {
