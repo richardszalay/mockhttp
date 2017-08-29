@@ -6,11 +6,11 @@
     public enum BackendDefinitionBehavior
     {
         /// <summary>
-        /// Will not match a Backend Definition if Request Expectations exist
+        /// Will not match Backend Definitions if Request Expectations exist
         /// </summary>
         NoExpectations = 0,
         /// <summary>
-        /// Will match Backend Definition if the next Request Expectation did not match
+        /// Will match Backend Definitions if the next Request Expectation did not match
         /// </summary>
         Always = 1
     }
