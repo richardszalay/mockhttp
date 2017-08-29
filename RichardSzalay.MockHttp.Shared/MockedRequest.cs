@@ -74,9 +74,10 @@ namespace RichardSzalay.MockHttp
         /// Supplies a response to the submitted request
         /// </summary>
         /// <param name="handler">The callback that will be used to supply the response</param>
-        public void Respond(Func<HttpRequestMessage, Task<HttpResponseMessage>> handler)
+        public MockedRequest Respond(Func<HttpRequestMessage, Task<HttpResponseMessage>> handler)
         {
             this.response = handler;
+            return this;
         }
 
         /// <summary>
