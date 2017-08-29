@@ -66,6 +66,32 @@ namespace RichardSzalay.MockHttp
 
             return source;
         }
+        
+        /// <summary>
+        /// Includes requests that contain all of the specified query string values and no others
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="values">The query string key/value pairs to match</param>
+        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+        public static MockedRequest WithExactQueryString(this MockedRequest source, IEnumerable<KeyValuePair<string, string>> values)
+        {
+            source.With(new QueryStringMatcher(values, true));
+
+            return source;
+        }
+
+        /// <summary>
+        /// Includes requests that contain all of the specified query string values and no others
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="values">A formatted query string containing key/value pairs to match</param>
+        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+        public static MockedRequest WithExactQueryString(this MockedRequest source, string values)
+        {
+            source.With(new QueryStringMatcher(values, true));
+
+            return source;
+        }
 
         /// <summary>
         /// Includes requests contain a particular form data value
@@ -104,6 +130,32 @@ namespace RichardSzalay.MockHttp
         public static MockedRequest WithFormData(this MockedRequest source, string values)
         {
             source.With(new FormDataMatcher(values));
+
+            return source;
+        }
+
+        /// <summary>
+        /// Includes requests that contain all of the specified form data values and no others
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="values">The query string key/value pairs to match</param>
+        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+        public static MockedRequest WithExactFormData(this MockedRequest source, IEnumerable<KeyValuePair<string, string>> values)
+        {
+            source.With(new FormDataMatcher(values, true));
+
+            return source;
+        }
+
+        /// <summary>
+        /// Includes requests that contain all of the specified form data values and no others
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="values">A formatted query string containing key/value pairs to match</param>
+        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+        public static MockedRequest WithExactFormData(this MockedRequest source, string values)
+        {
+            source.With(new FormDataMatcher(values, true));
 
             return source;
         }
@@ -203,7 +255,7 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="source">The source mocked request</param>
         /// <param name="message">The complete <see cref="T:HttpResponseMessage"/> to return</param>
-        [Obsolete("Using this overload is not recommended. Instead, use Response(req => new HttpResponseMessage(...))")]
+        [Obsolete("Using this overload is not recommended. Instead, use Respond(req => new HttpResponseMessage(...))")]
         public static MockedRequest Respond(this MockedRequest source, HttpResponseMessage message)
         {
             return source.Respond(_ => TaskEx.FromResult(message));

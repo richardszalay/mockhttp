@@ -1,3 +1,5 @@
+3.1.0 - Bump major version. Fixes #50
+
 1.5.1 - Respond(HttpClient) now works as expected. Fixes #39
       - HttpResponseMessage can be disposed without breaking future requests. Fixes #33
 
