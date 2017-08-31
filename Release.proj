@@ -36,8 +36,12 @@
   <Target Name="PatchVersion" DependsOnTargets="WriteAssemblyVersionInfo;PatchNuspecVersion">
     
   </Target>
+
+  <Target Name="Restore">
+    <MSBuild Projects="RichardSzalay.MockHttp.sln" Targets="Restore" />
+  </Target>
 	
-  <Target Name="Build" DependsOnTargets="PatchVersion">
+  <Target Name="Build" DependsOnTargets="PatchVersion;Restore">
     <MSBuild Projects="RichardSzalay.MockHttp.sln" Properties="Configuration=Release;Platform=Any CPU" />
   </Target>
 
