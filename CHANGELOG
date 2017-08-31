@@ -1,3 +1,8 @@
+3.2.0 - MockHttpMessageHandler now tracks successful matches. Fixes #35
+      - Added WithExactQueryString / WithExactFormData overloads. Fixes #37
+      - Added BackendDefinitionBehavior to allow matching Backend Definitions when Request Expectations exist, but don't match. Fixes #45
+      - Fixed typo in Response(HttpResponseMessage) obsolete message. Fixes #44
+
 3.1.0 - Bump major version. Fixes #50
 
 1.5.1 - Respond(HttpClient) now works as expected. Fixes #39
