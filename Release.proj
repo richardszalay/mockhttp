@@ -38,7 +38,7 @@
   </Target>
 
   <Target Name="Restore">
-    <MSBuild Projects="RichardSzalay.MockHttp.sln" Targets="Restore" />
+    <MSBuild Projects="RichardSzalay.MockHttp.sln" Targets="Restore" Properties="Configuration=Release;Platform=Any CPU" />
   </Target>
 	
   <Target Name="Build" DependsOnTargets="PatchVersion;Restore">
