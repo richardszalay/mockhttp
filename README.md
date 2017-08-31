@@ -11,8 +11,6 @@ MockHttp is a testing layer for Microsoft's HttpClient library. It allows stubbe
 
     PM> Install-Package RichardSzalay.MockHttp
 
-**Warning:** There is a [bug](https://github.com/dotnet/cli/issues/7492) in the dotnet 2.0 CLI that causes the erroneously published (and since unlisted) 3.0.0 of MockHttp to be installed. If this occurs please re-install specifying the [latest published version](https://www.nuget.org/packages/RichardSzalay.MockHttp/).
-
 ## How?
 
 MockHttp defines a replacement `HttpMessageHandler`, the engine that drives HttpClient, that provides a fluent configuration API and provides a canned response. The caller (eg. your application's service layer) remains unaware of its presence.
