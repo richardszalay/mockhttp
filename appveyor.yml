@@ -6,6 +6,9 @@ image: Visual Studio 2017
 build:
   project: Release.proj
 
+before_build:
+  - nuget restore RichardSzalay.MockHttp.sln
+
 after_build:
   - nuget pack RichardSzalay.MockHttp.nuspec -version %APPVEYOR_BUILD_VERSION%-pre
   - appveyor PushArtifact RichardSzalay.MockHttp.%APPVEYOR_BUILD_VERSION%-pre.nupkg
