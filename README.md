@@ -42,7 +42,7 @@ Console.Write(json); // {'name' : 'Test McGee'}
 
 `MockHttpMessageHandler` defines both Both `When` and `Expect`, which can be used to define responses. They both expose the same fluent API, but each works in a slightly different way.
 
-Using `When` specifies a "Backend Definition". Backend Definitions can be matched against multiple times and in any order, but they won't match if there are any outstanding Request Expectations present. If no Request Expectations match, `Fallback` will be used.
+Using `When` specifies a "Backend Definition". Backend Definitions can be matched against multiple times and in any order, but they won't match if there are any outstanding Request Expectations present (unless `BackendDefinitionBehavior.Always` is specified). If no Request Expectations match, `Fallback` will be used.
 
 Using `Expect` specifies a "Request Expectation". Request Expectations match only once and in the order they were added in. Only once all expectations have been satisfied will Backend Definitions be evaluated. Calling `mockHttp.VerifyNoOutstandingExpectation()` will assert that there are no expectations that have yet to be called. Calling `ResetExpectations` clears the the queue of expectations.
 
@@ -56,14 +56,60 @@ Passing an HTTP method and URL to `When` or `Expect` is equivalent to applying a
 
 | Method | Description |
 | ------ | ----------- |
-| <pre>WithQueryString("key", "value")<br /><br />WithQueryString("key=value&other=value")<br /><br />WithQueryString(new Dictionary&lt;string,string><br />{<br />  { "key", "value" },<br />  { "other", "value" }<br />}<br /></pre> | Matches on one or more querystring values |
-| <pre>WithFormData("key", "value")<br /><br />WithFormData("key=value&other=value")<br /><br />WithFormData(new Dictionary&lt;string,string><br />{<br />  { "key", "value" },<br />  { "other", "value" }<br />})<br /></pre> | Matches on one or more form data values |
+| <pre>WithQueryString("key", "value")<br /><br />WithQueryString("key=value&other=value")<br /><br />WithQueryString(new Dictionary&lt;string,string><br />{<br />  { "key", "value" },<br />  { "other", "value" }<br />}<br /></pre> | Matches on one or more querystring values, ignoring additional values |
+| <pre>WithExactQueryString("key=value&other=value")<br /><br />WithExactQueryString(new Dictionary&lt;string,string><br />{<br />  { "key", "value" },<br />  { "other", "value" }<br />}<br /></pre> | Matches on one or more querystring values, rejecting additional values |
+| <pre>WithFormData("key", "value")<br /><br />WithFormData("key=value&other=value")<br /><br />WithFormData(new Dictionary&lt;string,string><br />{<br />  { "key", "value" },<br />  { "other", "value" }<br />})<br /></pre> | Matches on one or more form data values, ignoring additional values |
+| <pre>WithExactFormData("key=value&other=value")<br /><br />WithExactFormData(new Dictionary&lt;string,string><br />{<br />  { "key", "value" },<br />  { "other", "value" }<br />})<br /></pre> | Matches on one or more form data values, rejecting additional values |
 | <pre>WithContent("{'name':'McGee'}")</pre> | Matches on the (post) content of the request |
 | <pre>WithPartialContent("McGee")</pre> | Matches on the partial (post) content of the request |
 | <pre>WithHeaders("Authorization", "Basic abcdef")<br /><br />WithHeaders(@"Authorization: Basic abcdef<br />Accept: application/json")<br /><br />WithHeaders(new Dictionary&lt;string,string><br />{<br />  { "Authorization", "Basic abcdef" },<br />  { "Accept", "application/json" }<br />})<br /></pre> | Matches on one or more HTTP header values |
 | <pre>With(request => request.Content.Length > 50)</pre> | Applies custom matcher logic against an HttpRequestMessage |
 
 These methods are chainable, making complex requirements easy to descirbe.
+
+### Verifying Matches
+
+When using Request Expectations via `Expect`, `MockHttpMessageHandler.VerifyNoOutstandingExpectation()` can be used to assert that there are no unmatched requests.
+
+For other use cases, `GetMatchCount` will return the number of times a mocked request (returned by When / Expect) was called. This even works with `Fallback`, so you 
+can check how many unmatched requests there were.
+
+```csharp
+var mockHttp = new MockHttpMessageHandler();
+
+var request = mockHttp.When("http://localhost/api/user/*")
+        .Respond("application/json", "{'name' : 'Test McGee'}");
+
+var client = mockHttp.ToHttpClient();
+
+await client.GetAsync("http://localhost/api/user/1234");
+await client.GetAsync("http://localhost/api/user/2345");
+await client.GetAsync("http://localhost/api/user/3456");
+
+Console.Write(mockHttp.GetMatchCount(request)); // 3
+```
+
+### Match Behavior
+
+Each request is evaluated using the following process:
+
+1. If Request Expectations exist and the request matches the next expectation in the queue, the expectation is used to process the response and is then removed from the queue
+2. If no Request Expectations exist, or the handler was constructed with `BackendDefinitionBehavior.Always`, the first matching Backend Definition processes the response
+3. `MockHttpMessageHandler.Fallback` handles the request
+
+### Fallback
+
+The `Fallback` property handles all requests that weren't handled by the match behavior. Since it is also a mocked request, any of the `Respond` overloads can be applied.
+
+```
+// Unhandled requests should throw an exception
+mockHttp.Fallback.Throw(new InvalidOperationException("No matching mock handler"));
+
+// Unhandled requests should be executed against the network
+mockHttp.Fallback.Respond(new HttpClient());
+```
+
+The default fallback behavior is to return an empty response the status "404 No matching mock handler".
 
 ### Examples
 
