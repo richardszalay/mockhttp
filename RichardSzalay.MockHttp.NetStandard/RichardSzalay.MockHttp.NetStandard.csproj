@@ -9,6 +9,14 @@
     <NuspecFile>..\RichardSzalay.MockHttp.nuspec</NuspecFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.1\RichardSzalay.MockHttp.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard1.1\RichardSzalay.MockHttp.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\RichardSzalay.MockHttp.Shared\**\*.cs;..\AssemblyVersionInfo.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**" />
   </ItemGroup>
