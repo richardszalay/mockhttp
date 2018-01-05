@@ -131,6 +131,21 @@ namespace RichardSzalay.MockHttp.Tests
         }
 
         [Fact]
+        public void Respond_HttpStatus_headers_HttpContent()
+        {
+            var response = Test(r => r.Respond(HttpStatusCode.Found, new Dictionary<string, string> {
+                { "connection", "keep-alive" },
+                { "x-hello", "mockhttp" }
+            }, new StringContent("test", Encoding.UTF8, "text/plain")));
+
+            Assert.Equal(HttpStatusCode.Found, response.StatusCode);
+            Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
+            Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+            Assert.Equal("keep-alive", response.Headers.Connection.First());
+            Assert.Equal("mockhttp", response.Headers.GetValues("x-hello").First());
+        }
+
+        [Fact]
         public void Respond_mediaTypeString_contentStream()
         {
             MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes("test"));
@@ -143,6 +158,23 @@ namespace RichardSzalay.MockHttp.Tests
         }
 
         [Fact]
+        public void Respond_headers_mediaTypeString_contentStream()
+        {
+            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes("test"));
+
+            var response = Test(r => r.Respond(new Dictionary<string, string> {
+                { "connection", "keep-alive" },
+                { "x-hello", "mockhttp" }
+            }, "text/plain", ms));
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
+            Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+            Assert.Equal("keep-alive", response.Headers.Connection.First());
+            Assert.Equal("mockhttp", response.Headers.GetValues("x-hello").First());
+        }
+
+        [Fact]
         public void Respond_mediaTypeString_contentString()
         {
             var response = Test(r => r.Respond("text/plain", "test"));
@@ -150,6 +182,21 @@ namespace RichardSzalay.MockHttp.Tests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
             Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
+        public void Respond_headers_mediaTypeString_contentString()
+        {
+            var response = Test(r => r.Respond(new Dictionary<string, string> {
+                { "connection", "keep-alive" },
+                { "x-hello", "mockhttp" }
+            }, "text/plain", "test"));
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
+            Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+            Assert.Equal("keep-alive", response.Headers.Connection.First());
+            Assert.Equal("mockhttp", response.Headers.GetValues("x-hello").First());
         }
 
         [Fact]
@@ -164,6 +211,24 @@ namespace RichardSzalay.MockHttp.Tests
             Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
         }
 
+
+        [Fact]
+        public void Respond_HttpStatusCode_headers_mediaTypeString_contentStream()
+        {
+            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes("test"));
+
+            var response = Test(r => r.Respond(HttpStatusCode.PartialContent, new Dictionary<string, string> {
+                { "connection", "keep-alive" },
+                { "x-hello", "mockhttp" }
+            }, "text/plain", ms));
+
+            Assert.Equal(HttpStatusCode.PartialContent, response.StatusCode);
+            Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
+            Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+            Assert.Equal("keep-alive", response.Headers.Connection.First());
+            Assert.Equal("mockhttp", response.Headers.GetValues("x-hello").First());
+        }
+
         [Fact]
         public void Respond_HttpStatusCode_mediaTypeString_contentString()
         {
@@ -172,6 +237,21 @@ namespace RichardSzalay.MockHttp.Tests
             Assert.Equal(HttpStatusCode.PartialContent, response.StatusCode);
             Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
             Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
+        public void Respond_HttpStatusCode_headers_mediaTypeString_contentString()
+        {
+            var response = Test(r => r.Respond(HttpStatusCode.PartialContent, new Dictionary<string, string> {
+                { "connection", "keep-alive" },
+                { "x-hello", "mockhttp" }
+            },  "text/plain", "test"));
+
+            Assert.Equal(HttpStatusCode.PartialContent, response.StatusCode);
+            Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
+            Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+            Assert.Equal("keep-alive", response.Headers.Connection.First());
+            Assert.Equal("mockhttp", response.Headers.GetValues("x-hello").First());
         }
 
         [Fact]
@@ -185,6 +265,24 @@ namespace RichardSzalay.MockHttp.Tests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
             Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
+        public void Respond_HttpMessageHandler_headers()
+        {
+            var passthroughHandler = new MockHttpMessageHandler();
+            passthroughHandler.Fallback.Respond(new Dictionary<string, string> {
+                { "connection", "keep-alive" },
+                { "x-hello", "mockhttp" }
+            }, new StringContent("test", Encoding.UTF8, "text/plain"));
+
+            var response = Test(r => r.Respond(passthroughHandler));
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
+            Assert.Equal("test", response.Content.ReadAsStringAsync().Result);
+            Assert.Equal("keep-alive", response.Headers.Connection.First());
+            Assert.Equal("mockhttp", response.Headers.GetValues("x-hello").First());
         }
 
         [Fact]
