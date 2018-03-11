@@ -10,7 +10,8 @@
     <projectUrl>https://github.com/richardszalay/mockhttp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Testing layer for Microsoft's HttpClient library</description>
-    <releaseNotes>3.2.1 - XML documentation is now included in the NuGet package. Fixes #52
+    <releaseNotes>3.3.0 - Added overloads for including custom headers in the response (thanks Sascha Kiefer!)
+3.2.1 - XML documentation is now included in the NuGet package. Fixes #52
 3.2.0 - MockHttpMessageHandler now tracks successful matches. Fixes #35
       - Added WithExactQueryString / WithExactFormData overloads. Fixes #37
       - Added BackendDefinitionBehavior to allow matching Backend Definitions when Request Expectations exist, but don't match. Fixes #45
