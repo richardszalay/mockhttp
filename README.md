@@ -163,7 +163,7 @@ msbuild Release.proj /p:PackageVersion=1.2.3
 
 If you fork the project, simply rename the `nuspec` file accordingly and it will be picked up by the release script.
 
-## Contributers
+## Contributors
 
 Many thanks to all the members of the community that have contributed PRs to this project:
 
