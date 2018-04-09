@@ -29,7 +29,10 @@ namespace RichardSzalay.MockHttp
 
             AutoFlush = true;
             fallback = new MockedRequest();
-            fallback.Respond(req => (fallbackResponse = CreateDefaultFallbackMessage()));
+            fallback.Respond(req => (fallbackResponse = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound)
+            {
+                ReasonPhrase = $"No matching mock handler for \"{req.Method.ToString().ToUpperInvariant()} {req.RequestUri.AbsoluteUri}\""
+            }));
         }
 
         private bool autoFlush;
@@ -212,13 +215,6 @@ namespace RichardSzalay.MockHttp
                 fallbackResponse = value;
                 fallback.Respond(value);
             }
-        }
-
-        HttpResponseMessage CreateDefaultFallbackMessage()
-        {
-            HttpResponseMessage message = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
-            message.ReasonPhrase = "No matching mock handler";
-            return message;
         }
 
         /// <summary>
