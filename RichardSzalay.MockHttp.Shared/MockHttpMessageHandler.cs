@@ -29,7 +29,7 @@ namespace RichardSzalay.MockHttp
 
             AutoFlush = true;
             fallback = new MockedRequest();
-            fallback.Respond(req => (fallbackResponse = CreateDefaultFallbackMessage()));
+            fallback.Respond(req => CreateDefaultFallbackMessage(req));
         }
 
         private bool autoFlush;
@@ -180,7 +180,6 @@ namespace RichardSzalay.MockHttp
             }
         }
 
-        private HttpResponseMessage fallbackResponse = null;
         private MockedRequest fallback;
 
         /// <summary>
@@ -194,30 +193,12 @@ namespace RichardSzalay.MockHttp
             }
         }
 
-        /// <summary>
-        /// Gets or sets the response that will be returned for requests that were not matched
-        /// </summary>
-        [Obsolete("Please use Fallback. FallbackResponse will be removed in a future release")]
-        public HttpResponseMessage FallbackResponse
+        HttpResponseMessage CreateDefaultFallbackMessage(HttpRequestMessage req)
         {
-            get
+            var message = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound)
             {
-                return fallbackResponse;
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-
-                fallbackResponse = value;
-                fallback.Respond(value);
-            }
-        }
-
-        HttpResponseMessage CreateDefaultFallbackMessage()
-        {
-            HttpResponseMessage message = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
-            message.ReasonPhrase = "No matching mock handler";
+                ReasonPhrase = $"No matching mock handler for \"{req.Method.ToString().ToUpperInvariant()} {req.RequestUri.AbsoluteUri}\""
+            };
             return message;
         }
 

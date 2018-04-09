@@ -158,26 +158,6 @@ namespace RichardSzalay.MockHttp.Tests
         }
 
         [Fact]
-        public void Should_return_fallbackresponse_for_unmatched_requests()
-        {
-            var mockHandler = new MockHttpMessageHandler();
-            var client = new HttpClient(mockHandler);
-
-            mockHandler
-                .When("/test")
-                .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
-
-            mockHandler.FallbackResponse = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
-            {
-                ReasonPhrase = "Awesome"
-            };
-
-            var result = client.GetAsync("http://invalid/test2").Result;
-
-            Assert.Equal("Awesome", result.ReasonPhrase);
-        }
-
-        [Fact]
         public void Should_match_expect_before_when()
         {
             var mockHandler = new MockHttpMessageHandler();
@@ -233,9 +213,11 @@ namespace RichardSzalay.MockHttp.Tests
                 .Expect("/test2")
                 .Respond("application/json", "{'status' : 'Second'}");
 
+            mockHandler.Fallback.Respond(HttpStatusCode.NotFound);
+
             var result = client.GetAsync("http://invalid/test2").Result;
 
-            Assert.Equal(mockHandler.FallbackResponse.StatusCode, result.StatusCode);
+            Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]
