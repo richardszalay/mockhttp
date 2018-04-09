@@ -180,7 +180,6 @@ namespace RichardSzalay.MockHttp
             }
         }
 
-        private HttpResponseMessage fallbackResponse = null;
         private MockedRequest fallback;
 
         /// <summary>
@@ -191,26 +190,6 @@ namespace RichardSzalay.MockHttp
             get
             {
                 return fallback;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the response that will be returned for requests that were not matched
-        /// </summary>
-        [Obsolete("Please use Fallback. FallbackResponse will be removed in a future release")]
-        public HttpResponseMessage FallbackResponse
-        {
-            get
-            {
-                return fallbackResponse;
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-
-                fallbackResponse = value;
-                fallback.Respond(value);
             }
         }
 
