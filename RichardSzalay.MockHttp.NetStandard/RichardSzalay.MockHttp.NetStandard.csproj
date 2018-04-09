@@ -18,7 +18,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\RichardSzalay.MockHttp.Shared\**\*.cs;..\AssemblyVersionInfo.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**" />
+    <Compile Include="..\RichardSzalay.MockHttp.Shared\**\*.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**" />
+    <Compile Include="..\AssemblyVersionInfo.cs" Condition="Exists('..\AssemblyVersionInfo.cs')" />
   </ItemGroup>
 
   <ItemGroup>
