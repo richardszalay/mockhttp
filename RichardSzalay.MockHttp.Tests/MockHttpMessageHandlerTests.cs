@@ -158,6 +158,21 @@ namespace RichardSzalay.MockHttp.Tests
         }
 
         [Fact]
+        public void Default_fallback_includes_method_and_url()
+        {
+            var mockHandler = new MockHttpMessageHandler();
+            var client = new HttpClient(mockHandler);
+
+            mockHandler
+                .When("/test")
+                .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
+
+            var result = client.GetAsync("http://invalid/test2").Result;
+
+            Assert.Equal("No matching mock handler for \"GET http://invalid/test2\"", result.ReasonPhrase);
+        }
+
+        [Fact]
         public void Should_match_expect_before_when()
         {
             var mockHandler = new MockHttpMessageHandler();
