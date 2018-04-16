@@ -172,6 +172,7 @@ Many thanks to all the members of the community that have contributed PRs to thi
 * [wislon](https://github.com/wislon)
 * [coryflucas](https://github.com/coryflucas)
 * [esskar](https://github.com/esskar)
+* [jericho](https://github.com/jericho)
 
 ## License
 
