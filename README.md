@@ -107,7 +107,7 @@ mockHttp.Fallback.Throw(new InvalidOperationException("No matching mock handler"
 mockHttp.Fallback.Respond(new HttpClient());
 ```
 
-The default fallback behavior is to return an empty response the status "404 No matching mock handler".
+The default fallback behavior is to return an empty response the status `404 No matching mock handler for "GET http://host/url"`.
 
 ### Examples
 
