@@ -1,8 +1,8 @@
-﻿<?xml version="1.0"?>
-<package >
+<?xml version="1.0"?>
+<package>
   <metadata>
     <id>RichardSzalay.MockHttp</id>
-    <version>1.0.0-beta</version>
+    <version>4.0.0</version>
     <title>MockHttp for HttpClient</title>
     <authors>Richard Szalay</authors>
     <owners>Richard Szalay</owners>
@@ -10,7 +10,9 @@
     <projectUrl>https://github.com/richardszalay/mockhttp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Testing layer for Microsoft's HttpClient library</description>
-    <releaseNotes>3.3.0 - Added overloads for including custom headers in the response (thanks Sascha Kiefer!)
+    <releaseNotes>4.0.0 - Default Fallback message now includes request method and URL (BREAKING)
+- Deprecated FallbackMessage property removed (BREAKING)
+3.3.0 - Added overloads for including custom headers in the response (thanks Sascha Kiefer!)
 3.2.1 - XML documentation is now included in the NuGet package. Fixes #52
 3.2.0 - MockHttpMessageHandler now tracks successful matches. Fixes #35
       - Added WithExactQueryString / WithExactFormData overloads. Fixes #37
@@ -32,18 +34,18 @@
 1.1.0 - Added MockHttpMessageHandler.Fallback and HttpClient passthrough support</releaseNotes>
     <copyright>Copyright 2014 Richard Szalay</copyright>
     <tags>httpclient test mock fake stub</tags>
-	<dependencies>
+    <dependencies>
       <group targetFramework=".NETPortable0.0-Profile328">
         <dependency id="Microsoft.Net.Http" version="2.1.10" />
       </group>
       <group targetFramework=".NETPortable0.0-Profile111">
       </group>
       <group targetFramework=".NETStandard1.1">
-		<dependency id="System.Net.Http" version="4.1.0" />
-		<dependency id="System.Runtime.Extensions" version="4.1.0" />
-		<dependency id="System.Collections" version="4.0.11" />
-		<dependency id="System.Linq" version="4.1.0" />
-		<dependency id="System.Threading" version="4.0.11" />
+        <dependency id="System.Net.Http" version="4.1.0" />
+        <dependency id="System.Runtime.Extensions" version="4.1.0" />
+        <dependency id="System.Collections" version="4.0.11" />
+        <dependency id="System.Linq" version="4.1.0" />
+        <dependency id="System.Threading" version="4.0.11" />
       </group>
       <group targetFramework=".NETFramework4.5">
         <dependency id="System.Net.Http" version="4.0.0" />
@@ -55,12 +57,11 @@
       </group>
       <group targetFramework="MonoTouch10">
       </group>
-	</dependencies>
-	<frameworkAssemblies>
-		<frameworkAssembly assemblyName="System.Net" targetFramework="MonoAndroid10" />
-		<frameworkAssembly assemblyName="System.Net" targetFramework="MonoTouch10" />
-	</frameworkAssemblies>
-	
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Net" targetFramework="MonoAndroid10" />
+      <frameworkAssembly assemblyName="System.Net" targetFramework="MonoTouch10" />
+    </frameworkAssemblies>
   </metadata>
   <files>
     <file src="RichardSzalay.MockHttp.Portable111\bin\Release\RichardSzalay.MockHttp.dll" target="lib\portable-net45+win8+wpa81" />
@@ -74,5 +75,4 @@
     <file src="RichardSzalay.MockHttp.NetStandard\bin\Release\netstandard1.1\RichardSzalay.MockHttp.dll" target="lib\netstandard1.1" />
     <file src="RichardSzalay.MockHttp.NetStandard\bin\Release\netstandard1.1\RichardSzalay.MockHttp.xml" target="lib\netstandard1.1" />
   </files>
-
 </package>

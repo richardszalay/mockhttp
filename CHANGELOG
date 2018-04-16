@@ -1,3 +1,6 @@
+4.0.0 - Default Fallback message now includes request method and URL (BREAKING)
+- Deprecated FallbackMessage property removed (BREAKING)
+
 3.3.0 - Added overloads for including custom headers in the response (thanks Sascha Kiefer!)
 
 3.2.1 - XML documentation is now included in the NuGet package. Fixes #52
