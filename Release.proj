@@ -46,7 +46,7 @@
   </Target>
 
 	<Target Name="Package" DependsOnTargets="Build">
-		<Exec Command="dotnet pack -o .. RichardSzalay.MockHttp.NetStandard\RichardSzalay.MockHttp.NetStandard.csproj" />
+		<Exec Command="dotnet pack -c Release -o .. RichardSzalay.MockHttp.NetStandard\RichardSzalay.MockHttp.NetStandard.csproj" />
 	</Target>
 	
 	<Target Name="Push" DependsOnTargets="Package">
