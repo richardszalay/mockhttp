@@ -1,5 +1,10 @@
+5.0.0 - Align with official recommendations on multi-targetting HttpClient:
+      - Add netstandard2.0 target #61
+      - Change .NET 4.5 target to use in-band System.Net.Http reference (BREAKING) #61
+      - Remove PCL profile 111 (BREAKING) #18
+
 4.0.0 - Default Fallback message now includes request method and URL (BREAKING)
-- Deprecated FallbackMessage property removed (BREAKING)
+      - Deprecated FallbackMessage property removed (BREAKING)
 
 3.3.0 - Added overloads for including custom headers in the response (thanks Sascha Kiefer!)
 
