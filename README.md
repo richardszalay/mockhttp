@@ -141,7 +141,7 @@ mockHttp.VerifyNoOutstandingExpectation();
 	
 ## Platform Support
 
-MockHttp is compiled for .NET Standard 1.1 (including .NET Core), .NET 4, and .NET 4.5, as well a Portable Class Library (Profile 328) supporting:
+MockHttp is compiled for .NET Standard 2.0, .NET Standard 1.1, .NET 4, and .NET 4.5, as well a Portable Class Library (Profile 328) supporting:
 
 * .NET 4
 * Silverlight 5
@@ -178,7 +178,7 @@ Many thanks to all the members of the community that have contributed PRs to thi
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Richard Szalay
+Copyright (c) 2018 Richard Szalay
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
