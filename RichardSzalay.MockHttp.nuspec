@@ -50,7 +50,6 @@
       <group targetFramework=".NETStandard2.0">
       </group>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="System.Net.Http" version="4.0.0" />
       </group>
       <group targetFramework=".NETFramework4.0">
         <dependency id="Microsoft.Net.Http" version="2.1.10" />
@@ -61,6 +60,7 @@
       </group>
     </dependencies>
     <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Net.Http" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="System.Net" targetFramework="MonoAndroid10" />
       <frameworkAssembly assemblyName="System.Net" targetFramework="MonoTouch10" />
     </frameworkAssemblies>
