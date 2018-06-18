@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.1</TargetFramework>
+    <TargetFrameworks>netstandard1.1;netstandard2.0</TargetFrameworks>
     <AssemblyName>RichardSzalay.MockHttp</AssemblyName>
     <PackageId>RichardSzalay.MockHttp.NetStandard</PackageId>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
@@ -10,11 +10,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.1\RichardSzalay.MockHttp.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\RichardSzalay.MockHttp.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard1.1\RichardSzalay.MockHttp.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\RichardSzalay.MockHttp.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +22,7 @@
     <Compile Include="..\AssemblyVersionInfo.cs" Condition="Exists('..\AssemblyVersionInfo.cs')" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFrameworks)'=='netstandard1.1'">
     <!--<PackageReference Include="System.Net.Http" Version="4.1.1" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.1.0" />
     <PackageReference Include="System.Collections" Version="4.0.11" />
