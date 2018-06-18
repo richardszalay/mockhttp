@@ -38,8 +38,6 @@
       <group targetFramework=".NETPortable0.0-Profile328">
         <dependency id="Microsoft.Net.Http" version="2.1.10" />
       </group>
-      <group targetFramework=".NETPortable0.0-Profile111">
-      </group>
       <group targetFramework=".NETStandard1.1">
         <dependency id="System.Net.Http" version="4.1.0" />
         <dependency id="System.Runtime.Extensions" version="4.1.0" />
@@ -66,8 +64,6 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="RichardSzalay.MockHttp.Portable111\bin\Release\RichardSzalay.MockHttp.dll" target="lib\portable-net45+win8+wpa81" />
-    <file src="RichardSzalay.MockHttp.Portable111\bin\Release\RichardSzalay.MockHttp.xml" target="lib\portable-net45+win8+wpa81" />
     <file src="RichardSzalay.MockHttp.Portable328\bin\Release\RichardSzalay.MockHttp.dll" target="lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1" />
     <file src="RichardSzalay.MockHttp.Portable328\bin\Release\RichardSzalay.MockHttp.xml" target="lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1" />
     <file src="RichardSzalay.MockHttp.Net40\bin\Release\RichardSzalay.MockHttp.dll" target="lib\net40" />

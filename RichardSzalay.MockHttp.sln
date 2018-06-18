@@ -32,12 +32,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Net4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichardSzalay.MockHttp.NetStandard", "RichardSzalay.MockHttp.NetStandard\RichardSzalay.MockHttp.NetStandard.csproj", "{1B510EB2-8216-4298-82B4-C1C14A220524}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Portable111", "RichardSzalay.MockHttp.Portable111\RichardSzalay.MockHttp.Portable111.csproj", "{38599C87-9E21-40BA-8417-7D263B6585A6}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{21a34759-fae1-48b5-8cfe-2ea1b9befcb8}*SharedItemsImports = 13
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{38599c87-9e21-40ba-8417-7d263b6585a6}*SharedItemsImports = 4
 		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{577ec1e5-e2b6-4170-aeac-74bac282cac1}*SharedItemsImports = 4
 		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{e388befc-f356-49d3-a29c-296a59fd27dd}*SharedItemsImports = 4
 		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{f9679562-4076-4ca2-9d3c-34a04a47ee1b}*SharedItemsImports = 4
@@ -133,22 +130,6 @@ Global
 		{1B510EB2-8216-4298-82B4-C1C14A220524}.Release|x64.Build.0 = Release|Any CPU
 		{1B510EB2-8216-4298-82B4-C1C14A220524}.Release|x86.ActiveCfg = Release|Any CPU
 		{1B510EB2-8216-4298-82B4-C1C14A220524}.Release|x86.Build.0 = Release|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Debug|ARM.Build.0 = Debug|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Debug|x64.Build.0 = Debug|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Debug|x86.Build.0 = Debug|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Release|ARM.ActiveCfg = Release|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Release|ARM.Build.0 = Release|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Release|x64.ActiveCfg = Release|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Release|x64.Build.0 = Release|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Release|x86.ActiveCfg = Release|Any CPU
-		{38599C87-9E21-40BA-8417-7D263B6585A6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
