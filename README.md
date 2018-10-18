@@ -38,7 +38,7 @@ Console.Write(json); // {'name' : 'Test McGee'}
 
 ### When (Backend Definitions) vs Expect (Request Expectations)
 
-`MockHttpMessageHandler` defines both Both `When` and `Expect`, which can be used to define responses. They both expose the same fluent API, but each works in a slightly different way.
+`MockHttpMessageHandler` defines both `When` and `Expect`, which can be used to define responses. They both expose the same fluent API, but each works in a slightly different way.
 
 Using `When` specifies a "Backend Definition". Backend Definitions can be matched against multiple times and in any order, but they won't match if there are any outstanding Request Expectations present (unless `BackendDefinitionBehavior.Always` is specified). If no Request Expectations match, `Fallback` will be used.
 
