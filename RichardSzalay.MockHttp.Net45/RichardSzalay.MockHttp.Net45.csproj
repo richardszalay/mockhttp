@@ -34,6 +34,10 @@
     <Prefer32Bit>false</Prefer32Bit>
     <DocumentationFile>bin\Release\RichardSzalay.MockHttp.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\mockhttp.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -61,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="mockhttp.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems" Label="Shared" Condition="Exists('..\RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems')" />

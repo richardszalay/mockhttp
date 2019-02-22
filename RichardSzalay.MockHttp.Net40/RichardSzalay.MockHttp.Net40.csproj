@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\RichardSzalay.MockHttp.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\mockhttp.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
