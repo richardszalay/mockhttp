@@ -43,7 +43,7 @@ namespace RichardSzalay.MockHttp.Matchers
             return this.headers.All(h => MatchesHeader(h, message.Headers) || MatchesHeader(h, message.Content?.Headers));
         }
 
-        private bool MatchesHeader(KeyValuePair<string, string> matchHeader, System.Net.Http.Headers.HttpHeaders messageHeader)
+        private bool MatchesHeader(KeyValuePair<string, string> matchHeader, System.Net.Http.Headers.HttpHeaders? messageHeader)
         {
             if (messageHeader == null)
                 return false;

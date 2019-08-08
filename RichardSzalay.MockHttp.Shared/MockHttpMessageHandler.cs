@@ -51,19 +51,19 @@ namespace RichardSzalay.MockHttp
 
                 if (autoFlush)
                 {
-                    flusher = new TaskCompletionSource<object>();
+                    flusher = new TaskCompletionSource<object?>();
                     flusher.SetResult(null);
                 }
                 else
                 {
-                    flusher = new TaskCompletionSource<object>();
+                    flusher = new TaskCompletionSource<object?>();
                     pendingFlushers.Enqueue(flusher);
                 }
             }
         }
 
-        private Queue<TaskCompletionSource<object>> pendingFlushers = new Queue<TaskCompletionSource<object>>();
-        private TaskCompletionSource<object> flusher;
+        private Queue<TaskCompletionSource<object?>> pendingFlushers = new Queue<TaskCompletionSource<object?>>();
+        private TaskCompletionSource<object?> flusher = new TaskCompletionSource<object?>();
 
         /// <summary>
         /// Completes all pendings requests that were received while <see cref="M:AutoFlush"/> was false
@@ -134,7 +134,7 @@ namespace RichardSzalay.MockHttp
 
             if (!AutoFlush)
             {
-                flusher = new TaskCompletionSource<object>();
+                flusher = new TaskCompletionSource<object?>();
                 pendingFlushers.Enqueue(flusher);
             }
 

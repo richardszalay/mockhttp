@@ -15,7 +15,7 @@ namespace RichardSzalay.MockHttp
     public class MockedRequest : IMockedRequest
     {
         private List<IMockedRequestMatcher> matchers = new List<IMockedRequestMatcher>();
-        private Func<HttpRequestMessage, Task<HttpResponseMessage>> response;
+        private Func<HttpRequestMessage, Task<HttpResponseMessage>>? response;
 
         /// <summary>
         /// Creates a new MockedRequest with no initial matchers
@@ -88,6 +88,11 @@ namespace RichardSzalay.MockHttp
         /// <returns>A Task containing the future response message</returns>
         public Task<HttpResponseMessage> SendAsync(HttpRequestMessage message, CancellationToken cancellationToken)
         {
+            if (response == null)
+            {
+                throw new InvalidOperationException("No response handler configured");
+            }
+
             return response(message);
         }
     }
