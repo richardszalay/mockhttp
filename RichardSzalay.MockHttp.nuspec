@@ -10,7 +10,8 @@
     <projectUrl>https://github.com/richardszalay/mockhttp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Testing layer for Microsoft's HttpClient library</description>
-    <releaseNotes>5.0.0 - Align with official recommendations on multi-targetting HttpClient:
+    <releaseNotes>6.0.0 - Assemblies are now strong named (binary BREAKING) #1
+5.0.0 - Align with official recommendations on multi-targetting HttpClient:
       - Add netstandard2.0 target #61
       - Change .NET 4.5 target to use in-band System.Net.Http reference (BREAKING) #61
       - Remove PCL profile 111 (BREAKING) #18
