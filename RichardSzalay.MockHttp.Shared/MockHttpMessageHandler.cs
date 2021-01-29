@@ -96,7 +96,7 @@ namespace RichardSzalay.MockHttp
             else
             {
                 HttpClient httpClient = new HttpClient(this);
-                httpClient.BaseAddress = baseAddress;
+                httpClient.BaseAddress = new Uri(baseAddress);
 
                 return httpClient;
             }
