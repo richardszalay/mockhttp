@@ -86,6 +86,7 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Creates an HttpClient instance using this MockHttpMessageHandler
         /// </summary>
+        /// <param name="baseAddress">(Optional) configures the HttpClient base address</param>
         /// <returns>An instance of HttpClient that can be used to send HTTP request against the configuration of this mock handler</returns>
         public HttpClient ToHttpClient(string baseAddress = null)
         {
