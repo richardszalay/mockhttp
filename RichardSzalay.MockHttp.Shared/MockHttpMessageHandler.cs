@@ -86,23 +86,17 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Creates an HttpClient instance using this MockHttpMessageHandler
         /// </summary>
-        /// <param name="baseAddress">(Optional) configures the HttpClient base address</param>
+        /// <param name="configure">(Optional) Allows the option to confiure the Http client before creation</param>
         /// <returns>An instance of HttpClient that can be used to send HTTP request against the configuration of this mock handler</returns>
-        public HttpClient ToHttpClient(string baseAddress = null)
+        public HttpClient ToHttpClient(Action<HttpClient> configure = null)
         {
-            if (string.IsNullOrEmpty(baseAddress))
+            HttpClient httpClient = new HttpClient(this);
+            if (configure != null)
             {
-                return new HttpClient(this);
-            }
-            else
-            {
-                HttpClient httpClient = new HttpClient(this);
-                httpClient.BaseAddress = new Uri(baseAddress);
-
-                return httpClient;
+                configure(httpClient);
             }
 
-            
+            return httpClient;
         }
 
         /// <summary>
