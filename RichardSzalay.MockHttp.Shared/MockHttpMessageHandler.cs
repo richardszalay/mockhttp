@@ -86,10 +86,17 @@ namespace RichardSzalay.MockHttp
         /// <summary>
         /// Creates an HttpClient instance using this MockHttpMessageHandler
         /// </summary>
+        /// <param name="initalize">(Optional) Allows the option to confiure the Http client before creation</param>
         /// <returns>An instance of HttpClient that can be used to send HTTP request against the configuration of this mock handler</returns>
-        public HttpClient ToHttpClient()
+        public HttpClient ToHttpClient(Action<HttpClient> initalize = null)
         {
-            return new HttpClient(this);
+            HttpClient httpClient = new HttpClient(this);
+            if (initalize != null)
+            {
+                initalize(httpClient);
+            }
+
+            return httpClient;
         }
 
         /// <summary>
