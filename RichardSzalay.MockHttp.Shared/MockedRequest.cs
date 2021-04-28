@@ -85,10 +85,16 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         /// <param name="message">The request being sent</param>
         /// <param name="cancellationToken">The token used to cancel the request</param>
+        /// <exception cref="InvalidOperationException">A response was not configured for this request</exception>
         /// <returns>A Task containing the future response message</returns>
         public Task<HttpResponseMessage> SendAsync(HttpRequestMessage message, CancellationToken cancellationToken)
         {
-            return response(message);
+            if (this.response is null)
+            {
+                throw new InvalidOperationException("A response was not configured for this request");
+            }
+
+            return this.response(message);
         }
     }
 }
