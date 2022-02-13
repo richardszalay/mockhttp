@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace RichardSzalay.MockHttp.Matchers
@@ -28,7 +29,7 @@ namespace RichardSzalay.MockHttp.Matchers
         /// </summary>
         /// <param name="matcher">The matcher delegate</param>
         /// <param name="matcherText">The text of the matcher delegate (if available)</param>
-        public CustomMatcher(Func<HttpRequestMessage, bool> matcher, string matcherText)
+        public CustomMatcher(Func<HttpRequestMessage, bool> matcher, [CallerArgumentExpression("matcher")] string matcherText = "")
         {
 	        if (matcher == null)
 		        throw new ArgumentNullException("matcher");
