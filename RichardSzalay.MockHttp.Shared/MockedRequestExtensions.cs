@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RichardSzalay.MockHttp.Matchers;
 
@@ -15,15 +16,16 @@ namespace RichardSzalay.MockHttp
     /// </summary>
     public static class MockedRequestExtensions
     {
-        /// <summary>
-        /// Constraints the request using custom logic
-        /// </summary>
-        /// <param name="source">The source mocked request</param>
-        /// <param name="matcher">The delegate that will be used to constrain the request</param>
-        /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
-        public static MockedRequest With(this MockedRequest source, Func<HttpRequestMessage, bool> matcher)
+		/// <summary>
+		/// Constraints the request using custom logic
+		/// </summary>
+		/// <param name="source">The source mocked request</param>
+		/// <param name="matcher">The delegate that will be used to constrain the request</param>
+		/// <param name="matcherExpression">This will be automatically populated with the text of the matcher when using C# 10</param>
+		/// <returns>The <see cref="T:MockedRequest"/> instance</returns>
+		public static MockedRequest With(this MockedRequest source, Func<HttpRequestMessage, bool> matcher, [CallerArgumentExpression("matcher")] string matcherExpression = "")
         {
-            return source.With(new CustomMatcher(matcher));
+            return source.With(new CustomMatcher(matcher, matcherExpression));
         }
 
         /// <summary>
