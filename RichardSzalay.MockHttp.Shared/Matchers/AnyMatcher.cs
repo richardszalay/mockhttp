@@ -6,7 +6,7 @@ using System.Text;
 namespace RichardSzalay.MockHttp.Matchers
 {
     /// <summary>
-    /// A composite matcher that suceeds if any of it's composed matchers succeed
+    /// A composite matcher that succeeds if any of it's composed matchers succeed
     /// </summary>
     public class AnyMatcher : IMockedRequestMatcher
     {
@@ -37,7 +37,7 @@ namespace RichardSzalay.MockHttp.Matchers
 	        get
 	        {
 		        var matcherDescriptions = _matchers.Select(s => s.Description);
-		        return $"Matching at least one of: {string.Join(Environment.NewLine + "\t", matcherDescriptions)}";
+		        return $"Matching at least one of: {Environment.NewLine}({string.Join(Environment.NewLine + "OR ", matcherDescriptions)})";
 	        }
         }
     }

@@ -287,15 +287,8 @@ namespace RichardSzalay.MockHttp
         private string FormatRequestList(IEnumerable<IMockedRequest> requests)
         {
 	        var requestDescriptions = requests.Select(s => s.Description).ToArray();
-	        var sb = new StringBuilder();
-	        for (int i = 0; i < requestDescriptions.Length; i++)
-	        {
-		        sb.AppendLine($"Request {i + 1}");
-		        sb.Append(requestDescriptions[i]);
-		        sb.AppendLine();
-	        }
-
-	        return sb.ToString();
+	        return $"A request that matches: {Environment.NewLine}" +
+	               $"{string.Join($"{Environment.NewLine}AND ", requestDescriptions)}";
         }
 
         /// <summary>
