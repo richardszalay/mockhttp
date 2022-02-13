@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using RichardSzalay.MockHttp.Matchers;
@@ -27,9 +28,9 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             Assert.False(result);
         }
 
-        private bool Test(Func<HttpRequestMessage, bool> handler)
+        private bool Test(Func<HttpRequestMessage, bool> handler, [CallerArgumentExpression("handler")] string handlerText = "")
         {
-            var sut = new CustomMatcher(handler);
+            var sut = new CustomMatcher(handler, handlerText);
 
             return sut.Matches(new HttpRequestMessage(HttpMethod.Get, 
                 "http://tempuri.org/home"));
