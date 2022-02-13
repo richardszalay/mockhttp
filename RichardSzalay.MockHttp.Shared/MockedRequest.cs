@@ -90,5 +90,23 @@ namespace RichardSzalay.MockHttp
         {
             return response(message);
         }
+
+        /// <inheritdoc />
+        public string Description => $"A request that matches: {Environment.NewLine}" +
+                                     $"{FormatMatchers(this.matchers)}";
+
+        private string FormatMatchers(IEnumerable<IMockedRequestMatcher> matcherList)
+        {
+	        var matcherDescriptions = matcherList.Select(s => s.Description).ToArray();
+	        var sb = new StringBuilder();
+	        for (int i = 0; i < matcherDescriptions.Length; i++)
+	        {
+		        sb.AppendLine($"Matcher {i + 1}");
+		        sb.Append($"{matcherDescriptions[i]}");
+		        sb.AppendLine();
+	        }
+
+	        return sb.ToString();
+        }
     }
 }

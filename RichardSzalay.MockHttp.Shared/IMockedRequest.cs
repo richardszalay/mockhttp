@@ -27,5 +27,11 @@ namespace RichardSzalay.MockHttp
         /// <param name="cancellationToken">A <see cref="T:CancellationToken"/> for long running requests</param>
         /// <returns>The <see cref="T:HttpResponseMessage"/> to the request</returns>
         Task<HttpResponseMessage> SendAsync(HttpRequestMessage message, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// A description of the MockRequest
+        /// Lists the descriptions of Matchers on the MockRequest
+        /// </summary>
+        string Description { get; }
     }
 }
