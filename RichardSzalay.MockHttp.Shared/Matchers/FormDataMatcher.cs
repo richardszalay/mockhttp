@@ -64,6 +64,16 @@ namespace RichardSzalay.MockHttp.Matchers
                 values.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
         }
 
+        /// <inheritdoc />
+        public string Description
+        {
+	        get
+	        {
+		        var formDataStrings = values.Select(s => $"{s.Key} = {s.Value}");
+		        return $"Form Data matching: {string.Join(Environment.NewLine + "\t", formDataStrings)}";
+	        }
+        }
+
         private IEnumerable<KeyValuePair<string, string>> GetFormData(HttpContent content)
         {
             if (content is MultipartFormDataContent)

@@ -12,17 +12,29 @@ namespace RichardSzalay.MockHttp.Matchers
     public class CustomMatcher : IMockedRequestMatcher
     {
         readonly Func<HttpRequestMessage, bool> matcher;
+        private readonly string matcherText;
 
         /// <summary>
         /// Constructs a new instance of CustomMatcher
         /// </summary>
         /// <param name="matcher">The matcher delegate</param>
-        public CustomMatcher(Func<HttpRequestMessage, bool> matcher)
+        public CustomMatcher(Func<HttpRequestMessage, bool> matcher) : this(matcher, null)
         {
-            if (matcher == null)
-                throw new ArgumentNullException("matcher");
 
-            this.matcher = matcher;
+        }
+
+        /// <summary>
+        /// Constructs a new instance of CustomMatcher
+        /// </summary>
+        /// <param name="matcher">The matcher delegate</param>
+        /// <param name="matcherText">The text of the matcher delegate (if available)</param>
+        public CustomMatcher(Func<HttpRequestMessage, bool> matcher, string matcherText)
+        {
+	        if (matcher == null)
+		        throw new ArgumentNullException("matcher");
+            
+	        this.matcher = matcher;
+	        this.matcherText = matcherText;
         }
 
         /// <summary>
@@ -34,5 +46,10 @@ namespace RichardSzalay.MockHttp.Matchers
         {
             return matcher(message);
         }
+
+        /// <inheritdoc />
+        public string Description => string.IsNullOrEmpty(matcherText) ? 
+	        $"With a custom matcher" :
+	        $"Matching: {matcherText}";
     }
 }

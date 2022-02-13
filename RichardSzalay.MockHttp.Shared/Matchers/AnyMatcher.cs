@@ -30,5 +30,15 @@ namespace RichardSzalay.MockHttp.Matchers
         {
             return _matchers.Any(m => m.Matches(message));
         }
+
+        /// <inheritdoc />
+        public string Description
+        {
+	        get
+	        {
+		        var matcherDescriptions = _matchers.Select(s => s.Description);
+		        return $"Matching at least one of: {string.Join(Environment.NewLine + "\t", matcherDescriptions)}";
+	        }
+        }
     }
 }

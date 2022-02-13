@@ -35,5 +35,8 @@ namespace RichardSzalay.MockHttp.Matchers
 
             return actualContent.IndexOf(content) != -1;
         }
+
+        /// <inheritdoc />
+        public string Description => $"Content Partially matching: {content}";
     }
 }

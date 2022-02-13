@@ -31,5 +31,8 @@ namespace RichardSzalay.MockHttp.Matchers
         {
             return message.Method == this.method;
         }
+
+        /// <inheritdoc />
+        public string Description => $"HTTP Method matching: {method.Method}";
     }
 }

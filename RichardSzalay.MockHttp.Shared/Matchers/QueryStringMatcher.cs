@@ -61,6 +61,16 @@ namespace RichardSzalay.MockHttp.Matchers
                 values.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
         }
 
+        /// <inheritdoc />
+        public string Description
+        {
+	        get
+	        {
+                var valueStrings = values.Select(s => $"{s.Key} = {s.Value}");
+		        return $"A Query String matching: {string.Join(Environment.NewLine + "\t", valueStrings)}";
+	        }
+        }
+
         internal static IEnumerable<KeyValuePair<string, string>> ParseQueryString(string input)
         {
             return input.TrimStart('?').Split('&')
