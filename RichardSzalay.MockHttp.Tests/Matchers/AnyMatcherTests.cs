@@ -54,6 +54,8 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             {
                 return _result;
             }
+
+            public string Description { get; }
         }
     }
 }
