@@ -280,14 +280,14 @@ namespace RichardSzalay.MockHttp
 	        if (this.requestExpectations.Count > 0)
 	        {
 		        throw new InvalidOperationException($"There are {requestExpectations.Count} unfulfilled expectations: {Environment.NewLine}" +
-		                                            $"{FormatRequestList(this.requestExpectations)}");
+		                                            $"Expected {FormatRequestList(this.requestExpectations)}");
 	        }
         }
 
         private string FormatRequestList(IEnumerable<IMockedRequest> requests)
         {
 	        var requestDescriptions = requests.Select(s => s.Description).ToArray();
-	        return string.Join(Environment.NewLine + "AND ", requestDescriptions);
+	        return string.Join("," + Environment.NewLine + Environment.NewLine + "Expected ", requestDescriptions);
         }
 
         /// <summary>
