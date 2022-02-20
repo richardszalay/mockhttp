@@ -1,7 +1,7 @@
 platform: Any CPU
 configuration: Release
 
-image: Visual Studio 2022
+image: Visual Studio 2017
 
 build:
   project: Release.proj

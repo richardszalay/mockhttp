@@ -29,14 +29,6 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             Assert.False(result);
         }
 
-        [Fact]
-        public void Description_should_contain_handler_expression()
-        {
-            var description = new CustomMatcher(r => true).Description;
-
-            Assert.Contains("r => true", description);
-        }
-
         private bool Test(Func<HttpRequestMessage, bool> handler, [CallerArgumentExpression("handler")] string handlerText = "")
         {
             var sut = new CustomMatcher(handler, handlerText);
