@@ -49,7 +49,7 @@ namespace RichardSzalay.MockHttp.Matchers
 	        get
 	        {
 		        var headerStrings = headers.Select(s => $"{s.Key}: {s.Value}");
-		        return $"Headers matching: {string.Join(Environment.NewLine + "\t", headerStrings)}";
+		        return $"Headers matching: {Environment.NewLine} \t{string.Join(Environment.NewLine + "\t", headerStrings)}";
 	        }
         }
 
