@@ -19,15 +19,6 @@ namespace RichardSzalay.MockHttp.Matchers
         /// Constructs a new instance of CustomMatcher
         /// </summary>
         /// <param name="matcher">The matcher delegate</param>
-        public CustomMatcher(Func<HttpRequestMessage, bool> matcher) : this(matcher, null)
-        {
-
-        }
-
-        /// <summary>
-        /// Constructs a new instance of CustomMatcher
-        /// </summary>
-        /// <param name="matcher">The matcher delegate</param>
         /// <param name="matcherText">The text of the matcher delegate (if available)</param>
         public CustomMatcher(Func<HttpRequestMessage, bool> matcher, [CallerArgumentExpression("matcher")] string matcherText = "")
         {
