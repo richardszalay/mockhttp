@@ -98,7 +98,7 @@ namespace RichardSzalay.MockHttp
         private string FormatMatchers(IEnumerable<IMockedRequestMatcher> matcherList)
         {
 	        var matcherDescriptions = matcherList.Select(s => s.Description).ToArray();
-            return string.Join($"{Environment.NewLine}AND ", matcherDescriptions);
+            return string.Join(Environment.NewLine + "AND ", matcherDescriptions);
         }
     }
 }
