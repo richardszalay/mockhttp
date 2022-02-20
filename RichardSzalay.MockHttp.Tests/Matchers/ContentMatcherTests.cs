@@ -33,6 +33,15 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             Assert.False(result);
         }
 
+        [Fact]
+        public void Description_contains_full_content()
+		{
+            const string expectedContent = "Custom data";
+            var description = new ContentMatcher(expectedContent).Description;
+
+            Assert.Contains(expectedContent, description);
+		}
+
         private bool Test(string expected, string actual)
         {
             var request = new HttpRequestMessage(HttpMethod.Get,

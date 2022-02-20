@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using RichardSzalay.MockHttp.Matchers;
@@ -26,6 +27,14 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             bool result = Test(r => false);
 
             Assert.False(result);
+        }
+
+        [Fact]
+        public void Description_should_contain_handler_expression()
+        {
+            var description = new CustomMatcher(r => true).Description;
+
+            Assert.Contains("r => true", description);
         }
 
         private bool Test(Func<HttpRequestMessage, bool> handler, [CallerArgumentExpression("handler")] string handlerText = "")
