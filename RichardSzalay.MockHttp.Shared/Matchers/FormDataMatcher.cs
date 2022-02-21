@@ -70,7 +70,7 @@ namespace RichardSzalay.MockHttp.Matchers
 	        get
 	        {
 		        var formDataStrings = values.Select(s => $"{s.Key} = {s.Value}");
-		        return $"Form Data matching: {string.Join(Environment.NewLine + "\t", formDataStrings)}";
+		        return $"Form Data matching: {Environment.NewLine} \t{string.Join(Environment.NewLine + "\t", formDataStrings)}";
 	        }
         }
 

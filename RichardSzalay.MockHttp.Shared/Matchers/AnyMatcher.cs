@@ -37,7 +37,7 @@ namespace RichardSzalay.MockHttp.Matchers
 	        get
 	        {
 		        var matcherDescriptions = _matchers.Select(s => s.Description);
-		        return $"Matching at least one of: {Environment.NewLine}({string.Join(Environment.NewLine + "OR ", matcherDescriptions)})";
+		        return $"Matching at least one of: {Environment.NewLine}\t({string.Join(Environment.NewLine + "\tOR ", matcherDescriptions)})";
 	        }
         }
     }

@@ -67,7 +67,7 @@ namespace RichardSzalay.MockHttp.Matchers
 	        get
 	        {
                 var valueStrings = values.Select(s => $"{s.Key} = {s.Value}");
-		        return $"A Query String matching: {string.Join(Environment.NewLine + "\t", valueStrings)}";
+		        return $"A Query String matching: {Environment.NewLine} \t{string.Join(Environment.NewLine + "\t", valueStrings)}";
 	        }
         }
 
