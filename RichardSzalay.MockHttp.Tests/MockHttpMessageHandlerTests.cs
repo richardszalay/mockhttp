@@ -245,7 +245,37 @@ namespace RichardSzalay.MockHttp.Tests
                 .Expect("/test")
                 .Respond("application/json", "{'status' : 'First'}");
 
-            Assert.Throws<InvalidOperationException>(() => mockHandler.VerifyNoOutstandingExpectation());
+            var exception = Assert.Throws<InvalidOperationException>(() => mockHandler.VerifyNoOutstandingExpectation());
+
+            Assert.Contains("/test", exception.Message);
+        }
+
+        [Fact]
+        public void VerifyNoOutstandingExpectation_exception_message_should_describe_unmet_expectations()
+        {
+            var mockHandler = new MockHttpMessageHandler();
+            var client = new HttpClient(mockHandler);
+
+            const string headerName = "Header";
+            const string headerValue = "HeaderValue";
+            const string formFieldName = "FormField";
+            const string formFieldValue = "FormValue";
+
+            mockHandler
+                .Expect(HttpMethod.Post, "/test")
+                .WithHeaders(new Dictionary<string, string>
+				{
+                    { headerName, headerValue }
+				})                
+                .WithFormData($"{formFieldName}={formFieldValue}")
+                .Respond("application/json", "{'status' : 'First'}");
+
+            var exception = Assert.Throws<InvalidOperationException>(() => mockHandler.VerifyNoOutstandingExpectation());
+
+            Assert.Contains("/test", exception.Message);
+            Assert.Contains("POST", exception.Message);
+            Assert.Contains($"{headerName}: {headerValue}", exception.Message);
+            Assert.Contains($"{formFieldName} = {formFieldValue}", exception.Message);
         }
 
         [Fact]
