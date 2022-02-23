@@ -143,6 +143,15 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             Assert.True(result);
         }
 
+        [Fact]
+        public void Description_contains_expected_url()
+        {
+	        const string expectedUrl = "http://tempuri.org/";
+	        var sut = new UrlMatcher(expectedUrl);
+
+	        Assert.Contains(expectedUrl, sut.Description);
+        }
+
         private bool Test(string expected, string actual)
         {
             return new UrlMatcher(expected)

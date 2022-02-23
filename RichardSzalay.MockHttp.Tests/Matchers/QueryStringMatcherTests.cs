@@ -115,6 +115,22 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             Assert.True(actualMatch, "QueryStringMatcher.Matches() should match dictionary data with URL encoded query string values.");
         }
 
+        [Fact]
+        public void Description_shows_all_expected_query_data()
+        {
+
+	        const string queryString = "key1=a_test_value&key2=another_test_value";
+
+	        const string expectedDescriptionQueryPair1 = "key1 = a_test_value";
+	        const string expectedDescriptionQueryPair2 = "key2 = another_test_value";
+
+
+	        var sut = new QueryStringMatcher(queryString);
+
+	        Assert.Contains(expectedDescriptionQueryPair1, sut.Description);
+	        Assert.Contains(expectedDescriptionQueryPair2, sut.Description);
+        }
+
         private bool Test(string expected, string actual, bool exact = false)
         {
             var sut = new QueryStringMatcher(expected, exact);

@@ -37,9 +37,9 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
         public void Description_contains_full_content()
 		{
             const string expectedContent = "Custom data";
-            var description = new ContentMatcher(expectedContent).Description;
+            var sut = new ContentMatcher(expectedContent);
 
-            Assert.Contains(expectedContent, description);
+            Assert.Contains(expectedContent, sut.Description);
 		}
 
         private bool Test(string expected, string actual)
