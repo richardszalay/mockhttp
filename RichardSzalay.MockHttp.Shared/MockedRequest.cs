@@ -16,6 +16,8 @@ namespace RichardSzalay.MockHttp
     {
         private List<IMockedRequestMatcher> matchers = new List<IMockedRequestMatcher>();
         private Func<HttpRequestMessage, Task<HttpResponseMessage>> response;
+        readonly List<Func<HttpRequestMessage, Task<HttpResponseMessage>>> responseList = new List<Func<HttpRequestMessage, Task<HttpResponseMessage>>>();
+        private int _index = -1;
 
         /// <summary>
         /// Creates a new MockedRequest with no initial matchers
@@ -81,6 +83,16 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
+        /// Supplies a next response to the submitted request
+        /// </summary>
+        /// <param name="handler">The callback that will be used to supply the response</param>
+        public MockedRequest ThenRespond(Func<HttpRequestMessage, Task<HttpResponseMessage>> handler)
+        {
+            responseList.Add(handler);
+            return this;
+        }
+
+        /// <summary>
         /// Provides the configured response in relation to the request supplied
         /// </summary>
         /// <param name="message">The request being sent</param>
@@ -88,7 +100,18 @@ namespace RichardSzalay.MockHttp
         /// <returns>A Task containing the future response message</returns>
         public Task<HttpResponseMessage> SendAsync(HttpRequestMessage message, CancellationToken cancellationToken)
         {
-            return response(message);
+            try
+            {
+                if (_index == -1 || responseList.Count == 0 || _index >= responseList.Count)
+                {
+                    return response(message);
+                }
+                return responseList[_index](message);
+            }
+            finally
+            {
+                _index++;
+            }
         }
     }
 }

@@ -339,6 +339,18 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
+        /// Sets the next response of the current <see cref="T:MockedRequest"/>
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
+        /// <param name="mediaType">The media type of the response</param>
+        /// <param name="content">The content of the response</param>
+        public static MockedRequest ThenRespond(this MockedRequest source, HttpStatusCode statusCode, string mediaType, string content)
+        {
+            return source.ThenRespond(statusCode, Enumerable.Empty<KeyValuePair<string, string>>(), mediaType, content);
+        }
+
+        /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>
         /// </summary>
         /// <param name="source">The source mocked request</param>
@@ -349,6 +361,19 @@ namespace RichardSzalay.MockHttp
         public static MockedRequest Respond(this MockedRequest source, HttpStatusCode statusCode, IEnumerable<KeyValuePair<string, string>> headers, string mediaType, string content)
         {
             return source.Respond(statusCode, headers, _ => new StringContent(content, Encoding.UTF8, mediaType));
+        }
+
+        /// <summary>
+        /// Sets the next response of the current <see cref="T:MockedRequest"/>
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
+        /// <param name="headers">A list of HTTP header name/value pairs to add to the response.</param>
+        /// <param name="mediaType">The media type of the response</param>
+        /// <param name="content">The content of the response</param>
+        public static MockedRequest ThenRespond(this MockedRequest source, HttpStatusCode statusCode, IEnumerable<KeyValuePair<string, string>> headers, string mediaType, string content)
+        {
+            return source.ThenRespond(statusCode, headers, _ => new StringContent(content, Encoding.UTF8, mediaType));
         }
 
         /// <summary>
@@ -549,6 +574,29 @@ namespace RichardSzalay.MockHttp
         }
 
         /// <summary>
+        /// Sets the next response of the current <see cref="T:MockedRequest"/>
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
+        /// <param name="headers">A list of HTTP header name/value pairs to add to the response.</param>
+        /// <param name="handler">The delegate that will return a <see cref="T:HttpContent"/> determined at runtime</param>
+        public static MockedRequest ThenRespond(this MockedRequest source, HttpStatusCode statusCode, IEnumerable<KeyValuePair<string, string>> headers, Func<HttpRequestMessage, HttpContent> handler)
+        {
+            return source.ThenRespond(req =>
+            {
+                var res = new HttpResponseMessage(statusCode)
+                {
+                    Content = handler(req),
+                };
+                foreach (var header in headers)
+                {
+                    res.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                }
+                return res;
+            });
+        }
+
+        /// <summary>
         /// Sets the response of the current <see cref="T:MockedRequest"/>
         /// </summary>
         /// <param name="source">The source mocked request</param>
@@ -556,6 +604,16 @@ namespace RichardSzalay.MockHttp
         public static MockedRequest Respond(this MockedRequest source, Func<HttpRequestMessage, HttpResponseMessage> handler)
         {
             return source.Respond(req => TaskEx.FromResult(handler(req)));
+        }
+
+        /// <summary>
+        /// Sets the next response of the current <see cref="T:MockedRequest"/>
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="handler">The delegate that will return a <see cref="T:HttpResponseMessage"/> determined at runtime</param>
+        public static MockedRequest ThenRespond(this MockedRequest source, Func<HttpRequestMessage, HttpResponseMessage> handler)
+        {
+            return source.ThenRespond(req => TaskEx.FromResult(handler(req)));
         }
 
         /// <summary>
@@ -576,6 +634,17 @@ namespace RichardSzalay.MockHttp
         public static MockedRequest Respond(this MockedRequest source, HttpMessageHandler handler)
         {
             return source.Respond(new HttpClient(handler));
+        }
+
+        /// <summary>
+        /// Sets the next response of the current <see cref="T:MockedRequest"/>, with an OK (200) status code
+        /// </summary>
+        /// <param name="source">The source mocked request</param>
+        /// <param name="content">The content of the response</param>
+        /// <param name="mediaType">The media type of the response</param>
+        public static MockedRequest ThenRespond(this MockedRequest source, string mediaType, string content)
+        {
+            return source.ThenRespond(HttpStatusCode.OK, mediaType, content);
         }
 
         /// <summary>

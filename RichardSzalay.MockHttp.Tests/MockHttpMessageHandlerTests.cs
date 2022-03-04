@@ -48,6 +48,44 @@ namespace RichardSzalay.MockHttp.Tests
         }
 
         [Fact]
+        public void Should_support_then_respond_with_basic_requests()
+        {
+            var mockHandler = new MockHttpMessageHandler();
+
+            mockHandler
+                .When("/test")
+                .Respond("application/json", "{'status' : 'OK'}")
+                .ThenRespond("application/json", "{'status' : 'OK1'}")
+                .ThenRespond("text/plain", "=OK2=");
+
+            var result1 = new HttpClient(mockHandler).GetAsync("http://invalid/test").Result;
+            var result2 = new HttpClient(mockHandler).GetAsync("http://invalid/test").Result;
+            var result3 = new HttpClient(mockHandler).GetAsync("http://invalid/test").Result;
+            var result4 = new HttpClient(mockHandler).GetAsync("http://invalid/test").Result;
+            var result5 = new HttpClient(mockHandler).GetAsync("http://invalid/test").Result;
+
+            Assert.Equal(HttpStatusCode.OK, result1.StatusCode);
+            Assert.Equal("application/json", result1.Content.Headers.ContentType.MediaType);
+            Assert.Equal("{'status' : 'OK'}", result1.Content.ReadAsStringAsync().Result);
+
+            Assert.Equal(HttpStatusCode.OK, result2.StatusCode);
+            Assert.Equal("application/json", result2.Content.Headers.ContentType.MediaType);
+            Assert.Equal("{'status' : 'OK1'}", result2.Content.ReadAsStringAsync().Result);
+
+            Assert.Equal(HttpStatusCode.OK, result3.StatusCode);
+            Assert.Equal("text/plain", result3.Content.Headers.ContentType.MediaType);
+            Assert.Equal("=OK2=", result3.Content.ReadAsStringAsync().Result);
+
+            Assert.Equal(HttpStatusCode.OK, result4.StatusCode);
+            Assert.Equal("application/json", result4.Content.Headers.ContentType.MediaType);
+            Assert.Equal("{'status' : 'OK'}", result4.Content.ReadAsStringAsync().Result);
+
+            Assert.Equal(HttpStatusCode.OK, result5.StatusCode);
+            Assert.Equal("application/json", result5.Content.Headers.ContentType.MediaType);
+            Assert.Equal("{'status' : 'OK'}", result5.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
         public void Should_assign_request_to_response_object()
         {
             var mockHandler = new MockHttpMessageHandler();
