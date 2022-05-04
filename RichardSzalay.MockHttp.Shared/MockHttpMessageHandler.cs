@@ -267,8 +267,9 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         public void VerifyNoOutstandingRequest()
         {
-            if (outstandingRequests > 0)
-                throw new InvalidOperationException("There are " + outstandingRequests + " oustanding requests. Call Flush() to complete them");
+            var requests = Interlocked.CompareExchange(ref outstandingRequests, 0, 0);
+            if (requests > 0)
+                throw new InvalidOperationException("There are " + requests + " outstanding requests. Call Flush() to complete them");
         }
 
         /// <summary>
