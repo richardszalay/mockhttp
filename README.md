@@ -24,7 +24,7 @@ var mockHttp = new MockHttpMessageHandler();
 mockHttp.When("http://localhost/api/user/*")
         .Respond("application/json", "{'name' : 'Test McGee'}"); // Respond with JSON
 
-// Inject the handler or client into your application code
+// Inject the client into your application code
 var client = mockHttp.ToHttpClient();
 
 var response = await client.GetAsync("http://localhost/api/user/1234");
@@ -34,6 +34,14 @@ var json = await response.Content.ReadAsStringAsync();
 
 // No network connection required
 Console.Write(json); // {'name' : 'Test McGee'}
+```
+
+You can also use the dotnet DI system to inject the MockHttpMessageHandler:
+```csharp
+services
+    .AddSingleton<MockHttpMessageHandler>()
+    .AddHttpClient<YourApiClient>()
+        .ConfigurePrimaryHttpMessageHandler<MockHttpMessageHandler>();
 ```
 
 ### When (Backend Definitions) vs Expect (Request Expectations)
