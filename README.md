@@ -35,13 +35,37 @@ var json = await response.Content.ReadAsStringAsync();
 // No network connection required
 Console.Write(json); // {'name' : 'Test McGee'}
 ```
+### XUnit
 
-You can also use the dotnet DI system to inject the MockHttpMessageHandler:
+If you're using the Xunit.DependencyInjection library, you can register the MockHttpMessageHandler and inject it into your test:
 ```csharp
-services
-    .AddSingleton<MockHttpMessageHandler>()
-    .AddHttpClient<YourApiClient>()
-        .ConfigurePrimaryHttpMessageHandler<MockHttpMessageHandler>();
+public void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddSingleton<MockHttpMessageHandler>()
+        .AddHttpClient<YourApiClient>()
+            .ConfigurePrimaryHttpMessageHandler<MockHttpMessageHandler>();
+}
+```
+```csharp
+public class MyTests
+{
+    private MockHttpMessageHandler _httpMessageHandlerMock;
+    
+    public MyTests(MockHttpMessageHandler httpMessageHandlerMock)
+    {
+         _httpMessageHandlerMock = httpMessageHandlerMock;
+    }
+
+    [Fact]
+    public void MyTest()
+    {
+        _httpMessageHandlerMock.ResetExpectations(); // the handler is shared with all tests, so this must be done before each test
+        _httpMessageHandlerMock.Expect(...
+       // Act
+       // Assert
+    }
+}
 ```
 
 ### When (Backend Definitions) vs Expect (Request Expectations)
