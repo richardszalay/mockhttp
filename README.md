@@ -145,7 +145,7 @@ MockHttp is compiled for .NET Standard 2.0, .NET Standard 1.1, .NET 4, and .NET 
 
 * .NET 4
 * Silverlight 5
-* Winodws 8
+* Windows 8
 * Windows Phone Silverlight 8
 * Windows Phone 8.1
 * Xamarin iOS
