@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace RichardSzalay.MockHttp.Matchers
@@ -12,17 +13,20 @@ namespace RichardSzalay.MockHttp.Matchers
     public class CustomMatcher : IMockedRequestMatcher
     {
         readonly Func<HttpRequestMessage, bool> matcher;
+        private readonly string matcherText;
 
         /// <summary>
         /// Constructs a new instance of CustomMatcher
         /// </summary>
         /// <param name="matcher">The matcher delegate</param>
-        public CustomMatcher(Func<HttpRequestMessage, bool> matcher)
+        /// <param name="matcherText">The text of the matcher delegate (if available)</param>
+        public CustomMatcher(Func<HttpRequestMessage, bool> matcher, [CallerArgumentExpression("matcher")] string matcherText = "")
         {
-            if (matcher == null)
-                throw new ArgumentNullException("matcher");
-
-            this.matcher = matcher;
+	        if (matcher == null)
+		        throw new ArgumentNullException("matcher");
+            
+	        this.matcher = matcher;
+	        this.matcherText = matcherText;
         }
 
         /// <summary>
@@ -34,5 +38,10 @@ namespace RichardSzalay.MockHttp.Matchers
         {
             return matcher(message);
         }
+
+        /// <inheritdoc />
+        public string Description => string.IsNullOrEmpty(matcherText) ? 
+	        $"With a custom matcher" :
+	        $"Matching: {matcherText}";
     }
 }

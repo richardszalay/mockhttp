@@ -96,5 +96,15 @@ namespace RichardSzalay.MockHttp
 
             return this.response(message);
         }
+
+        /// <inheritdoc />
+        public string Description => $"A request that matches: {Environment.NewLine}" +
+                                     $"{FormatMatchers(this.matchers)}";
+
+        private string FormatMatchers(IEnumerable<IMockedRequestMatcher> matcherList)
+        {
+	        var matcherDescriptions = matcherList.Select(s => s.Description).ToArray();
+            return string.Join(Environment.NewLine + "AND ", matcherDescriptions);
+        }
     }
 }

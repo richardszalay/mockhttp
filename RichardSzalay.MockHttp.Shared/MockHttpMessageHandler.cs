@@ -278,8 +278,17 @@ namespace RichardSzalay.MockHttp
         /// </summary>
         public void VerifyNoOutstandingExpectation()
         {
-            if (this.requestExpectations.Count > 0)
-                throw new InvalidOperationException("There are " + requestExpectations.Count + " unfulfilled expectations");
+	        if (this.requestExpectations.Count > 0)
+	        {
+		        throw new InvalidOperationException($"There are {requestExpectations.Count} unfulfilled expectations: {Environment.NewLine}" +
+		                                            $"Expected {FormatRequestList(this.requestExpectations)}");
+	        }
+        }
+
+        private string FormatRequestList(IEnumerable<IMockedRequest> requests)
+        {
+	        var requestDescriptions = requests.Select(s => s.Description).ToArray();
+	        return string.Join("," + Environment.NewLine + Environment.NewLine + "Expected ", requestDescriptions);
         }
 
         /// <summary>

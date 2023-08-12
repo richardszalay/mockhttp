@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -209,6 +210,22 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
                 );
 
             Assert.False(result);
+        }
+
+        [Fact]
+        public void Description_shows_all_expected_form_data()
+        {
+
+	        const string formDataString = "key1=a_test_value&key2=another_test_value";
+
+	        const string expectedDescriptionField1 = "key1 = a_test_value";
+	        const string expectedDescriptionField2 = "key2 = another_test_value";
+
+
+            var sut = new FormDataMatcher(formDataString);
+
+            Assert.Contains(expectedDescriptionField1, sut.Description);
+            Assert.Contains(expectedDescriptionField2, sut.Description);
         }
 
         private bool Test(string expected, HttpContent actual)

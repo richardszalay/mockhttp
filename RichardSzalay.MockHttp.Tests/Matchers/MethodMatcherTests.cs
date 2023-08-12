@@ -33,6 +33,17 @@ namespace RichardSzalay.MockHttp.Tests.Matchers
             Assert.False(result);
         }
 
+        [Fact]
+        public void Description_should_contain_text_of_http_method()
+        {
+	        var method = HttpMethod.Post;
+	        var methodText = method.Method;
+
+	        var sut = new MethodMatcher(method);
+
+            Assert.Contains(methodText, sut.Description);
+        }
+
         private bool Test(HttpMethod expected, HttpMethod actual)
         {
             var sut = new MethodMatcher(expected);

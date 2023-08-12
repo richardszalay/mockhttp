@@ -17,5 +17,10 @@ namespace RichardSzalay.MockHttp
         /// <param name="message">The request message being evaluated</param>
         /// <returns>true if the request was matched; false otherwise</returns>
         bool Matches(HttpRequestMessage message);
+
+        /// <summary>
+        /// A description of what will match this matcher
+        /// </summary>
+        string Description { get; }
     }
 }

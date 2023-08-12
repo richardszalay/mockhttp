@@ -51,6 +51,22 @@ Authorization: Basic abcdef"),
             Assert.True(result);
         }
 
+        [Fact]
+        public void Description_shows_expected_string_headers()
+        {
+	        var authorizationHeader = "Authorization: Bearer my_token";
+	        var contentTypeHeader = "Content-Type: application/json";
+
+            var headerText = $@"{authorizationHeader}
+{contentTypeHeader}
+";
+
+            var sut = new HeadersMatcher(headerText);
+
+            Assert.Contains(authorizationHeader, sut.Description);
+            Assert.Contains(contentTypeHeader, sut.Description);
+        }
+
         private bool Test(HeadersMatcher expected, Action<HttpRequestMessage> actual)
         {
             var request = new HttpRequestMessage(HttpMethod.Get,

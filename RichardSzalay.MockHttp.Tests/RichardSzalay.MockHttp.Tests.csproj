@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallerArgumentExpressionAttribute.cs" />
     <Compile Include="Infrastructure\HttpHelpers.cs" />
     <Compile Include="Issues\Issue33Tests.cs" />
     <Compile Include="Issues\Issue29Tests.cs" />

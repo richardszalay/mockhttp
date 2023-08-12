@@ -35,5 +35,8 @@ namespace RichardSzalay.MockHttp.Matchers
 
             return actualContent == content;
         }
+
+        /// <inheritdoc />
+        public string Description => $"Full Content matching: {content}";
     }
 }

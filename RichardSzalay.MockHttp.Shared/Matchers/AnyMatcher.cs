@@ -6,7 +6,7 @@ using System.Text;
 namespace RichardSzalay.MockHttp.Matchers
 {
     /// <summary>
-    /// A composite matcher that suceeds if any of it's composed matchers succeed
+    /// A composite matcher that succeeds if any of it's composed matchers succeed
     /// </summary>
     public class AnyMatcher : IMockedRequestMatcher
     {
@@ -29,6 +29,16 @@ namespace RichardSzalay.MockHttp.Matchers
         public bool Matches(System.Net.Http.HttpRequestMessage message)
         {
             return _matchers.Any(m => m.Matches(message));
+        }
+
+        /// <inheritdoc />
+        public string Description
+        {
+	        get
+	        {
+		        var matcherDescriptions = _matchers.Select(s => s.Description);
+		        return $"Matching at least one of: {Environment.NewLine}\t({string.Join(Environment.NewLine + "\tOR ", matcherDescriptions)})";
+	        }
         }
     }
 }

@@ -68,6 +68,9 @@ namespace RichardSzalay.MockHttp.Matchers
 
             return true;
         }
+        
+        /// <inheritdoc />
+        public string Description => $"A URL matching: {this.url}";
 
         private string GetUrlToMatch(Uri input)
         {
