@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>RichardSzalay.MockHttp</id>
-    <version>5.0.0</version>
+    <version>7.0.0</version>
     <title>MockHttp for HttpClient</title>
     <authors>Richard Szalay</authors>
     <owners>Richard Szalay</owners>
@@ -10,7 +10,8 @@
     <projectUrl>https://github.com/richardszalay/mockhttp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Testing layer for Microsoft's HttpClient library</description>
-    <releaseNotes>6.0.0 - Assemblies are now strong named (binary BREAKING) #1
+    <releaseNotes>7.0.0 - New build system and modernise target frameworks (BREAKING)
+6.0.0 - Assemblies are now strong named (binary BREAKING) #1
 5.0.0 - Align with official recommendations on multi-targetting HttpClient:
       - Add netstandard2.0 target #61
       - Change .NET 4.5 target to use in-band System.Net.Http reference (BREAKING) #61
@@ -37,9 +38,9 @@
 	    - Form/Query data matching now works with both + and %20 space encodings (thanks Jozef Izso!)
 1.2.0 - Changed PCL profile to support WP8.1
 1.1.0 - Added MockHttpMessageHandler.Fallback and HttpClient passthrough support</releaseNotes>
-    <copyright>Copyright 2018 Richard Szalay</copyright>
+    <copyright>Copyright 2022 Richard Szalay</copyright>
     <tags>httpclient test mock fake stub</tags>
-    <dependencies>
+    <!--<dependencies>
       <group targetFramework=".NETStandard2.0">
       </group>
       <group targetFramework=".NETStandard1.1">
@@ -61,23 +62,17 @@
       </group>
       <group targetFramework="MonoTouch10">
       </group>
-    </dependencies>
-    <frameworkAssemblies>
+    </dependencies>-->
+    <!--<frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Net.Http" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="System.Net" targetFramework="MonoAndroid10" />
       <frameworkAssembly assemblyName="System.Net" targetFramework="MonoTouch10" />
-    </frameworkAssemblies>
+    </frameworkAssemblies>-->
   </metadata>
   <files>
-    <file src="RichardSzalay.MockHttp.Portable328\bin\Release\RichardSzalay.MockHttp.dll" target="lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1" />
-    <file src="RichardSzalay.MockHttp.Portable328\bin\Release\RichardSzalay.MockHttp.xml" target="lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1" />
-    <file src="RichardSzalay.MockHttp.Net40\bin\Release\RichardSzalay.MockHttp.dll" target="lib\net40" />
-    <file src="RichardSzalay.MockHttp.Net40\bin\Release\RichardSzalay.MockHttp.xml" target="lib\net40" />
-    <file src="RichardSzalay.MockHttp.Net45\bin\Release\RichardSzalay.MockHttp.dll" target="lib\net45" />
-    <file src="RichardSzalay.MockHttp.Net45\bin\Release\RichardSzalay.MockHttp.xml" target="lib\net45" />
-    <file src="RichardSzalay.MockHttp.NetStandard\bin\Release\netstandard1.1\RichardSzalay.MockHttp.dll" target="lib\netstandard1.1" />
-    <file src="RichardSzalay.MockHttp.NetStandard\bin\Release\netstandard1.1\RichardSzalay.MockHttp.xml" target="lib\netstandard1.1" />
-    <file src="RichardSzalay.MockHttp.NetStandard\bin\Release\netstandard2.0\RichardSzalay.MockHttp.dll" target="lib\netstandard2.0" />
-    <file src="RichardSzalay.MockHttp.NetStandard\bin\Release\netstandard2.0\RichardSzalay.MockHttp.xml" target="lib\netstandard2.0" />
+    <file src="RichardSzalay.MockHttp\bin\Release\netstandard1.1\RichardSzalay.MockHttp.dll" target="lib\netstandard1.1" />
+    <file src="RichardSzalay.MockHttp\bin\Release\netstandard1.1\RichardSzalay.MockHttp.xml" target="lib\netstandard1.1" />
+    <file src="RichardSzalay.MockHttp\bin\Release\netstandard2.0\RichardSzalay.MockHttp.dll" target="lib\netstandard2.0" />
+    <file src="RichardSzalay.MockHttp\bin\Release\netstandard2.0\RichardSzalay.MockHttp.xml" target="lib\netstandard2.0" />
   </files>
 </package>

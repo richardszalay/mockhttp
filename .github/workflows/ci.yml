@@ -1,0 +1,39 @@
+name: MockHttp Build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: ${{ matrix.os }}
+    env:
+      DOTNET_NOLOGO: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macOS-latest]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore ./RichardSzalay.MockHttp.sln
+    - name: Build
+      run: dotnet build -c Release --no-restore ./RichardSzalay.MockHttp.sln
+    - name: Test
+      run: dotnet test -c Release --no-build --verbosity normal ./RichardSzalay.MockHttp.sln
+    - name: Package
+      run: dotnet pack -c Release --no-build ./RichardSzalay.MockHttp/RichardSzalay.MockHttp.csproj
+      if: github.event_name != 'pull_request' && matrix.os == 'ubuntu-latest'
+
+    - name: "Upload artifact: RichardSzalay.MockHttp.nupkg"
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        name: RichardSzalay.MockHttp.nupkg
+        path: RichardSzalay.MockHttp/bin/Release/*.nupkg
+      if: github.event_name != 'pull_request' && matrix.os == 'ubuntu-latest'
