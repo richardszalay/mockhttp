@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace RichardSzalay.MockHttp
+namespace RichardSzalay.MockHttp;
+
+class TaskEx
 {
-    class TaskEx
+    public static Task<T> FromResult<T>(T result)
     {
-        public static Task<T> FromResult<T>(T result)
-        {
-            var tcs = new TaskCompletionSource<T>();
-            tcs.SetResult(result);
-            return tcs.Task;
-        }
+        var tcs = new TaskCompletionSource<T>();
+        tcs.SetResult(result);
+        return tcs.Task;
     }
 }
