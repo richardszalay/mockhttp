@@ -29,7 +29,9 @@ namespace RichardSzalay.MockHttp.Matchers
         public bool Matches(System.Net.Http.HttpRequestMessage message)
         {
             if (message.Content == null)
-                return false;
+                return content == null;
+            else if (content == null)
+                return false;            
 
             string actualContent = message.Content.ReadAsStringAsync().Result;
 
