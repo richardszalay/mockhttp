@@ -1,39 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿namespace RichardSzalay.MockHttp.Matchers;
 
-namespace RichardSzalay.MockHttp.Matchers
+/// <summary>
+/// Matches requests on request content
+/// </summary>
+public class ContentMatcher : IMockedRequestMatcher
 {
+    private string content;
+
     /// <summary>
-    /// Matches requests on request content
+    /// Constructs a new instance of ContentMatcher
     /// </summary>
-    public class ContentMatcher : IMockedRequestMatcher
+    /// <param name="content">The content to match</param>
+    public ContentMatcher(string content)
     {
-        private string content;
+        this.content = content;
+    }
 
-        /// <summary>
-        /// Constructs a new instance of ContentMatcher
-        /// </summary>
-        /// <param name="content">The content to match</param>
-        public ContentMatcher(string content)
-        {
-            this.content = content;
-        }
+    /// <summary>
+    /// Determines whether the implementation matches a given request
+    /// </summary>
+    /// <param name="message">The request message being evaluated</param>
+    /// <returns>true if the request was matched; false otherwise</returns>
+    public bool Matches(System.Net.Http.HttpRequestMessage message)
+    {
+        if (message.Content == null)
+            return false;
 
-        /// <summary>
-        /// Determines whether the implementation matches a given request
-        /// </summary>
-        /// <param name="message">The request message being evaluated</param>
-        /// <returns>true if the request was matched; false otherwise</returns>
-        public bool Matches(System.Net.Http.HttpRequestMessage message)
-        {
-            if (message.Content == null)
-                return false;
+        string actualContent = message.Content.ReadAsStringAsync().Result;
 
-            string actualContent = message.Content.ReadAsStringAsync().Result;
-
-            return actualContent == content;
-        }
+        return actualContent == content;
     }
 }
