@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 
-namespace RichardSzalay.MockHttp
+namespace RichardSzalay.MockHttp;
+
+/// <summary>
+/// Represents a constraint on a mocked request
+/// </summary>
+public interface IMockedRequestMatcher
 {
     /// <summary>
-    /// Represents a constraint on a mocked request
+    /// Determines whether the implementation matches a given request
     /// </summary>
-    public interface IMockedRequestMatcher
-    {
-        /// <summary>
-        /// Determines whether the implementation matches a given request
-        /// </summary>
-        /// <param name="message">The request message being evaluated</param>
-        /// <returns>true if the request was matched; false otherwise</returns>
-        bool Matches(HttpRequestMessage message);
-    }
+    /// <param name="message">The request message being evaluated</param>
+    /// <returns>true if the request was matched; false otherwise</returns>
+    bool Matches(HttpRequestMessage message);
 }
