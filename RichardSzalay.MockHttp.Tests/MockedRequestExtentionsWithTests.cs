@@ -9,6 +9,9 @@ using RichardSzalay.MockHttp;
 using System.Net.Http.Headers;
 using RichardSzalay.MockHttp.Matchers;
 using System.Text.Json;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace RichardSzalay.MockHttp.Tests
 {
@@ -195,6 +198,50 @@ Accept-Language: fr"));
             });
         }
 
+        [Fact]
+        public void WithXmlContent_value()
+        {
+            var settings = new XmlWriterSettings()
+            {
+                OmitXmlDeclaration = true,
+                Indent = false
+            };
+
+            TestPass((request, mockRequest) =>
+            {
+                request.Content = new StringContent(
+                    @"<XmlContent xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""><Value>true</Value></XmlContent>");
+
+                return mockRequest.WithXmlContent(new XmlContent() { Value = true }, settings: settings);
+            });
+
+            TestFail((request, mockRequest) =>
+            {
+                request.Content = new StringContent(
+                    @"<XmlContent xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""><Value>false</Value></XmlContent>");
+
+                return mockRequest.WithXmlContent(new XmlContent() { Value = true }, settings: settings);
+            });
+        }
+
+        [Fact]
+        public void WithXmlContent_predicate()
+        {
+            TestPass((request, mockRequest) =>
+            {
+                request.Content = new StringContent(@"<XmlContent><Value>true</Value></XmlContent>");
+
+                return mockRequest.WithXmlContent<XmlContent>(c => c.Value == true);
+            });
+
+            TestFail((request, mockRequest) =>
+            {
+                request.Content = new StringContent(@"<XmlContent><Value>false</Value></XmlContent>");
+
+                return mockRequest.WithXmlContent<XmlContent>(c => c.Value == true);
+            });
+        }
+
         private HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://www.tempuri.org/path?apple=red&pear=green")
         {
             Content = new FormUrlEncodedContent(new Dictionary<string, string>
@@ -244,5 +291,10 @@ Accept-Language: fr"));
         }
 
         record JsonContent(bool Value);
+        
+        public class XmlContent
+        {
+            public bool Value { get; set; }
+        }
     }
 }
