@@ -126,6 +126,20 @@ namespace RichardSzalay.MockHttp
             return SendAsync(Fallback, request, cancellationToken);
         }
 
+#if NET5_0_OR_GREATER
+        /// <summary>
+        /// Maps the request to the most appropriate configured response
+        /// </summary>
+        /// <param name="request">The request being sent</param>
+        /// <param name="cancellationToken">The token used to cancel the request</param>
+        /// <returns>A Task containing the future response message</returns>
+        protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            return this.SendAsync(request, cancellationToken)
+                .GetAwaiter().GetResult();
+        }
+#endif
+
         private Task<HttpResponseMessage> SendAsync(IMockedRequest handler, HttpRequestMessage request, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref outstandingRequests);

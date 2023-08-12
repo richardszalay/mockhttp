@@ -86,6 +86,7 @@ namespace RichardSzalay.MockHttp.Tests
         }
 
         [Fact]
+        [Obsolete]
         public void Respond_HttpMessage()
         {
             var expected = new HttpResponseMessage();

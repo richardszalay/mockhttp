@@ -134,10 +134,11 @@ namespace RichardSzalay.MockHttp.Tests
 
             task.Wait();
 
-            Assert.DoesNotThrow(() => mockHandler.VerifyNoOutstandingRequest());
+            mockHandler.VerifyNoOutstandingRequest();
         }
 
         [Fact]
+        [Obsolete]
         public void Should_return_fallback_for_unmatched_requests()
         {
             var mockHandler = new MockHttpMessageHandler();
@@ -260,7 +261,7 @@ namespace RichardSzalay.MockHttp.Tests
 
             var result = client.GetAsync("http://invalid/test").Result;
 
-            Assert.DoesNotThrow(mockHandler.VerifyNoOutstandingExpectation);
+            mockHandler.VerifyNoOutstandingExpectation();
         }
 
         [Fact]
