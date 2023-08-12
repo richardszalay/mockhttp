@@ -1,17 +1,16 @@
-﻿namespace RichardSzalay.MockHttp
+﻿namespace RichardSzalay.MockHttp;
+
+/// <summary>
+/// Defines the behavior for processing BackendDefinitions when Request Expectations exist
+/// </summary>
+public enum BackendDefinitionBehavior
 {
     /// <summary>
-    /// Defines the behavior for processing BackendDefinitions when Request Expectations exist
+    /// Will not match Backend Definitions if Request Expectations exist
     /// </summary>
-    public enum BackendDefinitionBehavior
-    {
-        /// <summary>
-        /// Will not match Backend Definitions if Request Expectations exist
-        /// </summary>
-        NoExpectations = 0,
-        /// <summary>
-        /// Will match Backend Definitions if the next Request Expectation did not match
-        /// </summary>
-        Always = 1
-    }
+    NoExpectations = 0,
+    /// <summary>
+    /// Will match Backend Definitions if the next Request Expectation did not match
+    /// </summary>
+    Always = 1
 }
