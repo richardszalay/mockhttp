@@ -8,6 +8,7 @@ using Xunit;
 using RichardSzalay.MockHttp;
 using System.Net.Http.Headers;
 using RichardSzalay.MockHttp.Matchers;
+using System.Text.Json;
 
 namespace RichardSzalay.MockHttp.Tests
 {
@@ -158,6 +159,42 @@ Accept-Language: fr"));
             }));
         }
 
+        [Fact]
+        public void WithJsonContent_value()
+        {
+            TestPass((request, mockRequest) =>
+            {
+                request.Content = new StringContent(@"{""Value"":true}");
+
+                return mockRequest.WithJsonContent(new JsonContent(true));
+            });
+
+            TestFail((request, mockRequest) =>
+            {
+                request.Content = new StringContent(@"{""Value"":false}");
+
+                return mockRequest.WithJsonContent(new JsonContent(true));
+            });
+        }
+
+        [Fact]
+        public void WithJsonContent_predicate()
+        {
+            TestPass((request, mockRequest) =>
+            {
+                request.Content = new StringContent(@"{""Value"":true}");
+
+                return mockRequest.WithJsonContent<JsonContent>(c => c.Value == true);
+            });
+
+            TestFail((request, mockRequest) =>
+            {
+                request.Content = new StringContent(@"{""Value"":false}");
+
+                return mockRequest.WithJsonContent<JsonContent>(c => c.Value == true);
+            });
+        }
+
         private HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://www.tempuri.org/path?apple=red&pear=green")
         {
             Content = new FormUrlEncodedContent(new Dictionary<string, string>
@@ -169,25 +206,43 @@ Accept-Language: fr"));
 
         private void TestPass(Func<MockedRequest, MockedRequest> pass)
         {
+            TestPass((_, mock) => pass(mock));
+        }
+
+        private void TestPass(Func<HttpRequestMessage, MockedRequest, MockedRequest> setup)
+        {
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
             request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue("en"));
 
             var mockHttp = new MockHttpMessageHandler();
 
-            var result = pass(mockHttp.Expect("/path"))
-                .Matches(request);
+            var mockRequest = mockHttp.Expect("/path");
+
+            mockRequest = setup(request, mockRequest);
+
+            var result = mockRequest.Matches(request);
 
             Assert.True(result);            
         }
 
-        private void TestFail(Func<MockedRequest, MockedRequest> fail)
+        private void TestFail(Func<MockedRequest, MockedRequest> setup)
+        {
+            TestFail((_, mock) => setup(mock));
+        }
+
+        private void TestFail(Func<HttpRequestMessage, MockedRequest, MockedRequest> setup)
         {
             var mockHttp = new MockHttpMessageHandler();
 
-            var result = fail(mockHttp.Expect("/path"))
-                .Matches(request);
+            var mockRequest = mockHttp.Expect("/path");
+
+            mockRequest = setup(request, mockRequest);
+
+            var result = mockRequest.Matches(request);
 
             Assert.False(result);
         }
+
+        record JsonContent(bool Value);
     }
 }
