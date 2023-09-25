@@ -1,9 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Version>7.0.0</Version>
+        <Title>RichardSzalay.MockHttp</Title>
+        <Authors>lk-code; RichardSzalay </Authors>
+        <Description>MockHttp is a testing layer for Microsoft's HttpClient library. </Description>
+        <Copyright>MIT</Copyright>
+        <PackageProjectUrl>https://github.com/richardszalay/mockhttp</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/richardszalay/mockhttp/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageIcon>icon_128.png</PackageIcon>
+        <RepositoryUrl>https://github.com/richardszalay/mockhttp</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Update="icon_128.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+    </ItemGroup>
 
 </Project>
