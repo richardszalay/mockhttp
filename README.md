@@ -1,9 +1,16 @@
-[![NuGet](http://img.shields.io/nuget/v/RichardSzalay.MockHttp.svg?style=flat-square)](https://www.nuget.org/packages/RichardSzalay.MockHttp/)[![NuGet](https://img.shields.io/nuget/dt/RichardSzalay.MockHttp.svg?style=flat-square)](https://www.nuget.org/packages/RichardSzalay.MockHttp/)
+# MockHttp for HttpClient
 
-[![Build status](https://ci.appveyor.com/api/projects/status/3in8hmcyg11wpcjw/branch/master?svg=true)](https://ci.appveyor.com/project/richardszalay/mockhttp)
+![html-compiler-tool](https://raw.githubusercontent.com/lk-code/mockhttp/master/icon_128.png)
 
-MockHttp for HttpClient
-=====================
+[![.NET Version](https://img.shields.io/badge/dotnet%20version-net6.0-blue?style=flat-square)](https://www.nuget.org/packages/RichardSzalay.MockHttp/)
+[![.NET Version](https://img.shields.io/badge/dotnet%20version-net7.0-blue?style=flat-square)](https://www.nuget.org/packages/RichardSzalay.MockHttp/)
+[![NuGet](http://img.shields.io/nuget/v/RichardSzalay.MockHttp.svg?style=flat-square)](https://www.nuget.org/packages/RichardSzalay.MockHttp/)
+[![License](https://img.shields.io/github/license/RichardSzalay/mockhttp.svg?style=flat-square)](https://github.com/richardszalay/mockhttp/blob/master/LICENSE)
+[![NuGet](https://img.shields.io/nuget/dt/RichardSzalay.MockHttp.svg?style=flat-square)](https://www.nuget.org/packages/RichardSzalay.MockHttp/)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=lk-code_mockhttp&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=lk-code_mockhttp)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=lk-code_mockhttp&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=lk-code_mockhttp)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=lk-code_mockhttp&metric=coverage)](https://sonarcloud.io/summary/new_code?id=lk-code_mockhttp)
 
 MockHttp is a testing layer for Microsoft's HttpClient library. It allows stubbed responses to be configured for matched HTTP requests and can be used to test your application's service layer.
 
