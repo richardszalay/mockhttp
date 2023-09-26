@@ -252,17 +252,6 @@ public static class MockedRequestExtensions
     /// Sets the response of the current <see cref="T:MockedRequest"/>
     /// </summary>
     /// <param name="source">The source mocked request</param>
-    /// <param name="message">The complete <see cref="T:HttpResponseMessage"/> to return</param>
-    [Obsolete("Using this overload is not recommended. Instead, use Respond(req => new HttpResponseMessage(...))")]
-    public static MockedRequest Respond(this MockedRequest source, HttpResponseMessage message)
-    {
-        return source.Respond(_ => TaskExtensions.FromResult(message));
-    }
-
-    /// <summary>
-    /// Sets the response of the current <see cref="T:MockedRequest"/>
-    /// </summary>
-    /// <param name="source">The source mocked request</param>
     /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
     public static MockedRequest Respond(this MockedRequest source, HttpStatusCode statusCode)
     {

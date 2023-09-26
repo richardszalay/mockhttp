@@ -129,7 +129,7 @@ public class MockHttpMessageHandlerTests
         _mockHandler.When("/test")
             .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
 
-        _mockHandler.Fallback.Respond(new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+        _mockHandler.Fallback.Respond(req => new HttpResponseMessage(HttpStatusCode.OK)
         {
             ReasonPhrase = "Awesome"
         });
