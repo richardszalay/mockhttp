@@ -31,7 +31,7 @@ public class AnyMatcherTests
         result.Should().BeFalse();
     }
 
-    public bool Test(params bool[] matcherResults)
+    private static bool Test(params bool[] matcherResults)
     {
         var matchers = matcherResults
             .Select(result => new FakeMatcher(result));

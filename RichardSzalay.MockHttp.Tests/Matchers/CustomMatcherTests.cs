@@ -22,6 +22,6 @@ public class CustomMatcherTests
         result.Should().BeFalse();
     }
 
-    private bool Test(Func<HttpRequestMessage, bool> handler) => new CustomMatcher(handler)
+    private static bool Test(Func<HttpRequestMessage, bool> handler) => new CustomMatcher(handler)
         .Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home"));
 }

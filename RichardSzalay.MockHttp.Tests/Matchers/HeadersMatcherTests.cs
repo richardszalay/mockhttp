@@ -49,7 +49,7 @@ public class HeadersMatcherTests
         result.Should().BeTrue();
     }
 
-    private bool Test(HeadersMatcher expected, Action<HttpRequestMessage> actual)
+    private static bool Test(HeadersMatcher expected, Action<HttpRequestMessage> actual)
     {
         var request = new HttpRequestMessage(HttpMethod.Get,
             "http://tempuri.org/home");

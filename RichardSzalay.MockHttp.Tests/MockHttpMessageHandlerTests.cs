@@ -8,8 +8,8 @@ namespace RichardSzalay.MockHttp.Tests;
 [TestClass]
 public class MockHttpMessageHandlerTests
 {
-    private MockHttpMessageHandler _mockHandler;
-    private HttpClient _instance;
+    private MockHttpMessageHandler _mockHandler = null!;
+    private HttpClient _instance = null!;
 
     [TestInitialize]
     public void SetUp()

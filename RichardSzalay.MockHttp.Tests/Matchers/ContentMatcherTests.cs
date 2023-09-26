@@ -28,7 +28,7 @@ public class ContentMatcherTests
         result.Should().BeFalse();
     }
 
-    private bool Test(string expected, string actual)
+    private static bool Test(string expected, string actual)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home");
 
