@@ -44,9 +44,8 @@ public class FormDataMatcherTests
         };
 
         var content = new FormUrlEncodedContent(data);
-        var sut = new FormDataMatcher(data);
-
-        var actualMatch = sut.Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home")
+        var actualMatch = new FormDataMatcher(data)
+            .Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home")
         {
             Content = content
         });
@@ -64,9 +63,9 @@ public class FormDataMatcherTests
         {
             { "key", "Value with spaces" }
         });
-        var sut = new FormDataMatcher("key=Value+with%20spaces");
 
-        var actualMatch = sut.Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home")
+        var actualMatch = new FormDataMatcher("key=Value+with%20spaces")
+            .Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home")
         {
             Content = content
         });
