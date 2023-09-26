@@ -78,7 +78,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: pwsh
         run: |
-          dotnet-sonarscanner begin /k:"lk-code_html-compiler-tool" /o:"lk-code-github" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          dotnet-sonarscanner begin /k:"lk-code_mockhttp" /o:"lk-code-github" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build --configuration Release --no-restore -p:PackageVersion=${{ env.VERSION }}
           dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
           reportgenerator "-reports:coverage.xml" "-targetdir:sonarqubecoverage" "-reporttypes:SonarQube"
