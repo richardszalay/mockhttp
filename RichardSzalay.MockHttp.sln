@@ -1,29 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.8
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7DE23763-EAF5-4CDA-B937-1B8C6159104D}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		CHANGELOG = CHANGELOG
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		icon_128.png = icon_128.png
 		LICENSE = LICENSE
 		README.md = README.md
-		.gitignore = .gitignore
-		icon_128.png = icon_128.png
-		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp", "RichardSzalay.MockHttp\RichardSzalay.MockHttp.csproj", "{03FBEC76-42A2-4C37-AAAD-E55A297A24EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichardSzalay.MockHttp", "RichardSzalay.MockHttp\RichardSzalay.MockHttp.csproj", "{03FBEC76-42A2-4C37-AAAD-E55A297A24EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp.Tests", "RichardSzalay.MockHttp.Tests\RichardSzalay.MockHttp.Tests.csproj", "{6AEF9F29-B494-4498-98B7-90938912417A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichardSzalay.MockHttp.Tests", "RichardSzalay.MockHttp.Tests\RichardSzalay.MockHttp.Tests.csproj", "{6AEF9F29-B494-4498-98B7-90938912417A}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{21a34759-fae1-48b5-8cfe-2ea1b9befcb8}*SharedItemsImports = 13
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{577ec1e5-e2b6-4170-aeac-74bac282cac1}*SharedItemsImports = 4
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{e388befc-f356-49d3-a29c-296a59fd27dd}*SharedItemsImports = 4
-		RichardSzalay.MockHttp.Shared\RichardSzalay.MockHttp.Shared.projitems*{f9679562-4076-4ca2-9d3c-34a04a47ee1b}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -73,7 +67,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D349BD47-EE2A-4FDF-954F-C2F511313D79}
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
