@@ -281,7 +281,7 @@ public class MockHttpMessageHandlerTests
     {
         var mockHandler = new MockHttpMessageHandler(BackendDefinitionBehavior.Always);
         var instance = new HttpClient(mockHandler);
-        
+
         mockHandler.When("/test")
             .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
 
@@ -292,5 +292,72 @@ public class MockHttpMessageHandlerTests
 
         var content = await result.Content.ReadAsStringAsync();
         content.Should().Be("{'status' : 'OK'}");
+    }
+
+    /// <summary>
+    /// ISSUE #29
+    /// https://github.com/richardszalay/mockhttp/issues/29
+    /// </summary>
+    [TestMethod]
+    public async Task CanSimulateTimeout()
+    {
+        var handler = new MockHttpMessageHandler();
+
+        handler.Fallback.Respond(async () =>
+        {
+            await Task.Delay(10000);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        });
+
+        var client = new HttpClient(handler);
+        client.Timeout = TimeSpan.FromMilliseconds(1000);
+
+        try
+        {
+            var result = await client.GetAsync("http://localhost");
+
+            throw new InvalidOperationException("Expected timeout exception");
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    /// <summary>
+    /// ISSUE #33
+    /// https://github.com/richardszalay/mockhttp/issues/33
+    /// </summary>
+    [TestMethod]
+    public async Task DisposingResponseDoesNotFailFutureRequests()
+    {
+        var handler = new MockHttpMessageHandler();
+
+        handler.When("*").Respond(HttpStatusCode.OK);
+
+        var client = new HttpClient(handler);
+
+        var firstResponse = await client.GetAsync("http://localhost");
+        firstResponse.Dispose();
+
+        var secondResponse = await client.GetAsync("http://localhost");
+    }
+
+    /// <summary>
+    /// ISSUE #39
+    /// https://github.com/richardszalay/mockhttp/issues/39
+    /// </summary>
+    [TestMethod]
+    public async Task RespondingWithHttpClientWorks()
+    {
+        var mockSecondHandler = new MockHttpMessageHandler();
+        mockSecondHandler.When("*").Respond(HttpStatusCode.OK);
+
+        var mockFirstHandler = new MockHttpMessageHandler();
+        mockFirstHandler.When("*").Respond(mockSecondHandler.ToHttpClient());
+
+        var response = await mockFirstHandler.ToHttpClient().GetAsync("http://localhost/");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 }
