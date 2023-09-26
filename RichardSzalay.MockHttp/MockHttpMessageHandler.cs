@@ -5,10 +5,10 @@ namespace RichardSzalay.MockHttp;
 
 public class MockHttpMessageHandler : HttpMessageHandler
 {
-    private Queue<IMockedRequest> requestExpectations = new Queue<IMockedRequest>();
-    private List<IMockedRequest> backendDefinitions = new List<IMockedRequest>();
-    private Dictionary<IMockedRequest, int> matchCounts = new Dictionary<IMockedRequest, int>();
-    private object lockObject = new object();
+    private Queue<IMockedRequest> requestExpectations = new();
+    private List<IMockedRequest> backendDefinitions = new();
+    private Dictionary<IMockedRequest, int> matchCounts = new();
+    private readonly object lockObject = new();
 
     private int outstandingRequests = 0;
 
