@@ -79,6 +79,7 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"lk-code_mockhttp" /o:"lk-code-github" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build --configuration Release --no-restore -p:PackageVersion=${{ env.VERSION }} ${{ env.PROJECT }}
+          dotnet test ${{ env.PROJECT }}
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
       - name: Set Version Git Tag
