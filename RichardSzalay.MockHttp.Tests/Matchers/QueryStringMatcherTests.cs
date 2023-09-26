@@ -7,14 +7,14 @@ namespace RichardSzalay.MockHttp.Tests.Matchers;
 public class QueryStringMatcherTests
 {
     [TestMethod]
-    [DataRow("key1=value1&key2=value2",  "key1=value1&key2=value2", false, true)]
-    [DataRow("key2=value2&key1=value1",  "key1=value1&key2=value2", false, true)]
-    [DataRow("key1=value1&key1=value2",  "key1=value2&key1=value1", false, true)]
-    [DataRow("key2=value2&key1",  "key1&key2=value2", false, true)]
-    [DataRow("key1=value1&key2=value3",  "key1=value1&key2=value2", false, false)]
-    [DataRow("key2=value2&key1=value1",  "key1=value1&key3=value3", false, false)]
-    [DataRow("key1=value1&key2=value2",  "key1=value1&key2=value2&key3=value3", false, true)]
-    [DataRow("key1=value1&key2=value2",  "key1=value1&key2=value2&key3=value3", true, false)]
+    [DataRow("key1=value1&key2=value2", "key1=value1&key2=value2", false, true)]
+    [DataRow("key2=value2&key1=value1", "key1=value1&key2=value2", false, true)]
+    [DataRow("key1=value1&key1=value2", "key1=value2&key1=value1", false, true)]
+    [DataRow("key2=value2&key1", "key1&key2=value2", false, true)]
+    [DataRow("key1=value1&key2=value3", "key1=value1&key2=value2", false, false)]
+    [DataRow("key2=value2&key1=value1", "key1=value1&key3=value3", false, false)]
+    [DataRow("key1=value1&key2=value2", "key1=value1&key2=value2&key3=value3", false, true)]
+    [DataRow("key1=value1&key2=value2", "key1=value1&key2=value2&key3=value3", true, false)]
     public void Matches_WithData_Returns(string expected, string actual, bool exact, bool expectedResult)
     {
         var sut = new QueryStringMatcher(expected, exact);
