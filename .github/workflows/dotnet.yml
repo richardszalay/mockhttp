@@ -15,7 +15,7 @@ jobs:
     env:
       VERSION: 7.0.${{ github.run_number }}
       PROJECT: RichardSzalay.MockHttp/RichardSzalay.MockHttp.csproj
-      TESTPROJECT: RichardSzalay.MockHttp/RichardSzalay.MockHttp.Tests.csproj
+      TESTPROJECT: RichardSzalay.MockHttp.Tests/RichardSzalay.MockHttp.Tests.csproj
 
     steps:
       - name: Set up JDK 17
