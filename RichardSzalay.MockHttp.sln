@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		.gitignore = .gitignore
 		icon_128.png = icon_128.png
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichardSzalay.MockHttp", "RichardSzalay.MockHttp\RichardSzalay.MockHttp.csproj", "{03FBEC76-42A2-4C37-AAAD-E55A297A24EB}"
