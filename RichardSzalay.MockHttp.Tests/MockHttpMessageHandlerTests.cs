@@ -1,4 +1,6 @@
+using System.Net;
 using FluentAssertions;
+using RichardSzalay.MockHttp.Enums;
 using RichardSzalay.MockHttp.Extensions;
 
 namespace RichardSzalay.MockHttp.Tests;
@@ -161,6 +163,134 @@ public class MockHttpMessageHandlerTests
         var result2 = await _instance.GetAsync("http://invalid/test");
 
         (await result1.Content.ReadAsStringAsync()).Should().Be("{'status' : 'Test'}");
-        (await result2.Content.ReadAsStringAsync()).Should().Be("{'status' : 'Ok'}");
+        (await result2.Content.ReadAsStringAsync()).Should().Be("{'status' : 'OK'}");
+    }
+
+    [TestMethod]
+    public async Task ShouldMatchExpectInOrder()
+    {
+        _mockHandler.Expect("/test")
+            .Respond("application/json", "{'status' : 'First'}");
+
+        _mockHandler.Expect("/test")
+            .Respond("application/json", "{'status' : 'Second'}");
+
+        var result1 = await _instance.GetAsync("http://invalid/test");
+        var result2 = await _instance.GetAsync("http://invalid/test");
+
+        (await result1.Content.ReadAsStringAsync()).Should().Be("{'status' : 'First'}");
+        (await result2.Content.ReadAsStringAsync()).Should().Be("{'status' : 'Second'}");
+    }
+
+    [TestMethod]
+    public async Task ShouldNotMatchExpectOutOfOrder()
+    {
+        _mockHandler.Expect("/test1")
+            .Respond("application/json", "{'status' : 'First'}");
+
+        _mockHandler.Expect("/test2")
+            .Respond("application/json", "{'status' : 'Second'}");
+
+        _mockHandler.Fallback.Respond(HttpStatusCode.NotFound);
+
+        var result = await _instance.GetAsync("http://invalid/test2");
+
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [TestMethod]
+    public void VerifyNoOutstandingExpectationShouldFailIfOutstandingExpectation()
+    {
+        _mockHandler.Expect("/test")
+            .Respond("application/json", "{'status' : 'First'}");
+
+        Action action = () => _mockHandler.VerifyNoOutstandingExpectation();
+        action.Should().Throw<InvalidOperationException>();
+    }
+
+    [TestMethod]
+    public async Task VerifyNoOutstandingExpectationShouldSucceedIfNoOutstandingExpectation()
+    {
+        _mockHandler.Expect("/test")
+            .Respond("application/json", "{'status' : 'First'}");
+
+        var result = await _instance.GetAsync("http://invalid/test");
+
+        Action action = () => _mockHandler.VerifyNoOutstandingExpectation();
+        action.Should().NotThrow();
+    }
+
+    [TestMethod]
+    public async Task ResetExpectationsShouldClearExpectations()
+    {
+        _mockHandler.When("/test")
+            .Respond("application/json", "{'status' : 'OK'}");
+
+        _mockHandler.Expect("/test")
+            .Respond("application/json", "{'status' : 'Test'}");
+
+        _mockHandler.ResetExpectations();
+
+        var result = await _instance.GetAsync("http://invalid/test");
+
+        (await result.Content.ReadAsStringAsync()).Should().Be("{'status' : 'OK'}");
+    }
+
+    [TestMethod]
+    public async Task ShouldNotMatchWhenIfExpectationsExistAndBehavhiorIsNoExpectations()
+    {
+        _mockHandler.When("/test")
+            .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
+
+        _mockHandler.Expect("/testA")
+            .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'Test'}");
+
+        var result = await _instance.GetAsync("http://invalid/test");
+
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [TestMethod]
+    public void GetMatchCountReturnsZeroWhenNeverCalled()
+    {
+        var testRequest = _mockHandler.When("/test")
+            .Respond("application/json", "{'status' : 'OK'}");
+
+        _mockHandler.GetMatchCount(testRequest).Should().Be(0);
+    }
+
+    [TestMethod]
+    public async Task GetMatchCountReturnsCallCount()
+    {
+        var testARequest = _mockHandler.When("/testA")
+            .Respond("application/json", "{'status' : 'OK'}");
+
+        var testBRequest = _mockHandler.When("/testB")
+            .Respond("application/json", "{'status' : 'OK'}");
+
+        await _instance.GetAsync("http://invalid/testA");
+        await _instance.GetAsync("http://invalid/testA");
+        await _instance.GetAsync("http://invalid/testB");
+
+        _mockHandler.GetMatchCount(testARequest).Should().Be(2);
+        _mockHandler.GetMatchCount(testBRequest).Should().Be(1);
+    }
+
+    [TestMethod]
+    public async Task ShouldMatchWhenIfExpectationsExistAndBehavhiorIsAlways()
+    {
+        var mockHandler = new MockHttpMessageHandler(BackendDefinitionBehavior.Always);
+        var instance = new HttpClient(mockHandler);
+        
+        mockHandler.When("/test")
+            .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
+
+        mockHandler.Expect("/testA")
+            .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'Test'}");
+
+        var result = await instance.GetAsync("http://invalid/test");
+
+        var content = await result.Content.ReadAsStringAsync();
+        content.Should().Be("{'status' : 'OK'}");
     }
 }
