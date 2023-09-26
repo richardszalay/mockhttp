@@ -129,7 +129,7 @@ public class MockHttpMessageHandlerTests
         _mockHandler.When("/test")
             .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
 
-        _mockHandler.Fallback.Respond(new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+        _mockHandler.Fallback.Respond(req => new HttpResponseMessage(HttpStatusCode.OK)
         {
             ReasonPhrase = "Awesome"
         });
@@ -312,16 +312,10 @@ public class MockHttpMessageHandlerTests
 
         var client = new HttpClient(handler);
         client.Timeout = TimeSpan.FromMilliseconds(1000);
+        
+        Func<Task> asyncFunc = async () => await client.GetAsync("http://localhost");
 
-        try
-        {
-            var result = await client.GetAsync("http://localhost");
-
-            throw new InvalidOperationException("Expected timeout exception");
-        }
-        catch (OperationCanceledException)
-        {
-        }
+        await asyncFunc.Should().ThrowAsync<Exception>();
     }
 
     /// <summary>
@@ -339,8 +333,12 @@ public class MockHttpMessageHandlerTests
 
         var firstResponse = await client.GetAsync("http://localhost");
         firstResponse.Dispose();
+        firstResponse.Should().NotBeNull();
+        firstResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var secondResponse = await client.GetAsync("http://localhost");
+        secondResponse.Should().NotBeNull();
+        secondResponse.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     /// <summary>

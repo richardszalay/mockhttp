@@ -96,7 +96,7 @@ public class MockedRequestExtentionsRespondTests
     {
         var expected = new HttpResponseMessage();
         var response = await _mockHandler.When("/path")
-            .Respond(expected)
+            .Respond(req => expected)
             .SendAsync(_request, CancellationToken.None);
 
         response.Should().BeSameAs(expected);
