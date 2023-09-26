@@ -17,6 +17,7 @@ jobs:
       PROJECT: RichardSzalay.MockHttp.sln
 
     steps:
+    
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -50,17 +51,17 @@ jobs:
           informationalVersion: ${{ env.VERSION }}
 
       - name: Cache SonarCloud packages
-        uses: actions/cache@v3
+        uses: actions/cache@v1
         with:
-          path: ~/sonar/cache
+          path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
           
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
-        uses: actions/cache@v3
+        uses: actions/cache@v1
         with:
-          path: ./.sonar/scanner
+          path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
           
@@ -69,7 +70,9 @@ jobs:
         shell: pwsh
         run: |
           New-Item -Path ./.sonar/scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+          dotnet tool update -g dotnet-sonarscanner --tool-path ./.sonar/scanner
+          dotnet tool update -g dotnet-reportgenerator-globaltool --tool-path ./.sonar/scanner
+          dotnet tool update -g dotnet-coverage --tool-path ./.sonar/scanner
             
       - name: Build and analyze
         env:
@@ -79,6 +82,8 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"lk-code_mockhttp" /o:"lk-code-github" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build --configuration Release --no-restore -p:PackageVersion=${{ env.VERSION }} ${{ env.PROJECT }}
+          dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+          reportgenerator "-reports:coverage.xml" "-targetdir:sonarqubecoverage" "-reporttypes:SonarQube"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
       - name: Set Version Git Tag
