@@ -28,7 +28,7 @@ public class MethodMatcherTests
         result.Should().BeFalse();
     }
 
-    private bool Test(HttpMethod expected, HttpMethod actual)
+    private static bool Test(HttpMethod expected, HttpMethod actual)
     {
         return new MethodMatcher(expected)
             .Matches(new HttpRequestMessage(actual, "http://tempuri.org/home"));

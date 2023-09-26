@@ -139,7 +139,7 @@ public class FormDataMatcherTests
         result.Should().BeFalse();
     }
 
-    private bool Test(string expected, HttpContent actual) => new FormDataMatcher(expected)
+    private static bool Test(string expected, HttpContent actual) => new FormDataMatcher(expected)
         .Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home")
         {
             Content = actual
