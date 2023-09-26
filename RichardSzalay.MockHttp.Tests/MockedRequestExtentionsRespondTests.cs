@@ -8,7 +8,7 @@ namespace RichardSzalay.MockHttp.Tests;
 [TestClass]
 public class MockedRequestExtentionsRespondTests
 {
-    private MockHttpMessageHandler _mockHandler;
+    private MockHttpMessageHandler _mockHandler = null!;
 
     private readonly HttpRequestMessage _request = new(HttpMethod.Post,
         "http://www.tempuri.org/path?apple=red&pear=green")
