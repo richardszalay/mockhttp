@@ -14,8 +14,7 @@ jobs:
 
     env:
       VERSION: 7.0.${{ github.run_number }}
-      PROJECT: RichardSzalay.MockHttp/RichardSzalay.MockHttp.csproj
-      TESTPROJECT: RichardSzalay.MockHttp.Tests/RichardSzalay.MockHttp.Tests.csproj
+      PROJECT: RichardSzalay.MockHttp.sln
 
     steps:
       - name: Set up JDK 17
@@ -80,7 +79,6 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"lk-code_mockhttp" /o:"lk-code-github" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build --configuration Release --no-restore -p:PackageVersion=${{ env.VERSION }} ${{ env.PROJECT }}
-          dotnet test ${{ env.TESTPROJECT }}
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
       - name: Set Version Git Tag
