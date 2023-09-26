@@ -4,7 +4,7 @@
         <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        
+
         <Title>RichardSzalay.MockHttp</Title>
         <PackageOutputPath>./nupkg</PackageOutputPath>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -18,6 +18,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <VersionPrefix>7.0.0</VersionPrefix>
         <Version>7.0.0</Version>
     </PropertyGroup>
 
@@ -31,9 +32,5 @@
             <PackagePath>\</PackagePath>
         </None>
     </ItemGroup>
-
-
-
-
 
 </Project>
