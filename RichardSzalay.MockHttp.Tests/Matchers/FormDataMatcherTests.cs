@@ -46,9 +46,9 @@ public class FormDataMatcherTests
         var content = new FormUrlEncodedContent(data);
         var actualMatch = new FormDataMatcher(data)
             .Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home")
-        {
-            Content = content
-        });
+            {
+                Content = content
+            });
 
         actualMatch.Should().BeTrue();
     }
@@ -66,9 +66,9 @@ public class FormDataMatcherTests
 
         var actualMatch = new FormDataMatcher("key=Value+with%20spaces")
             .Matches(new HttpRequestMessage(HttpMethod.Get, "http://tempuri.org/home")
-        {
-            Content = content
-        });
+            {
+                Content = content
+            });
 
         actualMatch.Should().BeTrue();
     }
