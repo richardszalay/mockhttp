@@ -1,3 +1,4 @@
+using System.Net;
 using RichardSzalay.MockHttp.Contracts;
 using RichardSzalay.MockHttp.Enums;
 
@@ -179,14 +180,18 @@ public class MockHttpMessageHandler : HttpMessageHandler
         }
     }
 
-    async Task<HttpResponseMessage> CreateDefaultFallbackMessage(HttpRequestMessage req)
+    private async Task<HttpResponseMessage> CreateDefaultFallbackMessage(HttpRequestMessage req)
     {
-        var message = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound)
+        return await Task.Run(() =>
         {
-            ReasonPhrase =
-                $"No matching mock handler for \"{req.Method.ToString().ToUpperInvariant()} {req.RequestUri.AbsoluteUri}\""
-        };
-        return message;
+            var message = new HttpResponseMessage(HttpStatusCode.NotFound)
+            {
+                ReasonPhrase =
+                    $"No matching mock handler for \"{req.Method.ToString().ToUpperInvariant()} {req.RequestUri?.AbsoluteUri}\""
+            };
+
+            return message;
+        });
     }
 
     /// <summary>
