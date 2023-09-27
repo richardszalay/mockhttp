@@ -36,7 +36,7 @@ public class FormDataMatcher : IMockedRequestMatcher
     /// </summary>
     /// <param name="message">The request message being evaluated</param>
     /// <returns>true if the request was matched; false otherwise</returns>
-    public bool Matches(System.Net.Http.HttpRequestMessage message)
+    public bool Matches(HttpRequestMessage message)
     {
         if (!CanProcessContent(message.Content))
             return false;
@@ -60,8 +60,13 @@ public class FormDataMatcher : IMockedRequestMatcher
             values.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
     }
 
-    private IEnumerable<KeyValuePair<string, string>> GetFormData(HttpContent content)
+    private IEnumerable<KeyValuePair<string, string>> GetFormData(HttpContent? content)
     {
+        if (content is null)
+        {
+            return Enumerable.Empty<KeyValuePair<string, string>>();
+        }
+
         if (content is MultipartFormDataContent multipartContent)
         {
             return multipartContent
@@ -75,10 +80,11 @@ public class FormDataMatcher : IMockedRequestMatcher
     }
 
 
-    private bool CanProcessContent(HttpContent httpContent)
+    private bool CanProcessContent(HttpContent? httpContent)
     {
-        return httpContent != null &&
+        return httpContent is not null &&
                httpContent.Headers.ContentType != null &&
+               httpContent.Headers.ContentType.MediaType != null &&
                (IsFormData(httpContent.Headers.ContentType.MediaType) ||
                 httpContent is MultipartFormDataContent);
     }
