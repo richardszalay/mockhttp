@@ -5,12 +5,27 @@ namespace RichardSzalay.MockHttp;
 
 public class MockHttpMessageHandler : HttpMessageHandler
 {
+    private bool autoFlush;
+    readonly BackendDefinitionBehavior backendDefinitionBehavior;
+    
+    private Queue<TaskCompletionSource<object>> pendingFlushers = new Queue<TaskCompletionSource<object>>();
+    private TaskCompletionSource<object> flusher = new TaskCompletionSource<object>();
+    
     private Queue<IMockedRequest> requestExpectations = new();
     private List<IMockedRequest> backendDefinitions = new();
-    private Dictionary<IMockedRequest, int> matchCounts = new();
-    private readonly object lockObject = new();
+    private readonly Dictionary<IMockedRequest, int> _matchCounts = new();
+    private readonly object _lockObject = new();
 
     private int outstandingRequests = 0;
+
+    private readonly MockedRequest fallback;
+    /// <summary>
+    /// Gets the <see cref="T:MockedRequest"/> that will handle requests that were otherwise unmatched
+    /// </summary>
+    public MockedRequest Fallback
+    {
+        get { return fallback; }
+    }
 
     /// <summary>
     /// Creates a new instance of MockHttpMessageHandler
@@ -24,8 +39,6 @@ public class MockHttpMessageHandler : HttpMessageHandler
         fallback.Respond(CreateDefaultFallbackMessage);
     }
 
-    private bool autoFlush;
-    readonly BackendDefinitionBehavior backendDefinitionBehavior;
 
     /// <summary>
     /// Requests received while AutoFlush is true will complete instantly. 
@@ -50,9 +63,6 @@ public class MockHttpMessageHandler : HttpMessageHandler
             }
         }
     }
-
-    private Queue<TaskCompletionSource<object>> pendingFlushers = new Queue<TaskCompletionSource<object>>();
-    private TaskCompletionSource<object> flusher;
 
     /// <summary>
     /// Completes all pendings requests that were received while <see cref="M:AutoFlush"/> was false
@@ -116,7 +126,8 @@ public class MockHttpMessageHandler : HttpMessageHandler
         return SendAsync(Fallback, request, cancellationToken);
     }
 
-    private Task<HttpResponseMessage> SendAsync(IMockedRequest handler, HttpRequestMessage request,
+    private Task<HttpResponseMessage> SendAsync(IMockedRequest handler,
+        HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
         Interlocked.Increment(ref outstandingRequests);
@@ -164,21 +175,11 @@ public class MockHttpMessageHandler : HttpMessageHandler
 
     private void IncrementMatchCount(IMockedRequest handler)
     {
-        lock (lockObject)
+        lock (_lockObject)
         {
-            matchCounts.TryGetValue(handler, out int count);
-            matchCounts[handler] = count + 1;
+            _matchCounts.TryGetValue(handler, out int count);
+            _matchCounts[handler] = count + 1;
         }
-    }
-
-    private MockedRequest fallback;
-
-    /// <summary>
-    /// Gets the <see cref="T:MockedRequest"/> that will handle requests that were otherwise unmatched
-    /// </summary>
-    public MockedRequest Fallback
-    {
-        get { return fallback; }
     }
 
     async Task<HttpResponseMessage> CreateDefaultFallbackMessage(HttpRequestMessage req)
@@ -234,9 +235,9 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// <returns>The number of times the request has matched</returns>
     public int GetMatchCount(IMockedRequest request)
     {
-        lock (lockObject)
+        lock (_lockObject)
         {
-            matchCounts.TryGetValue(request, out int count);
+            _matchCounts.TryGetValue(request, out int count);
             return count;
         }
     }
