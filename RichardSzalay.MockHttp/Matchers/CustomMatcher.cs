@@ -15,10 +15,7 @@ public class CustomMatcher : IMockedRequestMatcher
     /// <param name="matcher">The matcher delegate</param>
     public CustomMatcher(Func<HttpRequestMessage, bool> matcher)
     {
-        if (matcher == null)
-            throw new ArgumentNullException("matcher");
-
-        this.matcher = matcher;
+        this.matcher = matcher ?? throw new ArgumentNullException(nameof(matcher));
     }
 
     /// <summary>
@@ -26,7 +23,7 @@ public class CustomMatcher : IMockedRequestMatcher
     /// </summary>
     /// <param name="message">The request message being evaluated</param>
     /// <returns>true if the request was matched; false otherwise</returns>
-    public bool Matches(System.Net.Http.HttpRequestMessage message)
+    public bool Matches(HttpRequestMessage message)
     {
         return matcher(message);
     }
