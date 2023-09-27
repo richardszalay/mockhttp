@@ -62,9 +62,9 @@ public class FormDataMatcher : IMockedRequestMatcher
 
     private IEnumerable<KeyValuePair<string, string>> GetFormData(HttpContent content)
     {
-        if (content is MultipartFormDataContent)
+        if (content is MultipartFormDataContent multipartContent)
         {
-            return ((MultipartFormDataContent)content)
+            return multipartContent
                 .Where(CanProcessContent)
                 .SelectMany(GetFormData);
         }
@@ -73,6 +73,7 @@ public class FormDataMatcher : IMockedRequestMatcher
 
         return QueryStringMatcher.ParseQueryString(rawFormData);
     }
+
 
     private bool CanProcessContent(HttpContent httpContent)
     {
