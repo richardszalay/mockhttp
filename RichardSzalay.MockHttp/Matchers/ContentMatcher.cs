@@ -7,7 +7,7 @@ namespace RichardSzalay.MockHttp.Matchers;
 /// </summary>
 public class ContentMatcher : IMockedRequestMatcher
 {
-    private string content;
+    private readonly string _content;
 
     /// <summary>
     /// Constructs a new instance of ContentMatcher
@@ -15,7 +15,7 @@ public class ContentMatcher : IMockedRequestMatcher
     /// <param name="content">The content to match</param>
     public ContentMatcher(string content)
     {
-        this.content = content;
+        _content = content;
     }
 
     /// <summary>
@@ -23,13 +23,13 @@ public class ContentMatcher : IMockedRequestMatcher
     /// </summary>
     /// <param name="message">The request message being evaluated</param>
     /// <returns>true if the request was matched; false otherwise</returns>
-    public bool Matches(System.Net.Http.HttpRequestMessage message)
+    public bool Matches(HttpRequestMessage message)
     {
         if (message.Content == null)
             return false;
 
         string actualContent = message.Content.ReadAsStringAsync().Result;
 
-        return actualContent == content;
+        return actualContent == _content;
     }
 }
