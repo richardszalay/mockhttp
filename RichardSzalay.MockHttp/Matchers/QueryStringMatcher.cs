@@ -7,8 +7,8 @@ namespace RichardSzalay.MockHttp.Matchers;
 /// </summary>
 public class QueryStringMatcher : IMockedRequestMatcher
 {
-    readonly IEnumerable<KeyValuePair<string, string>> values;
-    readonly bool exact;
+    private readonly IEnumerable<KeyValuePair<string, string>> _values;
+    private readonly bool _exact;
 
     /// <summary>
     /// Constructs a new instance of QueryStringMatcher using a formatted query string
@@ -27,8 +27,8 @@ public class QueryStringMatcher : IMockedRequestMatcher
     /// <param name="exact">When true, requests with querystring values not included in <paramref name="values"/> will not match. Defaults to false</param>
     public QueryStringMatcher(IEnumerable<KeyValuePair<string, string>> values, bool exact = false)
     {
-        this.values = values;
-        this.exact = exact;
+        this._values = values;
+        this._exact = exact;
     }
 
     /// <summary>
@@ -38,23 +38,21 @@ public class QueryStringMatcher : IMockedRequestMatcher
     /// <returns>true if the request was matched; false otherwise</returns>
     public bool Matches(HttpRequestMessage message)
     {
-        var queryString = ParseQueryString(message.RequestUri?.Query.TrimStart('?'));
+        IEnumerable<KeyValuePair<string, string>> queryString = ParseQueryString(message.RequestUri?.Query.TrimStart('?'));
 
-        var containsAllValues = values.All(matchPair =>
-            queryString.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
+        bool containsAllValues = _values.All(matchPair => queryString.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
 
         if (!containsAllValues)
         {
             return false;
         }
 
-        if (!exact)
+        if (!_exact)
         {
             return true;
         }
 
-        return queryString.All(matchPair =>
-            values.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
+        return queryString.All(matchPair => _values.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
     }
 
     internal static IEnumerable<KeyValuePair<string, string>> ParseQueryString(string? input)
@@ -76,6 +74,7 @@ public class QueryStringMatcher : IMockedRequestMatcher
     internal static string UrlDecode(string urlEncodedValue)
     {
         string tmp = urlEncodedValue.Replace("+", "%20");
+        
         return Uri.UnescapeDataString(tmp);
     }
 }

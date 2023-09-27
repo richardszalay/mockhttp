@@ -16,7 +16,7 @@ public static class MockHttpMessageHandlerExtensions
     /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
     public static MockedRequest When(this MockHttpMessageHandler handler, HttpMethod method, string url)
     {
-        var message = new MockedRequest(url);
+        MockedRequest message = new(url);
         message.With(new MethodMatcher(method));
 
         handler.AddBackendDefinition(message);
@@ -32,7 +32,7 @@ public static class MockHttpMessageHandlerExtensions
     /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
     public static MockedRequest When(this MockHttpMessageHandler handler, string url)
     {
-        var message = new MockedRequest(url);
+        MockedRequest message = new(url);
 
         handler.AddBackendDefinition(message);
 
@@ -48,7 +48,7 @@ public static class MockHttpMessageHandlerExtensions
     /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
     public static MockedRequest Expect(this MockHttpMessageHandler handler, HttpMethod method, string url)
     {
-        var message = new MockedRequest(url);
+        MockedRequest message = new(url);
         message.With(new MethodMatcher(method));
 
         handler.AddRequestExpectation(message);
@@ -64,7 +64,7 @@ public static class MockHttpMessageHandlerExtensions
     /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
     public static MockedRequest Expect(this MockHttpMessageHandler handler, string url)
     {
-        var message = new MockedRequest(url);
+        MockedRequest message = new(url);
 
         handler.AddRequestExpectation(message);
 

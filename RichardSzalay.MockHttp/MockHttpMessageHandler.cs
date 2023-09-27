@@ -6,62 +6,60 @@ namespace RichardSzalay.MockHttp;
 
 public class MockHttpMessageHandler : HttpMessageHandler
 {
-    private bool autoFlush;
-    private int outstandingRequests;
-    private TaskCompletionSource<object> flusher = new();
-
-    private readonly BackendDefinitionBehavior backendDefinitionBehavior;
-    private readonly Queue<TaskCompletionSource<object>> pendingFlushers = new();
-    private readonly Queue<IMockedRequest> requestExpectations = new();
-    private readonly List<IMockedRequest> backendDefinitions = new();
+    private int _outstandingRequests;
+    private TaskCompletionSource<object> _flusher = new();
+    private readonly BackendDefinitionBehavior _backendDefinitionBehavior;
+    private readonly Queue<TaskCompletionSource<object>> _pendingFlushers = new();
+    private readonly Queue<IMockedRequest> _requestExpectations = new();
+    private readonly List<IMockedRequest> _backendDefinitions = new();
     private readonly Dictionary<IMockedRequest, int> _matchCounts = new();
     private readonly object _lockObject = new();
-    private readonly MockedRequest fallback;
+
+    private readonly MockedRequest _fallback;
 
     /// <summary>
     /// Gets the <see cref="T:MockedRequest"/> that will handle requests that were otherwise unmatched
     /// </summary>
     public MockedRequest Fallback
     {
-        get { return fallback; }
+        get { return this._fallback; }
     }
 
-    /// <summary>
-    /// Creates a new instance of MockHttpMessageHandler
-    /// </summary>
-    public MockHttpMessageHandler(
-        BackendDefinitionBehavior backendDefinitionBehavior = BackendDefinitionBehavior.NoExpectations)
-    {
-        this.backendDefinitionBehavior = backendDefinitionBehavior;
-
-        AutoFlush = true;
-        fallback = new MockedRequest();
-        fallback.Respond(CreateDefaultFallbackMessage);
-    }
-
-
+    private bool _autoFlush;
     /// <summary>
     /// Requests received while AutoFlush is true will complete instantly. 
     /// Requests received while AutoFlush is false will not complete until <see cref="M:Flush"/> is called
     /// </summary>
     public bool AutoFlush
     {
-        get { return autoFlush; }
+        get => this._autoFlush;
         set
         {
-            autoFlush = value;
+            this._autoFlush = value;
 
-            if (autoFlush)
+            if (this._autoFlush)
             {
-                flusher = new TaskCompletionSource<object>();
-                flusher.SetResult(null!);
+                this._flusher = new TaskCompletionSource<object>();
+                this._flusher.SetResult(null!);
             }
             else
             {
-                flusher = new TaskCompletionSource<object>();
-                pendingFlushers.Enqueue(flusher);
+                this._flusher = new TaskCompletionSource<object>();
+                this._pendingFlushers.Enqueue(this._flusher);
             }
         }
+    }
+
+    /// <summary>
+    /// Creates a new instance of MockHttpMessageHandler
+    /// </summary>
+    public MockHttpMessageHandler(BackendDefinitionBehavior backendDefinitionBehavior = BackendDefinitionBehavior.NoExpectations)
+    {
+        this._backendDefinitionBehavior = backendDefinitionBehavior;
+
+        this.AutoFlush = true;
+        this._fallback = new MockedRequest();
+        this._fallback.Respond(CreateDefaultFallbackMessage);
     }
 
     /// <summary>
@@ -69,8 +67,10 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// </summary>
     public void Flush()
     {
-        while (pendingFlushers.Count > 0)
-            pendingFlushers.Dequeue().SetResult(null!);
+        while (this._pendingFlushers.Count > 0)
+        {
+            this._pendingFlushers.Dequeue().SetResult(null!);
+        }
     }
 
     /// <summary>
@@ -78,8 +78,11 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// </summary>
     public void Flush(int count)
     {
-        while (pendingFlushers.Count > 0 && count-- > 0)
-            pendingFlushers.Dequeue().SetResult(null!);
+        while (this._pendingFlushers.Count > 0
+               && count-- > 0)
+        {
+            this._pendingFlushers.Dequeue().SetResult(null!);
+        }
     }
 
     /// <summary>
@@ -100,52 +103,52 @@ public class MockHttpMessageHandler : HttpMessageHandler
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
-        if (requestExpectations.Count > 0)
+        if (this._requestExpectations.Count > 0)
         {
-            var handler = requestExpectations.Peek();
+            IMockedRequest handler = this._requestExpectations.Peek();
 
             if (handler.Matches(request))
             {
-                requestExpectations.Dequeue();
+                this._requestExpectations.Dequeue();
 
-                return SendAsync(handler, request, cancellationToken);
+                return this.SendAsync(handler, request, cancellationToken);
             }
         }
 
-        if (backendDefinitionBehavior == BackendDefinitionBehavior.Always
-            || requestExpectations.Count == 0)
+        if (this._backendDefinitionBehavior == BackendDefinitionBehavior.Always
+            || this._requestExpectations.Count == 0)
         {
-            IMockedRequest? handler = backendDefinitions.Find(handler => handler.Matches(request));
+            IMockedRequest? handler = this._backendDefinitions.Find(handler => handler.Matches(request));
             if (handler is not null)
             {
-                return SendAsync(handler, request, cancellationToken);
+                return this.SendAsync(handler, request, cancellationToken);
             }
         }
 
-        return SendAsync(Fallback, request, cancellationToken);
+        return this.SendAsync(Fallback, request, cancellationToken);
     }
 
     private Task<HttpResponseMessage> SendAsync(IMockedRequest handler,
         HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
-        Interlocked.Increment(ref outstandingRequests);
+        Interlocked.Increment(ref this._outstandingRequests);
 
-        IncrementMatchCount(handler);
+        this.IncrementMatchCount(handler);
 
-        if (!AutoFlush)
+        if (!this.AutoFlush)
         {
-            flusher = new TaskCompletionSource<object>();
-            pendingFlushers.Enqueue(flusher);
+            this._flusher = new TaskCompletionSource<object>();
+            this._pendingFlushers.Enqueue(this._flusher);
         }
 
-        return flusher.Task.ContinueWith(_ =>
+        return this._flusher.Task.ContinueWith(_ =>
         {
-            Interlocked.Decrement(ref outstandingRequests);
+            Interlocked.Decrement(ref this._outstandingRequests);
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var completionSource = new TaskCompletionSource<HttpResponseMessage>();
+            TaskCompletionSource<HttpResponseMessage> completionSource = new();
 
             cancellationToken.Register(() => completionSource.TrySetCanceled());
 
@@ -174,10 +177,10 @@ public class MockHttpMessageHandler : HttpMessageHandler
 
     private void IncrementMatchCount(IMockedRequest handler)
     {
-        lock (_lockObject)
+        lock (this._lockObject)
         {
-            _matchCounts.TryGetValue(handler, out int count);
-            _matchCounts[handler] = count + 1;
+            this._matchCounts.TryGetValue(handler, out int count);
+            this._matchCounts[handler] = count + 1;
         }
     }
 
@@ -185,10 +188,9 @@ public class MockHttpMessageHandler : HttpMessageHandler
     {
         return await Task.Run(() =>
         {
-            var message = new HttpResponseMessage(HttpStatusCode.NotFound)
+            HttpResponseMessage message = new(HttpStatusCode.NotFound)
             {
-                ReasonPhrase =
-                    $"No matching mock handler for \"{req.Method.ToString().ToUpperInvariant()} {req.RequestUri?.AbsoluteUri}\""
+                ReasonPhrase = $"No matching mock handler for \"{req.Method.ToString().ToUpperInvariant()} {req.RequestUri?.AbsoluteUri}\""
             };
 
             return message;
@@ -210,7 +212,7 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// <param name="handler">The <see cref="T:IMockedRequest"/> that will handle the request</param>
     public void AddRequestExpectation(IMockedRequest handler)
     {
-        requestExpectations.Enqueue(handler);
+        this._requestExpectations.Enqueue(handler);
     }
 
     /// <summary>
@@ -228,7 +230,7 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// <param name="handler">The <see cref="T:IMockedRequest"/> that will handle the request</param>
     public void AddBackendDefinition(IMockedRequest handler)
     {
-        backendDefinitions.Add(handler);
+        this._backendDefinitions.Add(handler);
     }
 
     /// <summary>
@@ -238,9 +240,9 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// <returns>The number of times the request has matched</returns>
     public int GetMatchCount(IMockedRequest request)
     {
-        lock (_lockObject)
+        lock (this._lockObject)
         {
-            _matchCounts.TryGetValue(request, out int count);
+            this._matchCounts.TryGetValue(request, out int count);
             return count;
         }
     }
@@ -251,10 +253,11 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// </summary>
     public void VerifyNoOutstandingRequest()
     {
-        var requests = Interlocked.CompareExchange(ref outstandingRequests, 0, 0);
+        int requests = Interlocked.CompareExchange(ref _outstandingRequests, 0, 0);
         if (requests > 0)
-            throw new InvalidOperationException("There are " + requests +
-                                                " outstanding requests. Call Flush() to complete them");
+        {
+            throw new InvalidOperationException($"There are {requests} outstanding requests. Call Flush() to complete them");
+        }
     }
 
     /// <summary>
@@ -263,8 +266,10 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// </summary>
     public void VerifyNoOutstandingExpectation()
     {
-        if (this.requestExpectations.Count > 0)
-            throw new InvalidOperationException("There are " + requestExpectations.Count + " unfulfilled expectations");
+        if (this._requestExpectations.Count > 0)
+        {
+            throw new InvalidOperationException($"There are {this._requestExpectations.Count} unfulfilled expectations");
+        }
     }
 
     /// <summary>
@@ -272,7 +277,7 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// </summary>
     public void ResetExpectations()
     {
-        this.requestExpectations.Clear();
+        this._requestExpectations.Clear();
     }
 
     /// <summary>
@@ -280,7 +285,7 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// </summary>
     public void ResetBackendDefinitions()
     {
-        this.backendDefinitions.Clear();
+        this._backendDefinitions.Clear();
     }
 
     /// <summary>

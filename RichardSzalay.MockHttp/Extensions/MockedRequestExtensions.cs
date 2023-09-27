@@ -266,7 +266,9 @@ public static class MockedRequestExtensions
     /// <param name="content">The content of the response</param>
     public static MockedRequest Respond(this MockedRequest source, HttpStatusCode statusCode, HttpContent content)
     {
-        return source.Respond(statusCode, Enumerable.Empty<KeyValuePair<string, string>>(), content);
+        return source.Respond(statusCode, 
+            Enumerable.Empty<KeyValuePair<string, string>>(),
+            content);
     }
 
     /// <summary>
@@ -281,11 +283,12 @@ public static class MockedRequestExtensions
     {
         return source.Respond(req =>
         {
-            var res = new HttpResponseMessage(statusCode)
+            HttpResponseMessage res = new(statusCode)
             {
                 Content = content
             };
-            foreach (var header in headers)
+            
+            foreach (KeyValuePair<string, string> header in headers)
             {
                 res.Headers.TryAddWithoutValidation(header.Key, header.Value);
             }
@@ -310,7 +313,8 @@ public static class MockedRequestExtensions
     /// <param name="source">The source mocked request</param>
     /// <param name="headers">A list of HTTP header name/value pairs to add to the response.</param>
     /// <param name="content">The content of the response</param>
-    public static MockedRequest Respond(this MockedRequest source, IEnumerable<KeyValuePair<string, string>> headers,
+    public static MockedRequest Respond(this MockedRequest source,
+        IEnumerable<KeyValuePair<string, string>> headers,
         HttpContent content)
     {
         return source.Respond(HttpStatusCode.OK, headers, content);
@@ -323,10 +327,15 @@ public static class MockedRequestExtensions
     /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
     /// <param name="mediaType">The media type of the response</param>
     /// <param name="content">The content of the response</param>
-    public static MockedRequest Respond(this MockedRequest source, HttpStatusCode statusCode, string mediaType,
+    public static MockedRequest Respond(this MockedRequest source,
+        HttpStatusCode statusCode,
+        string mediaType,
         string content)
     {
-        return source.Respond(statusCode, Enumerable.Empty<KeyValuePair<string, string>>(), mediaType, content);
+        return source.Respond(statusCode, 
+            Enumerable.Empty<KeyValuePair<string, string>>(),
+            mediaType,
+            content);
     }
 
     /// <summary>
@@ -337,10 +346,15 @@ public static class MockedRequestExtensions
     /// <param name="headers">A list of HTTP header name/value pairs to add to the response.</param>
     /// <param name="mediaType">The media type of the response</param>
     /// <param name="content">The content of the response</param>
-    public static MockedRequest Respond(this MockedRequest source, HttpStatusCode statusCode,
-        IEnumerable<KeyValuePair<string, string>> headers, string mediaType, string content)
+    public static MockedRequest Respond(this MockedRequest source,
+        HttpStatusCode statusCode,
+        IEnumerable<KeyValuePair<string, string>> headers,
+        string mediaType,
+        string content)
     {
-        return source.Respond(statusCode, headers, _ => new StringContent(content, Encoding.UTF8, mediaType));
+        return source.Respond(statusCode,
+            headers, 
+            _ => new StringContent(content, Encoding.UTF8, mediaType));
     }
 
     /// <summary>
@@ -361,7 +375,8 @@ public static class MockedRequestExtensions
     /// <param name="headers">A list of HTTP header name/value pairs to add to the response.</param>
     /// <param name="content">The content of the response</param>
     /// <param name="mediaType">The media type of the response</param>
-    public static MockedRequest Respond(this MockedRequest source, IEnumerable<KeyValuePair<string, string>> headers,
+    public static MockedRequest Respond(this MockedRequest source,
+        IEnumerable<KeyValuePair<string, string>> headers,
         string mediaType, string content)
     {
         return source.Respond(HttpStatusCode.OK, headers, mediaType, content);
@@ -374,7 +389,9 @@ public static class MockedRequestExtensions
     /// <param name="statusCode">The <see cref="T:HttpStatusCode"/> of the response</param>
     /// <param name="content">The content of the response</param>
     /// <param name="mediaType">The media type of the response</param>
-    public static MockedRequest Respond(this MockedRequest source, HttpStatusCode statusCode, string mediaType,
+    public static MockedRequest Respond(this MockedRequest source,
+        HttpStatusCode statusCode,
+        string mediaType,
         Stream content)
     {
         return source.Respond(statusCode, Enumerable.Empty<KeyValuePair<string, string>>(), mediaType, content);
@@ -388,8 +405,11 @@ public static class MockedRequestExtensions
     /// <param name="headers">A list of HTTP header name/value pairs to add to the response.</param>
     /// <param name="content">The content of the response</param>
     /// <param name="mediaType">The media type of the response</param>
-    public static MockedRequest Respond(this MockedRequest source, HttpStatusCode statusCode,
-        IEnumerable<KeyValuePair<string, string>> headers, string mediaType, Stream content)
+    public static MockedRequest Respond(this MockedRequest source,
+        HttpStatusCode statusCode,
+        IEnumerable<KeyValuePair<string, string>> headers,
+        string mediaType,
+        Stream content)
     {
         return source.Respond(statusCode, headers, _ =>
         {
@@ -398,11 +418,11 @@ public static class MockedRequestExtensions
                 content.Seek(0L, SeekOrigin.Begin);
             }
 
-            var ms = new MemoryStream();
+            MemoryStream ms = new();
             content.CopyTo(ms);
             ms.Seek(0L, SeekOrigin.Begin);
 
-            var streamContent = new StreamContent(ms);
+            StreamContent streamContent = new(ms);
             streamContent.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
 
             return streamContent;
@@ -428,8 +448,10 @@ public static class MockedRequestExtensions
     /// <param name="headers">A list of HTTP header name/value pairs to add to the response.</param>
     /// <param name="mediaType">The media type of the response</param>
     /// <param name="handler">A delegate that will return a content stream at runtime</param>
-    public static MockedRequest Respond(this MockedRequest source, IEnumerable<KeyValuePair<string, string>> headers,
-        string mediaType, Func<HttpRequestMessage, Stream> handler)
+    public static MockedRequest Respond(this MockedRequest source,
+        IEnumerable<KeyValuePair<string, string>> headers,
+        string mediaType,
+        Func<HttpRequestMessage, Stream> handler)
     {
         return source.Respond(HttpStatusCode.OK, headers, mediaType, handler);
     }
@@ -460,9 +482,9 @@ public static class MockedRequestExtensions
     {
         return source.Respond(statusCode, headers, request =>
         {
-            var content = handler(request);
+            Stream content = handler(request);
 
-            var streamContent = new StreamContent(content);
+            StreamContent streamContent = new(content);
             streamContent.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
 
             return streamContent;
@@ -539,11 +561,12 @@ public static class MockedRequestExtensions
     {
         return source.Respond(req =>
         {
-            var res = new HttpResponseMessage(statusCode)
+            HttpResponseMessage res = new(statusCode)
             {
                 Content = handler(req),
             };
-            foreach (var header in headers)
+            
+            foreach (KeyValuePair<string, string> header in headers)
             {
                 res.Headers.TryAddWithoutValidation(header.Key, header.Value);
             }
@@ -595,11 +618,11 @@ public static class MockedRequestExtensions
 
     private static HttpRequestMessage CloneRequest(HttpRequestMessage message)
     {
-        var cloned = new HttpRequestMessage(message.Method, message.RequestUri);
+        HttpRequestMessage cloned = new(message.Method, message.RequestUri);
 
         cloned.Content = message.Content;
 
-        foreach (var header in message.Headers)
+        foreach (KeyValuePair<string, IEnumerable<string>> header in message.Headers)
         {
             cloned.Headers.Add(header.Key, header.Value);
         }

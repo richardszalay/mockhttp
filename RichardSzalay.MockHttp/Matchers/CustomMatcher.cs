@@ -7,7 +7,7 @@ namespace RichardSzalay.MockHttp.Matchers;
 /// </summary>
 public class CustomMatcher : IMockedRequestMatcher
 {
-    readonly Func<HttpRequestMessage, bool> matcher;
+    private readonly Func<HttpRequestMessage, bool> _matcher;
 
     /// <summary>
     /// Constructs a new instance of CustomMatcher
@@ -15,7 +15,7 @@ public class CustomMatcher : IMockedRequestMatcher
     /// <param name="matcher">The matcher delegate</param>
     public CustomMatcher(Func<HttpRequestMessage, bool> matcher)
     {
-        this.matcher = matcher ?? throw new ArgumentNullException(nameof(matcher));
+        this._matcher = matcher ?? throw new ArgumentNullException(nameof(matcher));
     }
 
     /// <summary>
@@ -25,6 +25,6 @@ public class CustomMatcher : IMockedRequestMatcher
     /// <returns>true if the request was matched; false otherwise</returns>
     public bool Matches(HttpRequestMessage message)
     {
-        return matcher(message);
+        return this._matcher(message);
     }
 }
