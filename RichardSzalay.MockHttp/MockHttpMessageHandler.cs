@@ -155,7 +155,7 @@ public class MockHttpMessageHandler : HttpMessageHandler
 
                     if (resp.IsFaulted)
                     {
-                        completionSource.TrySetException(resp.Exception);
+                        completionSource.TrySetException(resp.Exception ?? new Exception("Unexpected null exception"));
                     }
                     else if (resp.IsCanceled)
                     {
@@ -165,10 +165,10 @@ public class MockHttpMessageHandler : HttpMessageHandler
                     {
                         completionSource.TrySetResult(resp.Result);
                     }
-                });
+                }, cancellationToken);
 
             return completionSource.Task;
-        }).Unwrap();
+        }, cancellationToken).Unwrap();
     }
 
     private void IncrementMatchCount(IMockedRequest handler)
@@ -242,15 +242,6 @@ public class MockHttpMessageHandler : HttpMessageHandler
             _matchCounts.TryGetValue(request, out int count);
             return count;
         }
-    }
-
-    /// <summary>
-    /// Disposes the current instance
-    /// </summary>
-    /// <param name="disposing">true if called from Dispose(); false if called from dtor()</param>
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
     }
 
     /// <summary>
