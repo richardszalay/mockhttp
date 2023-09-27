@@ -7,7 +7,7 @@ namespace RichardSzalay.MockHttp.Matchers;
 /// </summary>
 public class AnyMatcher : IMockedRequestMatcher
 {
-    readonly IEnumerable<IMockedRequestMatcher> _matchers;
+    private readonly IEnumerable<IMockedRequestMatcher> _matchers;
 
     /// <summary>
     /// Construcuts a new instnace of AnyMatcher
@@ -23,8 +23,8 @@ public class AnyMatcher : IMockedRequestMatcher
     /// </summary>
     /// <param name="message">The request message being evaluated</param>
     /// <returns>true if any of the supplied matchers succeed; false otherwise</returns>
-    public bool Matches(System.Net.Http.HttpRequestMessage message)
+    public bool Matches(HttpRequestMessage message)
     {
-        return _matchers.Any(m => m.Matches(message));
+        return this._matchers.Any(m => m.Matches(message));
     }
 }

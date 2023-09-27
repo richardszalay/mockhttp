@@ -17,11 +17,10 @@ public static class UrlExtensions
         {
             return false;
         }
-        
+
         bool isAndroidFalsePositive = output.Scheme == "file"
                                       && !url.StartsWith("file://", StringComparison.Ordinal);
 
         return !isAndroidFalsePositive;
-
     }
 }

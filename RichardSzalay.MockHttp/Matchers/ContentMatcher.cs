@@ -15,7 +15,7 @@ public class ContentMatcher : IMockedRequestMatcher
     /// <param name="content">The content to match</param>
     public ContentMatcher(string content)
     {
-        _content = content;
+        this._content = content;
     }
 
     /// <summary>
@@ -26,10 +26,12 @@ public class ContentMatcher : IMockedRequestMatcher
     public bool Matches(HttpRequestMessage message)
     {
         if (message.Content == null)
+        {
             return false;
+        }
 
         string actualContent = message.Content.ReadAsStringAsync().Result;
 
-        return actualContent == _content;
+        return actualContent == this._content;
     }
 }

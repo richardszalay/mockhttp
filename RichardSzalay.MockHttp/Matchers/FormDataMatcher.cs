@@ -7,8 +7,8 @@ namespace RichardSzalay.MockHttp.Matchers;
 /// </summary>
 public class FormDataMatcher : IMockedRequestMatcher
 {
-    readonly IEnumerable<KeyValuePair<string, string>> values;
-    readonly bool exact;
+    private readonly IEnumerable<KeyValuePair<string, string>> _values;
+    private readonly bool _exact;
 
     /// <summary>
     /// Constructs a new instance of FormDataMatcher using a formatted query string
@@ -27,8 +27,8 @@ public class FormDataMatcher : IMockedRequestMatcher
     /// <param name="exact">When true, requests with form data values not included in <paramref name="values"/> will not match. Defaults to false</param>
     public FormDataMatcher(IEnumerable<KeyValuePair<string, string>> values, bool exact = false)
     {
-        this.values = values;
-        this.exact = exact;
+        this._values = values;
+        this._exact = exact;
     }
 
     /// <summary>
@@ -38,12 +38,13 @@ public class FormDataMatcher : IMockedRequestMatcher
     /// <returns>true if the request was matched; false otherwise</returns>
     public bool Matches(HttpRequestMessage message)
     {
-        if (!CanProcessContent(message.Content))
+        if (!this.CanProcessContent(message.Content))
+        {
             return false;
+        }
 
-        var formData = GetFormData(message.Content);
-
-        var containsAllValues = values.All(matchPair =>
+        IEnumerable<KeyValuePair<string, string>> formData = GetFormData(message.Content);
+        bool containsAllValues = this._values.All(matchPair =>
             formData.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
 
         if (!containsAllValues)
@@ -51,13 +52,12 @@ public class FormDataMatcher : IMockedRequestMatcher
             return false;
         }
 
-        if (!exact)
+        if (!this._exact)
         {
             return true;
         }
 
-        return formData.All(matchPair =>
-            values.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
+        return formData.All(matchPair => this._values.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
     }
 
     private IEnumerable<KeyValuePair<string, string>> GetFormData(HttpContent? content)
@@ -70,8 +70,8 @@ public class FormDataMatcher : IMockedRequestMatcher
         if (content is MultipartFormDataContent multipartContent)
         {
             return multipartContent
-                .Where(CanProcessContent)
-                .SelectMany(GetFormData);
+                .Where(this.CanProcessContent)
+                .SelectMany(this.GetFormData);
         }
 
         string rawFormData = content.ReadAsStringAsync().Result;

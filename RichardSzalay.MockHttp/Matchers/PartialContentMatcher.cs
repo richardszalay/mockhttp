@@ -26,10 +26,12 @@ public class PartialContentMatcher : IMockedRequestMatcher
     public bool Matches(System.Net.Http.HttpRequestMessage message)
     {
         if (message.Content == null)
+        {
             return false;
+        }
 
         string actualContent = message.Content.ReadAsStringAsync().Result;
 
-        return actualContent.IndexOf(_content, StringComparison.Ordinal) != -1;
+        return (actualContent.IndexOf(_content, StringComparison.Ordinal) != -1);
     }
 }

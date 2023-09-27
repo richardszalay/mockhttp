@@ -7,7 +7,7 @@ namespace RichardSzalay.MockHttp.Matchers;
 /// </summary>
 public class MethodMatcher : IMockedRequestMatcher
 {
-    readonly HttpMethod method;
+    private readonly HttpMethod _method;
 
     /// <summary>
     /// Constructs a new instance of MethodMatcher
@@ -15,7 +15,7 @@ public class MethodMatcher : IMockedRequestMatcher
     /// <param name="method">The method to match against</param>
     public MethodMatcher(HttpMethod method)
     {
-        this.method = method;
+        this._method = method;
     }
 
     /// <summary>
@@ -25,6 +25,6 @@ public class MethodMatcher : IMockedRequestMatcher
     /// <returns>true if the request was matched; false otherwise</returns>
     public bool Matches(HttpRequestMessage message)
     {
-        return message.Method == this.method;
+        return message.Method == this._method;
     }
 }

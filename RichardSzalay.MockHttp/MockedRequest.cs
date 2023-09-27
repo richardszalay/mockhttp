@@ -9,7 +9,7 @@ namespace RichardSzalay.MockHttp;
 public class MockedRequest : IMockedRequest
 {
     private readonly List<IMockedRequestMatcher> _matchers = new();
-    private Func<HttpRequestMessage, Task<HttpResponseMessage>> response = null!;
+    private Func<HttpRequestMessage, Task<HttpResponseMessage>> _response = null!;
 
     /// <summary>
     /// Creates a new MockedRequest with no initial matchers
@@ -42,8 +42,8 @@ public class MockedRequest : IMockedRequest
     /// <returns>true if this instance can handle the request; false otherwise</returns>
     public bool Matches(HttpRequestMessage message)
     {
-        return _matchers.Count == 0
-               || _matchers.TrueForAll(m => m.Matches(message));
+        return this._matchers.Count == 0
+               || this._matchers.TrueForAll(m => m.Matches(message));
     }
 
     /// <summary>
@@ -53,6 +53,7 @@ public class MockedRequest : IMockedRequest
     public MockedRequest With(IMockedRequestMatcher matcher)
     {
         this._matchers.Add(matcher);
+        
         return this;
     }
 
@@ -71,7 +72,8 @@ public class MockedRequest : IMockedRequest
     /// <param name="handler">The callback that will be used to supply the response</param>
     public MockedRequest Respond(Func<HttpRequestMessage, Task<HttpResponseMessage>> handler)
     {
-        this.response = handler;
+        this._response = handler;
+        
         return this;
     }
 
@@ -84,11 +86,11 @@ public class MockedRequest : IMockedRequest
     /// <returns>A Task containing the future response message</returns>
     public Task<HttpResponseMessage> SendAsync(HttpRequestMessage message, CancellationToken cancellationToken)
     {
-        if (this.response is null)
+        if (this._response is null)
         {
             throw new InvalidOperationException("A response was not configured for this request");
         }
 
-        return this.response(message);
+        return this._response(message);
     }
 }

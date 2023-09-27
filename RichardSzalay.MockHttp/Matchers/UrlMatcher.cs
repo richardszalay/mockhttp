@@ -8,7 +8,7 @@ namespace RichardSzalay.MockHttp.Matchers;
 /// </summary>
 public class UrlMatcher : IMockedRequestMatcher
 {
-    readonly string url;
+    private readonly string _url;
 
     /// <summary>
     /// Constructs a new instance of UrlMatcher
@@ -21,7 +21,7 @@ public class UrlMatcher : IMockedRequestMatcher
             url = uri?.AbsoluteUri!;
         }
 
-        this.url = url;
+        this._url = url;
     }
 
     /// <summary>
@@ -31,20 +31,21 @@ public class UrlMatcher : IMockedRequestMatcher
     /// <returns>true if the request was matched; false otherwise</returns>
     public bool Matches(HttpRequestMessage message)
     {
-        if (String.IsNullOrEmpty(url) || url == "*")
+        if (String.IsNullOrEmpty(this._url)
+            || this._url == "*")
+        {
             return true;
+        }
 
         if (message.RequestUri is null)
         {
             return false;
         }
 
-        string matchUrl = GetUrlToMatch(message.RequestUri);
-
-        bool startsWithWildcard = url.StartsWith("*", StringComparison.Ordinal);
-        bool endsWithWildcard = url.EndsWith("*", StringComparison.Ordinal);
-
-        string[] matchParts = url.Split(new[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
+        string matchUrl = this.GetUrlToMatch(message.RequestUri);
+        bool startsWithWildcard = this._url.StartsWith("*", StringComparison.Ordinal);
+        bool endsWithWildcard = this._url.EndsWith("*", StringComparison.Ordinal);
+        string[] matchParts = this._url.Split(new[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
 
         if (matchParts.Length == 0)
         {
@@ -58,8 +59,7 @@ public class UrlMatcher : IMockedRequestMatcher
         }
 
         int position = 0;
-
-        foreach (var matchPart in matchParts)
+        foreach (string matchPart in matchParts)
         {
             position = matchUrl.IndexOf(matchPart, position, StringComparison.Ordinal);
 
@@ -71,7 +71,8 @@ public class UrlMatcher : IMockedRequestMatcher
             position += matchPart.Length;
         }
 
-        if (!endsWithWildcard && position != matchUrl.Length)
+        if (!endsWithWildcard
+            && position != matchUrl.Length)
         {
             return false;
         }
@@ -81,7 +82,7 @@ public class UrlMatcher : IMockedRequestMatcher
 
     private string GetUrlToMatch(Uri input)
     {
-        bool matchingFullUrl = this.url.Replace('*', '-').IsWellFormedUriString(UriKind.Absolute);
+        bool matchingFullUrl = this._url.Replace('*', '-').IsWellFormedUriString(UriKind.Absolute);
 
         string source = matchingFullUrl
             ? new UriBuilder(input) { Query = "" }.Uri.AbsoluteUri

@@ -8,7 +8,7 @@ namespace RichardSzalay.MockHttp.Matchers;
 /// </summary>
 public class HeadersMatcher : IMockedRequestMatcher
 {
-    readonly IEnumerable<KeyValuePair<string, string>> headers;
+    private readonly IEnumerable<KeyValuePair<string, string>> _headers;
 
     /// <summary>
     /// Constructs a new instance of HeadersMatcher using a list of key value pairs to match
@@ -16,7 +16,7 @@ public class HeadersMatcher : IMockedRequestMatcher
     /// <param name="headers">A list of key value pairs to match</param>
     public HeadersMatcher(IEnumerable<KeyValuePair<string, string>> headers)
     {
-        this.headers = headers;
+        this._headers = headers;
     }
 
     /// <summary>
@@ -35,44 +35,47 @@ public class HeadersMatcher : IMockedRequestMatcher
     /// <returns>true if the request was matched; false otherwise</returns>
     public bool Matches(HttpRequestMessage message)
     {
-        return this.headers.All(h => MatchesHeader(h, message.Headers) || MatchesHeader(h, message.Content?.Headers));
+        return this._headers.All(h => MatchesHeader(h, message.Headers) || MatchesHeader(h, message.Content?.Headers));
     }
 
     private static bool MatchesHeader(KeyValuePair<string, string> matchHeader,
         HttpHeaders? messageHeader)
     {
         if (messageHeader == null)
+        {
             return false;
+        }
 
         if (!messageHeader.TryGetValues(matchHeader.Key, out IEnumerable<string>? values))
+        {
             return false;
+        }
 
         return values.Any(v => v == matchHeader.Value);
     }
 
     private static IEnumerable<KeyValuePair<string, string>> ParseHeaders(string headers)
     {
-        List<KeyValuePair<string, string>> headerPairs = new List<KeyValuePair<string, string>>();
-
+        List<KeyValuePair<string, string>> headerPairs = new();
         using StringReader reader = new(headers);
-
         string? line = reader.ReadLine();
 
-        while (line != null)
+        while (line is not null)
         {
             if (line.Trim().Length == 0)
+            {
                 break;
+            }
 
             string[] parts = line.Split(':', 2);
-
             if (parts.Length != 2)
+            {
                 throw new ArgumentException("Invalid header: " + line);
+            }
 
             headerPairs.Add(new KeyValuePair<string, string>(parts[0], parts[1].TrimStart(' ')));
-
             line = reader.ReadLine();
         }
-
 
         return headerPairs;
     }
