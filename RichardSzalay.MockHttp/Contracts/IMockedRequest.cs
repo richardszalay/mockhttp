@@ -8,9 +8,9 @@ public interface IMockedRequest
     /// <summary>
     /// Determines if a request can be handled by this instance
     /// </summary>
-    /// <param name="request">The <see cref="T:HttpRequestMessage"/> being sent</param>
+    /// <param name="message">The <see cref="T:HttpRequestMessage"/> being sent</param>
     /// <returns>true if this instance can handle the request; false otherwise</returns>
-    bool Matches(HttpRequestMessage request);
+    bool Matches(HttpRequestMessage message);
 
     /// <summary>
     /// Submits the request to be handled by this instance

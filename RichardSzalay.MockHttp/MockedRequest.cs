@@ -42,7 +42,8 @@ public class MockedRequest : IMockedRequest
     /// <returns>true if this instance can handle the request; false otherwise</returns>
     public bool Matches(HttpRequestMessage message)
     {
-        return _matchers.Count == 0 || _matchers.All(m => m.Matches(message));
+        return _matchers.Count == 0
+               || _matchers.TrueForAll(m => m.Matches(message));
     }
 
     /// <summary>

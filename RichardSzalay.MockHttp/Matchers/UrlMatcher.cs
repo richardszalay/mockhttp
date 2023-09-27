@@ -42,12 +42,14 @@ public class UrlMatcher : IMockedRequestMatcher
         string[] matchParts = url.Split(new[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
 
         if (matchParts.Length == 0)
-            return true;
-
-        if (!startsWithWildcard)
         {
-            if (!matchUrl.StartsWith(matchParts[0], StringComparison.Ordinal))
-                return false;
+            return true;
+        }
+
+        if (!startsWithWildcard
+            && !matchUrl.StartsWith(matchParts[0], StringComparison.Ordinal))
+        {
+            return false;
         }
 
         int position = 0;
@@ -57,7 +59,9 @@ public class UrlMatcher : IMockedRequestMatcher
             position = matchUrl.IndexOf(matchPart, position, StringComparison.Ordinal);
 
             if (position == -1)
+            {
                 return false;
+            }
 
             position += matchPart.Length;
         }
