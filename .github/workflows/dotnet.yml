@@ -18,11 +18,11 @@ jobs:
 
     steps:
     
-      - name: Set up JDK 11
+      - name: Set up JDK
         uses: actions/setup-java@v3.13.0
         with:
-          java-version: 1.17
-          distribution: oracle
+          java-version: 17
+          distribution: 'zulu'
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
