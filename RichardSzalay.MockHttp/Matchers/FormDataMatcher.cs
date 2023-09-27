@@ -89,7 +89,7 @@ public class FormDataMatcher : IMockedRequestMatcher
                 httpContent is MultipartFormDataContent);
     }
 
-    private bool IsFormData(string mediaType)
+    private static bool IsFormData(string mediaType)
     {
         return mediaType == "application/x-www-form-urlencoded";
     }

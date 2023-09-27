@@ -8,8 +8,8 @@ namespace RichardSzalay.MockHttp;
 /// </summary>
 public class MockedRequest : IMockedRequest
 {
-    private List<IMockedRequestMatcher> matchers = new List<IMockedRequestMatcher>();
-    private Func<HttpRequestMessage, Task<HttpResponseMessage>> response;
+    private readonly List<IMockedRequestMatcher> _matchers = new();
+    private Func<HttpRequestMessage, Task<HttpResponseMessage>> response = null!;
 
     /// <summary>
     /// Creates a new MockedRequest with no initial matchers
@@ -42,7 +42,7 @@ public class MockedRequest : IMockedRequest
     /// <returns>true if this instance can handle the request; false otherwise</returns>
     public bool Matches(HttpRequestMessage message)
     {
-        return matchers.Count == 0 || matchers.All(m => m.Matches(message));
+        return _matchers.Count == 0 || _matchers.All(m => m.Matches(message));
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public class MockedRequest : IMockedRequest
     /// <returns>The <see cref="T:MockedRequest"/> instance</returns>
     public MockedRequest With(IMockedRequestMatcher matcher)
     {
-        this.matchers.Add(matcher);
+        this._matchers.Add(matcher);
         return this;
     }
 
