@@ -16,9 +16,9 @@ public class UrlMatcher : IMockedRequestMatcher
     /// <param name="url">The url (relative or absolute) to match</param>
     public UrlMatcher(string url)
     {
-        if (url.TryParse(UriKind.Absolute, out Uri uri))
+        if (url.TryParse(UriKind.Absolute, out Uri? uri))
         {
-            url = uri.AbsoluteUri;
+            url = uri?.AbsoluteUri!;
         }
 
         this.url = url;
@@ -33,6 +33,11 @@ public class UrlMatcher : IMockedRequestMatcher
     {
         if (String.IsNullOrEmpty(url) || url == "*")
             return true;
+
+        if (message.RequestUri is null)
+        {
+            return false;
+        }
 
         string matchUrl = GetUrlToMatch(message.RequestUri);
 

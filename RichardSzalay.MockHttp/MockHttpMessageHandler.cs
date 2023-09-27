@@ -115,7 +115,8 @@ public class MockHttpMessageHandler : HttpMessageHandler
         if (backendDefinitionBehavior == BackendDefinitionBehavior.Always
             || requestExpectations.Count == 0)
         {
-            foreach (IMockedRequest handler in backendDefinitions.Where(handler => handler.Matches(request)))
+            IMockedRequest? handler = backendDefinitions.FirstOrDefault(handler => handler.Matches(request));
+            if (handler is not null)
             {
                 return SendAsync(handler, request, cancellationToken);
             }
