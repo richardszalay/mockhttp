@@ -1,3 +1,4 @@
+using System.Net;
 using RichardSzalay.MockHttp.Contracts;
 using RichardSzalay.MockHttp.Enums;
 
@@ -6,19 +7,17 @@ namespace RichardSzalay.MockHttp;
 public class MockHttpMessageHandler : HttpMessageHandler
 {
     private bool autoFlush;
-    readonly BackendDefinitionBehavior backendDefinitionBehavior;
-    
-    private Queue<TaskCompletionSource<object>> pendingFlushers = new Queue<TaskCompletionSource<object>>();
-    private TaskCompletionSource<object> flusher = new TaskCompletionSource<object>();
-    
-    private Queue<IMockedRequest> requestExpectations = new();
-    private List<IMockedRequest> backendDefinitions = new();
+    private int outstandingRequests;
+    private TaskCompletionSource<object> flusher = new();
+
+    private readonly BackendDefinitionBehavior backendDefinitionBehavior;
+    private readonly Queue<TaskCompletionSource<object>> pendingFlushers = new();
+    private readonly Queue<IMockedRequest> requestExpectations = new();
+    private readonly List<IMockedRequest> backendDefinitions = new();
     private readonly Dictionary<IMockedRequest, int> _matchCounts = new();
     private readonly object _lockObject = new();
-
-    private int outstandingRequests = 0;
-
     private readonly MockedRequest fallback;
+
     /// <summary>
     /// Gets the <see cref="T:MockedRequest"/> that will handle requests that were otherwise unmatched
     /// </summary>
@@ -30,7 +29,8 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// <summary>
     /// Creates a new instance of MockHttpMessageHandler
     /// </summary>
-    public MockHttpMessageHandler(BackendDefinitionBehavior backendDefinitionBehavior = BackendDefinitionBehavior.NoExpectations)
+    public MockHttpMessageHandler(
+        BackendDefinitionBehavior backendDefinitionBehavior = BackendDefinitionBehavior.NoExpectations)
     {
         this.backendDefinitionBehavior = backendDefinitionBehavior;
 
@@ -54,7 +54,7 @@ public class MockHttpMessageHandler : HttpMessageHandler
             if (autoFlush)
             {
                 flusher = new TaskCompletionSource<object>();
-                flusher.SetResult(null);
+                flusher.SetResult(null!);
             }
             else
             {
@@ -70,7 +70,7 @@ public class MockHttpMessageHandler : HttpMessageHandler
     public void Flush()
     {
         while (pendingFlushers.Count > 0)
-            pendingFlushers.Dequeue().SetResult(null);
+            pendingFlushers.Dequeue().SetResult(null!);
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class MockHttpMessageHandler : HttpMessageHandler
     public void Flush(int count)
     {
         while (pendingFlushers.Count > 0 && count-- > 0)
-            pendingFlushers.Dequeue().SetResult(null);
+            pendingFlushers.Dequeue().SetResult(null!);
     }
 
     /// <summary>
@@ -112,14 +112,12 @@ public class MockHttpMessageHandler : HttpMessageHandler
             }
         }
 
-        if (backendDefinitionBehavior == BackendDefinitionBehavior.Always || requestExpectations.Count == 0)
+        if (backendDefinitionBehavior == BackendDefinitionBehavior.Always
+            || requestExpectations.Count == 0)
         {
-            foreach (var handler in backendDefinitions)
+            foreach (IMockedRequest handler in backendDefinitions.Where(handler => handler.Matches(request)))
             {
-                if (handler.Matches(request))
-                {
-                    return SendAsync(handler, request, cancellationToken);
-                }
+                return SendAsync(handler, request, cancellationToken);
             }
         }
 
@@ -182,14 +180,18 @@ public class MockHttpMessageHandler : HttpMessageHandler
         }
     }
 
-    async Task<HttpResponseMessage> CreateDefaultFallbackMessage(HttpRequestMessage req)
+    private async Task<HttpResponseMessage> CreateDefaultFallbackMessage(HttpRequestMessage req)
     {
-        var message = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound)
+        return await Task.Run(() =>
         {
-            ReasonPhrase =
-                $"No matching mock handler for \"{req.Method.ToString().ToUpperInvariant()} {req.RequestUri.AbsoluteUri}\""
-        };
-        return message;
+            var message = new HttpResponseMessage(HttpStatusCode.NotFound)
+            {
+                ReasonPhrase =
+                    $"No matching mock handler for \"{req.Method.ToString().ToUpperInvariant()} {req.RequestUri?.AbsoluteUri}\""
+            };
+
+            return message;
+        });
     }
 
     /// <summary>

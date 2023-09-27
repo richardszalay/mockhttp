@@ -36,9 +36,9 @@ public class QueryStringMatcher : IMockedRequestMatcher
     /// </summary>
     /// <param name="message">The request message being evaluated</param>
     /// <returns>true if the request was matched; false otherwise</returns>
-    public bool Matches(System.Net.Http.HttpRequestMessage message)
+    public bool Matches(HttpRequestMessage message)
     {
-        var queryString = ParseQueryString(message.RequestUri.Query.TrimStart('?'));
+        var queryString = ParseQueryString(message.RequestUri?.Query.TrimStart('?'));
 
         var containsAllValues = values.All(matchPair =>
             queryString.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
@@ -57,8 +57,13 @@ public class QueryStringMatcher : IMockedRequestMatcher
             values.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
     }
 
-    internal static IEnumerable<KeyValuePair<string, string>> ParseQueryString(string input)
+    internal static IEnumerable<KeyValuePair<string, string>> ParseQueryString(string? input)
     {
+        if (string.IsNullOrEmpty(input))
+        {
+            return Enumerable.Empty<KeyValuePair<string, string>>();
+        }
+        
         return input.TrimStart('?').Split('&')
             .Select(pair => pair.Split('=', 2))
             .Select(pair => new KeyValuePair<string, string>(
