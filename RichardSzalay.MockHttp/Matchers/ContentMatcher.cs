@@ -1,4 +1,6 @@
-﻿namespace RichardSzalay.MockHttp.Matchers;
+﻿using RichardSzalay.MockHttp.Formatters;
+
+namespace RichardSzalay.MockHttp.Matchers;
 
 /// <summary>
 /// Matches requests on request content
@@ -30,4 +32,8 @@ public class ContentMatcher : IMockedRequestMatcher
 
         return actualContent == content;
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+        => string.Format(Resources.ContentMatcherDescriptor, content);
 }

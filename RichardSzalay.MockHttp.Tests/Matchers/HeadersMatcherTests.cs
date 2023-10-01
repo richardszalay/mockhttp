@@ -59,4 +59,17 @@ Authorization: Basic abcdef"),
         return expected.Matches(request);
     }
 
+    [Fact]
+    public void ToString_describes_matcher()
+    {
+        var sut = new HeadersMatcher(@"Accept: application/json
+Authorization: Basic abcdef");
+
+        var result = sut.ToString();
+
+        Assert.Equal($"headers match {Environment.NewLine}" +
+            $"    Accept: application/json{Environment.NewLine}" +
+            $"    Authorization: Basic abcdef{Environment.NewLine}", result);
+    }
+
 }

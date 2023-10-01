@@ -1,8 +1,10 @@
 ﻿#if NET5_0_OR_GREATER
 
+using RichardSzalay.MockHttp.Formatters;
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 
 namespace RichardSzalay.MockHttp.Matchers;
@@ -59,6 +61,9 @@ public class JsonContentMatcher<T> : IMockedRequestMatcher
 #endif
     }
 
+    /// <inheritdoc/>
+    public override string ToString()
+        => string.Format(Resources.JsonContentMatcherDescriptor, typeof(T).Name);
 }
 
 #endif

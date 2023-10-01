@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using RichardSzalay.MockHttp.Formatters;
+using System.Net.Http;
 
 namespace RichardSzalay.MockHttp.Matchers;
 
@@ -27,4 +28,8 @@ public class MethodMatcher : IMockedRequestMatcher
     {
         return message.Method == method;
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+        => string.Format(Resources.MethodMatcherDescriptor, method.ToString());
 }

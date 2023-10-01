@@ -1,4 +1,5 @@
 ﻿using RichardSzalay.MockHttp.Matchers;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -30,6 +31,23 @@ public class AnyMatcherTests
         Assert.False(result);
     }
 
+
+    [Fact]
+    public void ToString_describes_matcher()
+    {
+        var sut = new AnyMatcher(new[]
+        {
+            new FakeMatcher(true),
+            new FakeMatcher(false)
+        });
+
+        var result = sut.ToString();
+        var expected = $"matches any one of matches fake True{Environment.NewLine}" +
+            $"    OR matches fake False{Environment.NewLine}";
+
+        Assert.Equal(expected, result);
+    }
+
     public bool Test(params bool[] matcherResults)
     {
         var matchers = matcherResults
@@ -50,5 +68,8 @@ public class AnyMatcherTests
         {
             return _result;
         }
+
+        public override string ToString()
+            => $"matches fake {_result}";
     }
 }

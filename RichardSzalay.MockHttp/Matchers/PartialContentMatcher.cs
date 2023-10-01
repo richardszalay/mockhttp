@@ -1,4 +1,6 @@
-﻿namespace RichardSzalay.MockHttp.Matchers;
+﻿using RichardSzalay.MockHttp.Formatters;
+
+namespace RichardSzalay.MockHttp.Matchers;
 
 /// <summary>
 /// Matches requests on partial request content
@@ -30,4 +32,8 @@ public class PartialContentMatcher : IMockedRequestMatcher
 
         return actualContent.IndexOf(content) != -1;
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+        => string.Format(Resources.PartialContentMatcherDescriptor, content);
 }

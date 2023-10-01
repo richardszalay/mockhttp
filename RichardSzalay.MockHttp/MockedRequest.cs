@@ -1,5 +1,6 @@
 ﻿using RichardSzalay.MockHttp.Matchers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -11,7 +12,7 @@ namespace RichardSzalay.MockHttp;
 /// <summary>
 /// A preconfigured response to a HTTP request
 /// </summary>
-public class MockedRequest : IMockedRequest
+public class MockedRequest : IMockedRequest, IEnumerable<IMockedRequestMatcher>
 {
     private List<IMockedRequestMatcher> matchers = new List<IMockedRequestMatcher>();
     private Func<HttpRequestMessage, Task<HttpResponseMessage>>? response;
@@ -95,4 +96,10 @@ public class MockedRequest : IMockedRequest
 
         return response(message);
     }
+
+    IEnumerator<IMockedRequestMatcher> IEnumerable<IMockedRequestMatcher>.GetEnumerator()
+        => this.matchers.GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator()
+        => this.matchers.GetEnumerator();
 }

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using RichardSzalay.MockHttp.Formatters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace RichardSzalay.MockHttp.Matchers;
 
@@ -80,5 +82,32 @@ public class QueryStringMatcher : IMockedRequestMatcher
     {
         string tmp = urlEncodedValue.Replace("+", "%20");
         return Uri.UnescapeDataString(tmp);
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+
+        var first = true;
+
+        foreach (var kvp in this.values)
+        {
+            if (first)
+            {
+                first = false;
+            }
+            else
+            {
+                sb.Append('&');
+            }
+
+            sb.Append(Uri.EscapeDataString(kvp.Key));
+            sb.Append('=');
+            sb.Append(Uri.EscapeDataString(kvp.Value));
+        }
+
+        var resource = exact ? Resources.QueryStringMatcherDescriptor : Resources.PartialQueryStringMatcherDescriptor;
+        return string.Format(resource, sb.ToString());
     }
 }

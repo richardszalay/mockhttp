@@ -155,7 +155,7 @@ public class MockHttpMessageHandlerTests
     }
 
     [Fact]
-    public void Default_fallback_includes_method_and_url()
+    public async Task Default_fallback_throws_MockHttpMatchException()
     {
         var mockHandler = new MockHttpMessageHandler();
         var client = new HttpClient(mockHandler);
@@ -164,9 +164,9 @@ public class MockHttpMessageHandlerTests
             .When("/test")
             .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'OK'}");
 
-        var result = client.GetAsync("http://invalid/test2").Result;
+        var result = await Assert.ThrowsAsync<MockHttpMatchException>(() => client.GetAsync("http://invalid/test2"));
 
-        Assert.Equal("No matching mock handler for \"GET http://invalid/test2\"", result.ReasonPhrase);
+        Assert.StartsWith("Failed to match a mocked request for GET http://invalid/test2", result.Message);
     }
 
     [Fact]
@@ -294,6 +294,8 @@ public class MockHttpMessageHandlerTests
         mockHandler
             .Expect("/testA")
             .Respond(System.Net.HttpStatusCode.OK, "application/json", "{'status' : 'Test'}");
+
+        mockHandler.Fallback.RespondMatchSummary();
 
         var result = client.GetAsync("http://invalid/test").Result;
 
