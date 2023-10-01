@@ -118,4 +118,24 @@ public class QueryStringMatcherTests
         return sut.Matches(new HttpRequestMessage(HttpMethod.Get,
             "http://tempuri.org/home?" + actual));
     }
+
+    [Fact]
+    public void ToString_describes_partial_matcher()
+    {
+        var sut = new QueryStringMatcher("key=Value+with%20spaces&b=2", exact: false);
+
+        var result = sut.ToString();
+
+        Assert.Equal("query string matches key=Value%20with%20spaces&b=2", result);
+    }
+
+    [Fact]
+    public void ToString_describes_exact_matcher()
+    {
+        var sut = new QueryStringMatcher("key=Value+with%20spaces&b=2", exact: true);
+
+        var result = sut.ToString();
+
+        Assert.Equal("query string exacly matches (no additional keys allowed) key=Value%20with%20spaces&b=2", result);
+    }
 }

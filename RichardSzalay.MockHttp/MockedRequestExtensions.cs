@@ -1,4 +1,5 @@
-﻿using RichardSzalay.MockHttp.Matchers;
+﻿using RichardSzalay.MockHttp.Formatters;
+using RichardSzalay.MockHttp.Matchers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -579,6 +580,26 @@ public static class MockedRequestExtensions
     }
 
     /// <summary>
+    /// Sets the response of the current <see cref="T:MockedRequest"/> to a text response outlining a summary
+    /// of the matches attempted against the <see cref="HttpRequestMessage"/>
+    /// </summary>
+    /// <param name="source">The source mocked request</param>
+    /// <param name="statusCode">The HttpStatusCode to return with the summary. Defaults to NotFound (404)</param>
+    public static MockedRequest RespondMatchSummary(this MockedRequest source, HttpStatusCode statusCode = HttpStatusCode.NotFound)
+    {
+        return source.Respond(statusCode, req =>
+        {
+            var result = MockHttpMessageHandler.GetHandlerResult(req);
+
+            var summary = result != null
+                ? RequestHandlerResultFormatter.Format(result)
+                : string.Format(Resources.MatchFailureHeader, RequestHandlerResultFormatter.FormatRequestMessage(req));
+
+            return new StringContent(summary);
+        });
+    }
+
+    /// <summary>
     /// Sets the response of the current <see cref="T:MockedRequest"/> to a lambda which throws the specified exception.
     /// </summary>
     /// <param name="source">The source mocked request</param>
@@ -590,6 +611,25 @@ public static class MockedRequestExtensions
             throw exception;
         });
 
+    }
+
+    /// <summary>
+    /// Sets the response of the current <see cref="T:MockedRequest"/> to a thrown exception containing a summary
+    /// of the matches attempted against the <see cref="HttpRequestMessage"/>
+    /// </summary>
+    /// <param name="source">The source mocked request</param>
+    public static MockedRequest ThrowMatchSummary(this MockedRequest source)
+    {
+        return source.Respond(req =>
+        {
+            var result = MockHttpMessageHandler.GetHandlerResult(req);
+
+            var summary = result != null
+                ? RequestHandlerResultFormatter.Format(result)
+                : string.Format(Resources.MatchFailureHeader, RequestHandlerResultFormatter.FormatRequestMessage(req));
+
+            throw new MockHttpMatchException(summary);
+        });
     }
 
     private static HttpRequestMessage CloneRequest(HttpRequestMessage message)

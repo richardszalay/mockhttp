@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using RichardSzalay.MockHttp.Formatters;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 
 namespace RichardSzalay.MockHttp.Matchers;
 
@@ -88,5 +91,32 @@ public class FormDataMatcher : IMockedRequestMatcher
     private bool IsFormData(string? mediaType)
     {
         return mediaType == "application/x-www-form-urlencoded";
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+
+        var first = true;
+
+        foreach (var kvp in this.values)
+        {
+            if (first)
+            {
+                first = false;
+            }
+            else
+            {
+                sb.Append('&');
+            }
+
+            sb.Append(Uri.EscapeDataString(kvp.Key));
+            sb.Append('=');
+            sb.Append(Uri.EscapeDataString(kvp.Value));
+        }
+
+        var resource = exact ? Resources.FormDataMatcherDescriptor : Resources.PartialFormDataMatcherDescriptor;
+        return string.Format(resource, sb.ToString());
     }
 }

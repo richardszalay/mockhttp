@@ -1,9 +1,11 @@
-﻿using System;
+﻿using RichardSzalay.MockHttp.Formatters;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace RichardSzalay.MockHttp.Matchers;
 
@@ -79,5 +81,23 @@ public class HeadersMatcher : IMockedRequestMatcher
         }
 
         return headerPairs;
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+
+        sb.AppendLine(string.Format(Resources.HeadersMatcherDescriptor, string.Empty));
+
+        foreach (var kvp in this.headers)
+        {
+            sb.Append("    ");
+            sb.Append(kvp.Key);
+            sb.Append(": ");
+            sb.AppendLine(kvp.Value);
+        }
+
+        return sb.ToString();
     }
 }

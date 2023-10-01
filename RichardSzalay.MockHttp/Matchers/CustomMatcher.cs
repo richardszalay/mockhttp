@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RichardSzalay.MockHttp.Formatters;
+using System;
 using System.Net.Http;
 
 namespace RichardSzalay.MockHttp.Matchers;
@@ -31,4 +32,8 @@ public class CustomMatcher : IMockedRequestMatcher
     {
         return matcher(message);
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+        => Resources.CustomMatcherDescriptor;
 }

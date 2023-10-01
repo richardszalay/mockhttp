@@ -217,4 +217,24 @@ public class FormDataMatcherTests
             "http://tempuri.org/home")
         { Content = actual });
     }
+
+    [Fact]
+    public void ToString_describes_partial_matcher()
+    {
+        var sut = new FormDataMatcher("key=Value+with%20spaces&b=2", exact: false);
+
+        var result = sut.ToString();
+
+        Assert.Equal("form data matches key=Value%20with%20spaces&b=2", result);
+    }
+
+    [Fact]
+    public void ToString_describes_exact_matcher()
+    {
+        var sut = new FormDataMatcher("key=Value+with%20spaces&b=2", exact: true);
+
+        var result = sut.ToString();
+
+        Assert.Equal("form data exacly matches (no additional keys allowed) key=Value%20with%20spaces&b=2", result);
+    }
 }

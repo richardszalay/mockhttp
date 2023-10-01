@@ -148,4 +148,14 @@ public class UrlMatcherTests
     {
         return new HttpRequestMessage(HttpMethod.Get, url);
     }
+
+    [Fact]
+    public void ToString_describes_matcher()
+    {
+        var sut = new UrlMatcher("http://tempuri.org/");
+
+        var result = sut.ToString();
+
+        Assert.Equal("URL matches http://tempuri.org/", result);
+    }
 }

@@ -1,4 +1,5 @@
 ﻿#if NETSTANDARD2_0_OR_GREATER || NET5_0_OR_GREATER
+using RichardSzalay.MockHttp.Formatters;
 using System;
 using System.IO;
 using System.Net.Http;
@@ -53,6 +54,10 @@ public class XmlContentMatcher<T> : IMockedRequestMatcher
     {
         return (T?)serializer.Deserialize(stream);
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+        => string.Format(Resources.XmlContentMatcherDescriptor, typeof(T).Name);
 }
 
 /// <summary>
