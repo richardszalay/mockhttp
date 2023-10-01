@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RichardSzalay.MockHttp.Formatters;
+using System;
 using System.Net.Http;
 
 namespace RichardSzalay.MockHttp.Matchers;
@@ -84,5 +85,7 @@ public class UrlMatcher : IMockedRequestMatcher
         return source;
     }
 
-
+    /// <inheritdoc/>
+    public override string ToString()
+        => string.Format(Resources.UrlMatcherDescriptor, url);
 }

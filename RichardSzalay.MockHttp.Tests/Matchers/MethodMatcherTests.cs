@@ -35,4 +35,14 @@ public class MethodMatcherTests
         return sut.Matches(new HttpRequestMessage(actual,
             "http://tempuri.org/home"));
     }
+
+    [Fact]
+    public void ToString_describes_matcher()
+    {
+        var sut = new MethodMatcher(HttpMethod.Get);
+
+        var result = sut.ToString();
+
+        Assert.Equal("method matches GET", result);
+    }
 }

@@ -37,4 +37,14 @@ public class PartialContentMatcherTests
 
         return new PartialContentMatcher(expected).Matches(request);
     }
+
+    [Fact]
+    public void ToString_describes_matcher()
+    {
+        var sut = new PartialContentMatcher("test");
+
+        var result = sut.ToString();
+
+        Assert.Equal("request body partially matches test", result);
+    }
 }

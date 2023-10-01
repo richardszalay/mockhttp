@@ -1,5 +1,7 @@
-﻿using System;
+﻿using RichardSzalay.MockHttp.Matchers;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +29,7 @@ public class MockHttpMessageHandler : HttpMessageHandler
 
         AutoFlush = true;
         fallback = new MockedRequest();
-        fallback.Respond(req => CreateDefaultFallbackMessage(req));
+        fallback.ThrowMatchSummary();
     }
 
     private bool autoFlush;
@@ -95,30 +97,113 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// <returns>A Task containing the future response message</returns>
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
+        var handler = FindHandler(request);
+
+        return SendAsync(handler, request, cancellationToken);
+    }
+
+    private IMockedRequest FindHandler(HttpRequestMessage request)
+    {
+        var results = new RequestHandlerResult(request);
+
         if (requestExpectations.Count > 0)
         {
             var handler = requestExpectations.Peek();
+            var handlerResult = EvaluateMockedRequest(handler, request);
+            results.RequestExpectationResult = handlerResult;
 
-            if (handler.Matches(request))
+            results.UnevaluatedRequestExpectations.AddRange(requestExpectations.Skip(1));
+
+            if (handlerResult.Success)
             {
                 requestExpectations.Dequeue();
 
-                return SendAsync(handler, request, cancellationToken);
+                results.Handler = handler;
             }
         }
 
-        if (backendDefinitionBehavior == BackendDefinitionBehavior.Always || requestExpectations.Count == 0)
+        var evaluateBackendDefinitions = backendDefinitionBehavior == BackendDefinitionBehavior.Always
+            || requestExpectations.Count == 0;
+
+        foreach (var handler in backendDefinitions)
         {
-            foreach (var handler in backendDefinitions)
+            var evaludateHandler = results.Handler == null && evaluateBackendDefinitions;
+
+            if (!evaludateHandler)
             {
-                if (handler.Matches(request))
+                results.UnevaluatedBackendDefinitions.Add(handler);
+                continue;
+            }
+
+            var handlerResult = EvaluateMockedRequest(handler, request);
+            results.BackendDefinitionResults.Add(handlerResult);
+
+            if (handlerResult.Success)
+            {
+                results.Handler = handler;
+            }
+        }
+
+        SetHandlerResult(request, results);
+
+        return results.Handler ?? Fallback;
+    }
+
+    private MockedRequestResult EvaluateMockedRequest(IMockedRequest mockedRequest, HttpRequestMessage request)
+    {
+        Dictionary<IMockedRequestMatcher, bool> matcherResults = new();
+
+        // Once a decision around public API changes is made, the new API can have matchers
+        // return a richer object, removing the need for explicit knowledge of 'AnyMatcher' here
+        bool IsAnyMatch(AnyMatcher matcher)
+        {
+            foreach (var childMatcher in matcher)
+            {
+                var childResult = childMatcher.Matches(request);
+
+                matcherResults[childMatcher] = childResult;
+
+                if (childResult)
                 {
-                    return SendAsync(handler, request, cancellationToken);
+                    return true;
                 }
             }
+
+            return false;
         }
 
-        return SendAsync(Fallback, request, cancellationToken);
+        var result = new MockedRequestResult()
+        {
+            Handler = mockedRequest
+        };
+
+        // This is an odd way of achieving this but allows the model to developed/iterated without changing
+        // the public API (for now)
+        if (mockedRequest is not IEnumerable<IMockedRequestMatcher> matchers)
+        {
+            return MockedRequestResult.FromResult(mockedRequest,
+                mockedRequest.Matches(request));
+        }
+
+        var success = true;
+
+        foreach (var matcher in matchers)
+        {
+            var matcherResult = matcher switch
+            {
+                AnyMatcher anyMatcher => IsAnyMatch(anyMatcher),
+                _ => matcher.Matches(request)
+            };
+            matcherResults[matcher] = matcherResult;
+
+            if (!matcherResult)
+            {
+                success = false;
+                break;
+            }
+        }
+
+        return MockedRequestResult.FromMatcherResults(mockedRequest, matcherResults, success);
     }
 
 #if NET5_0_OR_GREATER
@@ -130,6 +215,8 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// <returns>A Task containing the future response message</returns>
     protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
     {
+        // TODO: Throw is AutoFlush is disabled
+
         return SendAsync(request, cancellationToken)
             .GetAwaiter().GetResult();
     }
@@ -197,15 +284,6 @@ public class MockHttpMessageHandler : HttpMessageHandler
     public MockedRequest Fallback
     {
         get => fallback;
-    }
-
-    HttpResponseMessage CreateDefaultFallbackMessage(HttpRequestMessage req)
-    {
-        var message = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound)
-        {
-            ReasonPhrase = $"No matching mock handler for \"{req.Method.ToString().ToUpperInvariant()} {req.RequestUri?.AbsoluteUri}\""
-        };
-        return message;
     }
 
     /// <summary>
@@ -312,4 +390,27 @@ public class MockHttpMessageHandler : HttpMessageHandler
         ResetExpectations();
         ResetBackendDefinitions();
     }
+
+#pragma warning disable CS0618 // Type or member is obsolete. We need Properties as Options isn't supported < .NET 5
+    private const string HandlerResultMessageKey = "_MockHttpResult";
+
+    internal static RequestHandlerResult? GetHandlerResult(HttpRequestMessage request)
+    {
+
+        if (request.Properties.TryGetValue(HandlerResultMessageKey, out var result) == true &&
+            result is RequestHandlerResult handlerResult)
+        {
+            return handlerResult;
+        }
+
+        return null;
+    }
+
+    internal static void SetHandlerResult(HttpRequestMessage request, RequestHandlerResult handlerResult)
+    {
+
+        request.Properties[HandlerResultMessageKey] = handlerResult;
+    }
+
+#pragma warning restore CS0618 // Type or member is obsolete
 }

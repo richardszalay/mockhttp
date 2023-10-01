@@ -53,4 +53,14 @@ public class XmlContentMatcherTests
     {
         public bool Value { get; set; }
     }
+
+    [Fact]
+    public void ToString_describes_matcher()
+    {
+        var sut = new XmlContentMatcher<XmlContent>(x => true);
+
+        var result = sut.ToString();
+
+        Assert.Equal("XML request body matches custom XmlContent predicate", result);
+    }
 }

@@ -23,6 +23,16 @@ public class CustomMatcherTests
         Assert.False(result);
     }
 
+    [Fact]
+    public void ToString_describes_matcher()
+    {
+        var sut = new CustomMatcher(_ => true);
+
+        var result = sut.ToString();
+
+        Assert.Equal("request matches a custom predicate", result);
+    }
+
     private bool Test(Func<HttpRequestMessage, bool> handler)
     {
         var sut = new CustomMatcher(handler);

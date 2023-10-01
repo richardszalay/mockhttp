@@ -46,4 +46,14 @@ public class JsonContentMatcherTests
     }
 
     public record JsonContent(bool Value);
+
+    [Fact]
+    public void ToString_describes_matcher()
+    {
+        var sut = new JsonContentMatcher<JsonContent>(x => true);
+
+        var result = sut.ToString();
+
+        Assert.Equal("JSON request body matches custom JsonContent predicate", result);
+    }
 }

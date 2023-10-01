@@ -1,4 +1,5 @@
 ﻿using RichardSzalay.MockHttp.Matchers;
+using System;
 using System.Net.Http;
 using Xunit;
 
@@ -26,6 +27,16 @@ public class ContentMatcherTests
         );
 
         Assert.False(result);
+    }
+
+    [Fact]
+    public void ToString_describes_matcher()
+    {
+        var sut = new ContentMatcher("test");
+
+        var result = sut.ToString();
+
+        Assert.Equal("request body matches test", result);
     }
 
     private bool Test(string expected, string actual)
