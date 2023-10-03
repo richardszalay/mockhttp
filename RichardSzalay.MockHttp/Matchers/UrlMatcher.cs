@@ -79,7 +79,7 @@ public class UrlMatcher : IMockedRequestMatcher
 
         string source = matchingFullUrl
             ? new UriBuilder(input) { Query = "" }.Uri.AbsoluteUri
-            : input.LocalPath;
+            : input.AbsolutePath;
 
         return source;
     }
