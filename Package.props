@@ -5,6 +5,7 @@
   <PropertyGroup>
     <PackageId>RichardSzalay.MockHttp</PackageId>
     <Version>7.0.0</Version>
+    <PackageVersion>7.0.0-rc1</PackageVersion>
     <Authors>Richard Szalay</Authors>
     <Company></Company>
     <Description>Testing layer for Microsoft's HttpClient library</Description>
