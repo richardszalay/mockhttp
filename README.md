@@ -108,7 +108,7 @@ mockHttp.Fallback.Throw(new InvalidOperationException("No matching mock handler"
 mockHttp.Fallback.Respond(new HttpClient());
 ```
 
-The default fallback behavior is to return an empty response the status `404 No matching mock handler for "GET http://host/url"`.
+The default fallback behavior is to throw an exception that summarises why reach mocked request failed to match.
 
 ### Examples
 
@@ -142,15 +142,9 @@ mockHttp.VerifyNoOutstandingExpectation();
 	
 ## Platform Support
 
-MockHttp is compiled for .NET Standard 2.0, .NET Standard 1.1, .NET 4, and .NET 4.5, as well a Portable Class Library (Profile 328) supporting:
+MockHttp 7.0.0 and later are compiled for .NET 6, .NET 5, .NET Standard 2.0, .NET Standard 1.1
 
-* .NET 4
-* Silverlight 5
-* Winodws 8
-* Windows Phone Silverlight 8
-* Windows Phone 8.1
-* Xamarin iOS
-* Xamarin Android
+[MockHttp 6.0.0](https://github.com/richardszalay/mockhttp/tree/v6.0.0#platform-support) has increased legacy platform support and can still be used, but is no longer updated with new features.
 
 ## Build / Release
 
@@ -159,7 +153,7 @@ Clone the repository and build `RichardSzalay.MockHttp.sln` using MSBuild. NuGet
 To release, build:
 
 ```
-msbuild Release.proj /p:PackageVersion=1.2.3
+dotnet pack -c Release --no-build ./RichardSzalay.MockHttp/RichardSzalay.MockHttp.csproj
 ```
 
 If you fork the project, simply rename the `nuspec` file accordingly and it will be picked up by the release script.
@@ -174,12 +168,14 @@ Many thanks to all the members of the community that have contributed PRs to thi
 * [coryflucas](https://github.com/coryflucas)
 * [esskar](https://github.com/esskar)
 * [jericho](https://github.com/jericho)
+* [perfectsquircle](https://github.com/perfectsquircle)
+* [jr01](https://github.com/jr01)
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2018 Richard Szalay
+Copyright (c) 2023 Richard Szalay
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

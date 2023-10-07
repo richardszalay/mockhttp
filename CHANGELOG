@@ -1,4 +1,10 @@
-6.0.0 - Assemblies are now strong named (binary BREAKING) #1
+7.0.0 - Change target profiles to netstandard1.1, netstandard2.0, net5.0, net6.0 (BREAKING)
+      - Change default fallback behaviour to throw an exception with a report of the match attempts
+      - Add JSON and XML matchers
+      - Add support for synchronous HttpClient.Send #104
+      - Fix matching of encoded URL paths #116
+      - Throw a descriptive error when matching on a mocked request with no response #87 (thanks perfectsquircle!)
+      - Fix race condition on outstanding requests exception message #96 (thanks jr01!)
 
 6.0.0 - Assemblies are now strong named (binary BREAKING) #1
 
