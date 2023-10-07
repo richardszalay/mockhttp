@@ -1,7 +1,7 @@
 name: MockHttp Build
 on:
   push:
-    branches: [ main ]
+    branches: [ master, release/7.0.0 ]
   pull_request:
   workflow_dispatch:
 
