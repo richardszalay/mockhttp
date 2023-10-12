@@ -2,6 +2,7 @@
       - Change default fallback behaviour to throw an exception with a report of the match attempts
       - Add JSON and XML matchers
       - Add support for synchronous HttpClient.Send #104
+      - Modernize source #41 and add SourceLink support #66
       - Fix matching of encoded URL paths #116
       - Throw a descriptive error when matching on a mocked request with no response #87 (thanks perfectsquircle!)
       - Fix race condition on outstanding requests exception message #96 (thanks jr01!)
