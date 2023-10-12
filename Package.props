@@ -9,6 +9,7 @@
     <Company></Company>
     <Description>Testing layer for Microsoft's HttpClient library</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright 2023 Richard Szalay</Copyright>
   </PropertyGroup>
 	
   <!-- Assembly Versions -->
