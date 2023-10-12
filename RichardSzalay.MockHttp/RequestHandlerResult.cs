@@ -22,7 +22,11 @@ namespace RichardSzalay.MockHttp
 
     internal class MockedRequestResult
     {
-        public IMockedRequest Handler { get; set; }
+        private MockedRequestResult()
+        {
+        }
+
+        public IMockedRequest? Handler { get; set; } = default!;
 
         public Dictionary<IMockedRequestMatcher, bool> MatcherResults { get; private set; } = new();
         public bool Success { get; internal set; }
