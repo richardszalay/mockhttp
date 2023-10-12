@@ -99,7 +99,10 @@ namespace RichardSzalay.MockHttp.Formatters
 
             if (result.Handler is not IEnumerable<IMockedRequestMatcher> matchers)
             {
-                sb.AppendLine(result.Handler.ToString());
+                if (result.Handler is not null)
+                {
+                    sb.AppendLine(result.Handler.ToString());
+                }
                 return;
             }
 
