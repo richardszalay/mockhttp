@@ -172,11 +172,6 @@ public class MockHttpMessageHandler : HttpMessageHandler
             return false;
         }
 
-        var result = new MockedRequestResult()
-        {
-            Handler = mockedRequest
-        };
-
         // This is an odd way of achieving this but allows the model to developed/iterated without changing
         // the public API (for now)
         if (mockedRequest is not IEnumerable<IMockedRequestMatcher> matchers)
