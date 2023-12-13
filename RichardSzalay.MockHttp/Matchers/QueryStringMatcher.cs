@@ -69,7 +69,12 @@ public class QueryStringMatcher : IMockedRequestMatcher
 
     internal static IEnumerable<KeyValuePair<string, string>> ParseQueryString(string input)
     {
-        return input.TrimStart('?').Split('&')
+        if (input.Length == 0)
+        {
+            return Enumerable.Empty<KeyValuePair<string, string>>();
+        }
+        return input.TrimStart('?')
+            .Split('&')
             .Select(pair => StringUtil.Split(pair, '=', 2))
             .Select(pair => new KeyValuePair<string, string>(
                 UrlDecode(pair[0]),
