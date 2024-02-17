@@ -7,14 +7,14 @@ using System.Text;
 namespace RichardSzalay.MockHttp.Matchers;
 
 /// <summary>
-/// A composite matcher that suceeds if any of it's composed matchers succeed
+/// A composite matcher that succeeds if any of it's composed matchers succeed
 /// </summary>
 public class AnyMatcher : IMockedRequestMatcher, IEnumerable<IMockedRequestMatcher>
 {
     readonly IEnumerable<IMockedRequestMatcher> _matchers;
 
     /// <summary>
-    /// Construcuts a new instnace of AnyMatcher
+    /// Constructs a new instance of AnyMatcher
     /// </summary>
     /// <param name="matchers">The list of matchers to evaluate</param>
     public AnyMatcher(IEnumerable<IMockedRequestMatcher> matchers)

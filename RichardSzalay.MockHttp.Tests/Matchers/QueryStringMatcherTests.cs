@@ -136,6 +136,6 @@ public class QueryStringMatcherTests
 
         var result = sut.ToString();
 
-        Assert.Equal("query string exacly matches (no additional keys allowed) key=Value%20with%20spaces&b=2", result);
+        Assert.Equal("query string exactly matches (no additional keys allowed) key=Value%20with%20spaces&b=2", result);
     }
 }
