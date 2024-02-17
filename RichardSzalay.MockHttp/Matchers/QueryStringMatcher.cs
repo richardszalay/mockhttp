@@ -13,14 +13,16 @@ public class QueryStringMatcher : IMockedRequestMatcher
 {
     readonly IEnumerable<KeyValuePair<string, string>> values;
     readonly bool exact;
+    readonly QueryStringMatcherOptions options;
 
     /// <summary>
     /// Constructs a new instance of QueryStringMatcher using a formatted query string
     /// </summary>
     /// <param name="queryString">A formatted query string (key=value&amp;key2=value2)</param>
     /// <param name="exact">When true, requests with querystring values not included in <paramref name="queryString"/> will not match. Defaults to false</param>
-    public QueryStringMatcher(string queryString, bool exact = false)
-        : this(ParseQueryString(queryString), exact)
+    /// <param name="options">The options used to match the querystring</param>
+    public QueryStringMatcher(string queryString, bool exact = false, QueryStringMatcherOptions? options = null)
+        : this(ParseQueryString(queryString), exact, options)
     {
 
     }
@@ -30,10 +32,12 @@ public class QueryStringMatcher : IMockedRequestMatcher
     /// </summary>
     /// <param name="values">A list of key value pairs to match</param>
     /// <param name="exact">When true, requests with querystring values not included in <paramref name="values"/> will not match. Defaults to false</param>
-    public QueryStringMatcher(IEnumerable<KeyValuePair<string, string>> values, bool exact = false)
+    /// <param name="options">The options used to match the querystring. If null, defaults to ordinal case sensitive.</param>
+    public QueryStringMatcher(IEnumerable<KeyValuePair<string, string>> values, bool exact = false, QueryStringMatcherOptions? options = null)
     {
         this.values = values;
         this.exact = exact;
+        this.options = options ?? new QueryStringMatcherOptions();
     }
 
     /// <summary>
@@ -50,8 +54,11 @@ public class QueryStringMatcher : IMockedRequestMatcher
 
         var queryString = ParseQueryString(message.RequestUri.Query.TrimStart('?'));
 
+        var keyComparer = options.KeyComparer;
+        var valueComparer = options.ValueComparer;
+
         var containsAllValues = values.All(matchPair =>
-            queryString.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
+            queryString.Any(p => keyComparer.Equals(p.Key, matchPair.Key) && valueComparer.Equals(p.Value, matchPair.Value)));
 
         if (!containsAllValues)
         {
@@ -64,7 +71,7 @@ public class QueryStringMatcher : IMockedRequestMatcher
         }
 
         return queryString.All(matchPair =>
-            values.Any(p => p.Key == matchPair.Key && p.Value == matchPair.Value));
+            values.Any(p => keyComparer.Equals(p.Key, matchPair.Key) && valueComparer.Equals(p.Value, matchPair.Value)));
     }
 
     internal static IEnumerable<KeyValuePair<string, string>> ParseQueryString(string input)
