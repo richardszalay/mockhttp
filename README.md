@@ -106,7 +106,7 @@ mockHttp.Fallback.Throw(new InvalidOperationException("No matching mock handler"
 mockHttp.Fallback.Respond(new HttpClient());
 ```
 
-The default fallback behavior is to throw an exception that summarises why reach mocked request failed to match.
+The default fallback behavior is to throw an exception that summarises why each mocked request failed to match.
 
 ### Examples
 
