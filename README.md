@@ -40,7 +40,7 @@ Console.Write(json); // {'name' : 'Test McGee'}
 
 Using `When` specifies a "Backend Definition". Backend Definitions can be matched against multiple times and in any order, but they won't match if there are any outstanding Request Expectations present (unless `BackendDefinitionBehavior.Always` is specified). If no Request Expectations match, `Fallback` will be used.
 
-Using `Expect` specifies a "Request Expectation". Request Expectations match only once and in the order they were added in. Only once all expectations have been satisfied will Backend Definitions be evaluated. Calling `mockHttp.VerifyNoOutstandingExpectation()` will assert that there are no expectations that have yet to be called. Calling `ResetExpectations` clears the the queue of expectations.
+Using `Expect` specifies a "Request Expectation". Request Expectations match only once and in the order they were added in. Only once all expectations have been satisfied will Backend Definitions be evaluated. Calling `mockHttp.VerifyNoOutstandingExpectation()` will assert that there are no expectations that have yet to be called. Calling `ResetExpectations` clears the queue of expectations.
 
 This pattern is heavily inspired by [AngularJS's $httpBackend](https://docs.angularjs.org/api/ngMock/service/$httpBackend)
 
