@@ -53,6 +53,10 @@ public class JsonContentMatcher<T> : IMockedRequestMatcher
 
     private T? Deserialize(Stream stream)
     {
+        if (stream.CanSeek)
+        {
+            stream.Seek(0, SeekOrigin.Begin);
+        }
 #if NET5_0
         return JsonSerializer.DeserializeAsync<T>(stream, serializerOptions)
             .GetAwaiter().GetResult();
