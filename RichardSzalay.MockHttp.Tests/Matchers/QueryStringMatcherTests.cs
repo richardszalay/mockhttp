@@ -111,6 +111,18 @@ public class QueryStringMatcherTests
         Assert.True(actualMatch, "QueryStringMatcher.Matches() should match dictionary data with URL encoded query string values.");
     }
 
+    [Fact]
+    public void Should_not_match_when_request_uri_is_null()
+    {
+        var sut = new QueryStringMatcher(new Dictionary<string, string>());
+
+        var request = new HttpRequestMessage { RequestUri = null };
+
+        var actual = sut.Matches(request);
+        
+        Assert.False(actual, "QueryStringMatcher.Matches() should not match if the RequestUri is null");
+    }
+
     private bool Test(string expected, string actual, bool exact = false)
     {
         var sut = new QueryStringMatcher(expected, exact);
