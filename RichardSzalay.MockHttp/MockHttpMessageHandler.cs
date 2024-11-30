@@ -1,5 +1,6 @@
 ﻿using RichardSzalay.MockHttp.Matchers;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -13,7 +14,7 @@ namespace RichardSzalay.MockHttp;
 /// </summary>
 public class MockHttpMessageHandler : HttpMessageHandler
 {
-    private Queue<IMockedRequest> requestExpectations = new();
+    private ConcurrentQueue<IMockedRequest> requestExpectations = new();
     private List<IMockedRequest> backendDefinitions = new();
     private Dictionary<IMockedRequest, int> matchCounts = new();
     private object lockObject = new();
@@ -108,15 +109,25 @@ public class MockHttpMessageHandler : HttpMessageHandler
 
         if (requestExpectations.Count > 0)
         {
-            var handler = requestExpectations.Peek();
-            var handlerResult = EvaluateMockedRequest(handler, request);
+            var peeked = requestExpectations.TryPeek(out var peekedHandler);
+            if (!peeked)
+            {
+                throw new InvalidOperationException("Concurrent read/write on mock queue");
+            }
+
+            var handlerResult = EvaluateMockedRequest(peekedHandler!, request);
             results.RequestExpectationResult = handlerResult;
 
             results.UnevaluatedRequestExpectations.AddRange(requestExpectations.Skip(1));
 
             if (handlerResult.Success)
             {
-                requestExpectations.Dequeue();
+                requestExpectations.TryDequeue(out var handler);
+
+                if (peekedHandler != handler)
+                {
+                    throw new Exception("Queue order changed between evaluation and result");
+                }
 
                 results.Handler = handler;
             }
@@ -366,7 +377,14 @@ public class MockHttpMessageHandler : HttpMessageHandler
     /// </summary>
     public void ResetExpectations()
     {
+#if NET5_0_OR_GREATER
         requestExpectations.Clear();
+#else
+        while (!requestExpectations.IsEmpty)
+        {
+            requestExpectations.TryDequeue(out IMockedRequest _);
+        }
+#endif
     }
 
     /// <summary>
