@@ -1,4 +1,5 @@
 ﻿using RichardSzalay.MockHttp.Matchers;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using Xunit;
@@ -111,9 +112,33 @@ public class QueryStringMatcherTests
         Assert.True(actualMatch, "QueryStringMatcher.Matches() should match dictionary data with URL encoded query string values.");
     }
 
-    private bool Test(string expected, string actual, bool exact = false)
+    [Fact]
+    public void Should_not_fail_when_keys_have_different_case_and_using_options()
     {
-        var sut = new QueryStringMatcher(expected, exact);
+        bool result = Test(
+            expected: "key1=value1&key2=value2",
+            actual: "Key1=value1&Key2=value2",
+            options: new QueryStringMatcherOptions(key: StringComparer.OrdinalIgnoreCase)
+            );
+
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void Should_not_fail_when_values_have_different_case_and_using_options()
+    {
+        bool result = Test(
+            expected: "key1=value1&key2=value2",
+            actual: "key1=Value1&key2=Value2",
+            options: new QueryStringMatcherOptions(value: StringComparer.OrdinalIgnoreCase)
+            );
+
+        Assert.True(result);
+    }
+
+    private bool Test(string expected, string actual, bool exact = false, QueryStringMatcherOptions? options = null)
+    {
+        var sut = new QueryStringMatcher(expected, exact, options);
 
         return sut.Matches(new HttpRequestMessage(HttpMethod.Get,
             "http://tempuri.org/home?" + actual));
