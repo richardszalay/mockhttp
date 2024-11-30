@@ -62,7 +62,7 @@ public class MockedRequest : IMockedRequest, IEnumerable<IMockedRequestMatcher>
     }
 
     /// <summary>
-    /// Sets the response of ther 
+    /// Sets the response of the request
     /// </summary>
     /// <param name="handler"></param>
     public void Respond(Func<Task<HttpResponseMessage>> handler)
