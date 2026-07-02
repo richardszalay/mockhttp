@@ -41,7 +41,9 @@ public class JsonContentMatcher<T> : IMockedRequestMatcher
             return false;
         }
 
-        var deserializedContent = Deserialize(message.Content.ReadAsStream());
+        message.Content.LoadIntoBufferAsync().GetAwaiter().GetResult();
+
+        var deserializedContent = Deserialize(message.Content.ReadAsStreamAsync().GetAwaiter().GetResult());
 
         if (deserializedContent == null)
         {
