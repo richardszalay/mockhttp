@@ -1,3 +1,6 @@
+7.1.0 - Fix support for streaming Content, such as used by Refit
+      - Fix for matching content multiple times (thanks bubblecup-12!)
+
 7.0.0 - Change target profiles to netstandard1.1, netstandard2.0, net5.0, net6.0 (BREAKING)
       - Change default fallback behaviour to throw an exception with a report of the match attempts
       - Add JSON and XML matchers

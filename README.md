@@ -168,12 +168,13 @@ Many thanks to all the members of the community that have contributed PRs to thi
 * [jericho](https://github.com/jericho)
 * [perfectsquircle](https://github.com/perfectsquircle)
 * [jr01](https://github.com/jr01)
+* [bubblecup-12](https://github.com/bubblecup-12)
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2023 Richard Szalay
+Copyright (c) 2026 Richard Szalay
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
