@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Concurrent;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -230,6 +233,29 @@ public class MockHttpMessageHandlerTests
         var result = client.GetAsync("http://invalid/test2").Result;
 
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task Should_work_with_multiple_concurrent_writes_to_queue()
+    {
+        var mockHandler = new MockHttpMessageHandler();
+        var tasks = new ConcurrentQueue<Task>();
+        var readyEvent = new ManualResetEvent(false);
+
+        for (int i = 0; i < 100; i++)
+        {
+            tasks.Enqueue(Task.Run(async () =>
+            {
+                await Task.Yield();
+                readyEvent.WaitOne();
+                mockHandler
+                    .Expect("/test")
+                    .Respond("application/json", "{'status' : 'First'}");
+            }));
+        }
+        readyEvent.Set();
+
+        await Task.WhenAll(tasks).ConfigureAwait(false);
     }
 
     [Fact]
